@@ -63,7 +63,7 @@ export default function HomePage() {
           <h2 className="text-3xl font-semibold font-serif mb-8">Contact Information</h2>
           <div className="space-y-6 text-lg">
             <p className="leading-relaxed">
-              I'm always open to discussing new projects, research collaborations, or interesting opportunities. Please feel free to reach out!
+              I&apos;m always open to discussing new projects, research collaborations, or interesting opportunities. Please feel free to reach out!
             </p>
             <div className="space-y-4">
               <a href="mailto:taj_gillin@brown.edu" className="flex items-center hover:text-primary transition-colors">

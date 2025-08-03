@@ -6,6 +6,12 @@ import { ArrowLeft, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 import ProjectGalleryClient from '@/components/ProjectGalleryClient';
 
+type ProjectPageProps = {
+    params: Promise<{
+        slug: string;
+    }>;
+};
+
 // Function to fetch project data by slug (simulated)
 async function getProjectBySlug(slug: string): Promise<Project | undefined> {
   return projectData.find((p) => p.slug === slug);
@@ -17,8 +23,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function ProjectPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export default async function ProjectPage({ params }: ProjectPageProps) {
+  const { slug } = await params;
   const project = await getProjectBySlug(slug);
 
   if (!project) {
@@ -134,9 +140,9 @@ export default async function ProjectPage({ params }: { params: { slug: string }
           </div>
           {project.details?.futurePlans && (
             <div>
-              <h2 className="text-2xl font-semibold font-serif mb-2">What's Next?</h2>
+              <h2 className="text-2xl font-semibold font-serif mb-2">What&apos;s Next?</h2>
               <p>
-                We're building on Illuminate's success by adding a chat feature for follow-up questions, refining our animations, and experimenting with new AI models like Claude and Deepseek. Our vision is to make Illuminate multilingual and indispensable for both teachers and students worldwide.
+                We&apos;re building on Illuminate&apos;s success by adding a chat feature for follow-up questions, refining our animations, and experimenting with new AI models like Claude and Deepseek. Our vision is to make Illuminate multilingual and indispensable for both teachers and students worldwide.
               </p>
             </div>
           )}
