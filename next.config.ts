@@ -9,11 +9,12 @@ const nextConfig: NextConfig = {
   output: "export",
 
   /**
-   * Set base path. This is the slug of your GitHub repository.
+   * Set base path. For main GitHub Pages site (username.github.io), 
+   * basePath should be empty.
    *
    * @see https://nextjs.org/docs/app/api-reference/next-config-js/basePath
    */
-  basePath: "/taj-gillin/taj-gillin.github.io",
+  // basePath: "", // Not needed for main GitHub Pages site
 
   /**
    * Disable server-based image optimization. Next.js does not support
