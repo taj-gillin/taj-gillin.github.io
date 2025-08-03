@@ -6,12 +6,6 @@ import { ArrowLeft, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 import ProjectGalleryClient from '@/components/ProjectGalleryClient';
 
-interface ProjectPageProps {
-  params: {
-    slug: string;
-  };
-}
-
 // Function to fetch project data by slug (simulated)
 async function getProjectBySlug(slug: string): Promise<Project | undefined> {
   return projectData.find((p) => p.slug === slug);
@@ -23,7 +17,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function ProjectPage({ params }: ProjectPageProps) {
+export default async function ProjectPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
   const project = await getProjectBySlug(slug);
 
@@ -173,4 +167,4 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       </footer>
     </div>
   );
-} 
+}

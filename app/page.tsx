@@ -6,6 +6,7 @@ import { SkillList } from "@/components/skill-list";
 import { ExperienceList } from "@/components/experience-list";
 
 export default function HomePage() {
+  
   return (
     <div className="min-h-screen flex flex-col px-4 sm:px-8 lg:px-12 py-10 font-sans">
       <main className="w-full max-w-3xl space-y-20">
