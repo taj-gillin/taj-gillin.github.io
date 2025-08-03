@@ -1,0 +1,116 @@
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
+
+export interface Skill {
+  name: string;
+  proficiency?: "Advanced" | "Intermediate" | "Basic";
+  description?: string;
+  // relatedProjectSlugs?: string[]; // To link to projects later
+}
+
+export interface SkillCategory {
+  title: string;
+  skills: Skill[];
+}
+
+// Placeholder data based on resume
+const skillData: SkillCategory[] = [
+  {
+    title: "Programming Languages",
+    skills: [
+      { name: "Python", proficiency: "Advanced" },
+      { name: "JavaScript/TypeScript", proficiency: "Advanced" },
+      { name: "C++", proficiency: "Intermediate" },
+      { name: "C", proficiency: "Intermediate" },
+      { name: "Java", proficiency: "Intermediate" },
+      { name: "Go", proficiency: "Intermediate" },
+      { name: "Pyret", proficiency: "Basic" },
+      { name: "Racket", proficiency: "Basic" },
+    ],
+  },
+  {
+    title: "Frameworks & Libraries",
+    skills: [
+      { name: "TensorFlow", proficiency: "Advanced" },
+      { name: "PyTorch", proficiency: "Advanced" },
+      { name: "JAX", proficiency: "Basic" },
+      { name: "React", proficiency: "Intermediate" },
+      { name: "Next.js", proficiency: "Intermediate" },
+      { name: "FastAPI", proficiency: "Intermediate" },
+      { name: "Django", proficiency: "Intermediate" },
+      { name: "LangChain", proficiency: "Intermediate" },
+      { name: "Manim", proficiency: "Basic" },
+      { name: "Three.js", proficiency: "Intermediate" },
+    ],
+  },
+  {
+    title: "DevOps & Databases",
+    skills: [
+      { name: "Docker", proficiency: "Intermediate" },
+      { name: "Unix/Shell Scripting", proficiency: "Intermediate" },
+      { name: "MongoDB", proficiency: "Intermediate" },
+      { name: "Redis", proficiency: "Intermediate" },
+      { name: "SQL", proficiency: "Intermediate" },
+      { name: "AWS", proficiency: "Basic" }, // Assuming from Illuminate project
+    ],
+  },
+  {
+    title: "Fields of Knowledge",
+    skills: [
+      { name: "Deep Learning", proficiency: "Advanced" },
+      { name: "Machine Learning", proficiency: "Advanced" },
+      { name: "Reinforcement Learning", proficiency: "Intermediate" },
+      { name: "Parallel Computing", proficiency: "Intermediate" },
+      { name: "Constraint, Linear, and Integer Programming", proficiency: "Intermediate" },
+    ],
+  },
+  {
+    title: "Certifications & Other",
+    skills: [
+      { name: "Nationally Certified EMT-B" },
+      { name: "OSHA Certified" },
+      { name: "HIPAA Certified" },
+      { name: "BLS Certified" },
+      { name: "ACLS Certified" },
+    ],
+  },
+];
+
+export function SkillList() {
+  if (!skillData || !skillData.length) {
+    return <p>Skills will be listed here soon.</p>;
+  }
+
+  return (
+    <Accordion type="multiple" className="w-full space-y-1">
+      {skillData.map((category) => (
+        <AccordionItem value={category.title} key={category.title} className="border-b border-border last:border-b-0 rounded-none px-1 py-2">
+          <AccordionTrigger className="text-lg font-semibold hover:no-underline text-foreground hover:text-primary py-3">
+            {category.title}
+          </AccordionTrigger>
+          <AccordionContent className="pt-3 pb-4">
+            {category.skills.length > 0 ? (
+              <div className="flex flex-wrap gap-3">
+                {category.skills.map((skill) => (
+                  <div key={skill.name} className="p-3 border border-border/40 rounded-md bg-background min-w-[150px] flex-grow hover:shadow-sm transition-shadow">
+                    <p className="font-medium text-base text-primary">{skill.name}</p>
+                    {skill.proficiency && (
+                      <p className="text-xs text-muted-foreground">{skill.proficiency}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-muted-foreground pl-4">Skills for this category will be listed soon.</p>
+            )}
+          </AccordionContent>
+        </AccordionItem>
+      ))}
+    </Accordion>
+  );
+} 
