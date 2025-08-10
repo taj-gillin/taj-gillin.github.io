@@ -43,7 +43,7 @@ export default function RootLayout({
         >
           <div className="flex">
             <SidebarNav />
-            <div className="flex-1 lg:ml-60">
+            <div className="flex-1 h-screen overflow-hidden">
               {children}
             </div>
           </div>

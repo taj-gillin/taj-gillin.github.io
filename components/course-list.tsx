@@ -224,7 +224,7 @@ export function CourseList() {
           <AccordionContent className="pt-3 pb-4 space-y-3">
             {category.courses.length > 0 ? (
               category.courses.map((course) => (
-                <div key={course.id} className="p-3 border border-border/40 rounded-md bg-background hover:shadow-sm transition-shadow">
+                <div key={course.id} className="p-3 border border-white/10 rounded-md bg-transparent backdrop-blur-sm hover:backdrop-blur-md hover:bg-white/5 hover:border-white/20 transition-all duration-300">
                   <h4 className="text-md font-semibold text-primary">{course.name}</h4>
                   <p className="text-sm text-muted-foreground">
                     {course.id}

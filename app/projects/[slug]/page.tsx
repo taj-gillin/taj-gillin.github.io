@@ -5,6 +5,9 @@ import Link from 'next/link';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 import ProjectGalleryClient from '@/components/ProjectGalleryClient';
+import { ParticleSystem } from '@/components/ParticleSystem';
+import { BackgroundLuxe } from '@/components/BackgroundLuxe';
+import { SnapScrollController } from '@/components/SnapScrollController';
 
 type ProjectPageProps = {
     params: Promise<{
@@ -37,7 +40,16 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const gallery = project.details?.images?.filter(img => !img.url.includes('cover')) || [];
 
   return (
-    <div className="min-h-screen flex flex-col items-center px-2 sm:px-6 lg:px-8 py-8 font-sans bg-background">
+    <div className="min-h-screen relative">
+      {/* Background layers */}
+      <BackgroundLuxe />
+      <ParticleSystem mode="projects" particleCount={200} interactive={true} />
+      
+      {/* Scroll container for project content */}
+      <div id="page-scroll" className="h-screen overflow-y-auto scroll-smooth relative z-10" tabIndex={0}>
+        <SnapScrollController />
+        
+        <div className="flex flex-col items-center px-2 sm:px-6 lg:px-8 py-8 font-sans">
       <header className="w-full max-w-4xl flex justify-between items-center py-6 mb-6">
         <Link href="/#projects" className="flex items-center text-lg hover:underline text-primary">
           <ArrowLeft className="mr-2 h-5 w-5" />
@@ -76,7 +88,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         {/* Intro & Meta */}
         <section className="space-y-2">
           <p className="text-xl text-muted-foreground leading-relaxed">
-            <strong>Illuminate</strong> is an award-winning AI platform that transforms any topic into engaging, animated educational videos. Built at Hack@Brown, it leverages state-of-the-art generative AI to make complex ideas accessible, interactive, and visually compelling.
+            {project.description}
           </p>
           <div className="flex flex-wrap items-center gap-4 text-muted-foreground text-base mt-2">
             <span className="font-medium text-foreground">{project.date}</span>
@@ -86,19 +98,21 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </div>
         </section>
 
-        {/* Video Section */}
-        <section className="space-y-4">
-          <h2 className="text-2xl font-semibold font-serif">Demo Video</h2>
-          <div className="aspect-video w-full rounded-xl overflow-hidden shadow-lg border border-border">
-            <iframe
-              src="https://www.youtube.com/embed/sFQJPHsCNs0"
-              title="Illuminate Demo Video"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="w-full h-full"
-            />
-          </div>
-        </section>
+        {/* Video Section - only for Illuminate */}
+        {project.slug === 'illuminate-hackathon' && (
+          <section className="space-y-4">
+            <h2 className="text-2xl font-semibold font-serif">Demo Video</h2>
+            <div className="aspect-video w-full rounded-xl overflow-hidden shadow-lg border border-border">
+              <iframe
+                src="https://www.youtube.com/embed/sFQJPHsCNs0"
+                title="Illuminate Demo Video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              />
+            </div>
+          </section>
+        )}
 
         {/* Carousel Section */}
         {gallery.length > 0 && (
@@ -109,44 +123,44 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         )}
 
         {/* Details Sections */}
-        <section className="space-y-10">
-          <div>
-            <h2 className="text-2xl font-semibold font-serif mb-2">Why Illuminate?</h2>
-            <p>
-              Traditional educational content is often static and uninspiring. Illuminate reimagines learning by instantly generating animated, narrated videos from any text prompt—making knowledge more dynamic, accessible, and memorable for everyone.
-            </p>
-          </div>
-          <div>
-            <h2 className="text-2xl font-semibold font-serif mb-2">How It Works</h2>
-            <p>
-              Illuminate combines the power of LangChain, FastAPI, and Manim to turn your curiosity into a cinematic learning experience. Enter a topic, and our AI crafts a lesson plan, writes a narrative script, generates animations, and even creates interactive quizzes—all in real time.
-            </p>
-          </div>
-          {project.details?.keyFeatures && (
-            <div>
-              <h2 className="text-2xl font-semibold font-serif mb-2">Key Innovations</h2>
-              <ul className="list-disc pl-6 space-y-2">
-                {project.details.keyFeatures.map((feature, index) => (
-                  <li key={index}>{feature}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-          <div>
-            <h2 className="text-2xl font-semibold font-serif mb-2">Impact</h2>
-            <p>
-              Illuminate was recognized with the Best Use of Gen AI award at Hack@Brown for its innovative approach to automated educational video creation. The project demonstrates how generative AI can revolutionize the way we teach and learn, making high-quality, personalized education available to all.
-            </p>
-          </div>
-          {project.details?.futurePlans && (
-            <div>
-              <h2 className="text-2xl font-semibold font-serif mb-2">What&apos;s Next?</h2>
-              <p>
-                We&apos;re building on Illuminate&apos;s success by adding a chat feature for follow-up questions, refining our animations, and experimenting with new AI models like Claude and Deepseek. Our vision is to make Illuminate multilingual and indispensable for both teachers and students worldwide.
-              </p>
-            </div>
-          )}
-        </section>
+        {project.details && (
+          <section className="space-y-10">
+            {project.details.problemStatement && (
+              <div>
+                <h2 className="text-2xl font-semibold font-serif mb-2">Problem Statement</h2>
+                <p className="text-lg leading-relaxed">{project.details.problemStatement}</p>
+              </div>
+            )}
+            {project.details.approach && (
+              <div>
+                <h2 className="text-2xl font-semibold font-serif mb-2">Approach</h2>
+                <p className="text-lg leading-relaxed">{project.details.approach}</p>
+              </div>
+            )}
+            {project.details.keyFeatures && (
+              <div>
+                <h2 className="text-2xl font-semibold font-serif mb-2">Key Features</h2>
+                <ul className="list-disc pl-6 space-y-2 text-lg leading-relaxed">
+                  {project.details.keyFeatures.map((feature, index) => (
+                    <li key={index}>{feature}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {project.details.results && (
+              <div>
+                <h2 className="text-2xl font-semibold font-serif mb-2">Results</h2>
+                <p className="text-lg leading-relaxed">{project.details.results}</p>
+              </div>
+            )}
+            {project.details.futurePlans && (
+              <div>
+                <h2 className="text-2xl font-semibold font-serif mb-2">Future Plans</h2>
+                <p className="text-lg leading-relaxed">{project.details.futurePlans}</p>
+              </div>
+            )}
+          </section>
+        )}
 
         {/* Project Links */}
         {(project.repoUrl || project.demoUrl) && (
@@ -168,9 +182,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         )}
       </main>
 
-      <footer className="w-full max-w-4xl mt-20 py-8 border-t border-border text-center text-muted-foreground">
-        <p>&copy; {new Date().getFullYear()} Taj Gillin. All rights reserved.</p>
-      </footer>
+          <footer className="w-full max-w-4xl mt-20 py-8 border-t border-border text-center text-muted-foreground">
+            <p>&copy; {new Date().getFullYear()} Taj Gillin. All rights reserved.</p>
+          </footer>
+        </div>
+      </div>
     </div>
   );
 }

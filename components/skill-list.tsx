@@ -96,7 +96,7 @@ export function SkillList() {
             {category.skills.length > 0 ? (
               <div className="flex flex-wrap gap-3">
                 {category.skills.map((skill) => (
-                  <div key={skill.name} className="p-3 border border-border/40 rounded-md bg-background min-w-[150px] flex-grow hover:shadow-sm transition-shadow">
+                  <div key={skill.name} className="p-3 border border-white/10 rounded-md bg-transparent backdrop-blur-sm hover:backdrop-blur-md hover:bg-white/5 hover:border-white/20 min-w-[150px] flex-grow transition-all duration-300">
                     <p className="font-medium text-base text-primary">{skill.name}</p>
                     {skill.proficiency && (
                       <p className="text-xs text-muted-foreground">{skill.proficiency}</p>

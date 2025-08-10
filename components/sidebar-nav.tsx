@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
+  { id: "hero", href: "#hero", label: "Home" },
   { id: "about", href: "#about", label: "About Me" },
   { id: "academics", href: "#academics", label: "Academics" },
   { id: "projects", href: "#projects", label: "Projects" },
@@ -18,30 +19,48 @@ export function SidebarNav() {
   const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
+    const container = document.getElementById('page-scroll')
+
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 100;
+      const scrollTop = container ? container.scrollTop : window.scrollY
+      const viewportOffset = 100
+      const containerRect = container?.getBoundingClientRect()
       let currentSection = "";
       for (const item of NAV_ITEMS) {
         const element = document.getElementById(item.id);
-        if (element && element.offsetTop <= scrollPosition) {
-          currentSection = item.id;
+        if (!element) continue
+        let elementTop: number
+        if (container && containerRect) {
+          const elementRect = element.getBoundingClientRect()
+          elementTop = elementRect.top - containerRect.top + scrollTop
+        } else {
+          elementTop = element.offsetTop
+        }
+        if (elementTop <= scrollTop + viewportOffset) {
+          currentSection = item.id
         }
       }
-      setActiveSection(currentSection);
-    };
+      setActiveSection(currentSection)
+    }
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-
+    const target: HTMLElement | Window = container ?? window
+    target.addEventListener('scroll', handleScroll as EventListener, { passive: true } as AddEventListenerOptions)
+    handleScroll()
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+      target.removeEventListener('scroll', handleScroll as EventListener)
+    }
+  }, [])
 
   const handleNavLinkClick = (hash: string) => {
+    const container = document.getElementById('page-scroll')
     const element = document.getElementById(hash.substring(1));
+    if (container && element) {
+      // Scroll to top of section when clicking nav links
+      container.scrollTo({ top: element.offsetTop, behavior: 'smooth' })
+      return
+    }
     if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: 'smooth' })
     }
   };
 
@@ -70,9 +89,12 @@ export function SidebarNav() {
           </ul>
         </nav>
       </div>
-      <div className="mt-auto"> 
-        <ModeToggle />
-      </div>
+      {/* Theme toggle hidden - dark mode only */}
+      {false && (
+        <div className="mt-auto"> 
+          <ModeToggle />
+        </div>
+      )}
     </aside>
   );
 }

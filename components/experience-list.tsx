@@ -102,7 +102,7 @@ export function ExperienceList() {
   return (
     <div className="space-y-8">
       {experienceData.map((item, index) => (
-        <Card key={index} className="border border-border bg-transparent shadow-none hover:shadow-md rounded-lg transition-shadow duration-300 ease-in-out">
+        <Card key={index} className="border border-white/10 bg-transparent backdrop-blur-sm hover:backdrop-blur-md hover:bg-white/5 hover:border-white/20 shadow-none hover:shadow-md rounded-lg transition-all duration-300 ease-in-out">
           <CardHeader className="p-5">
             <CardTitle className="text-xl font-semibold font-serif text-primary mb-1">{item.company}</CardTitle>
             <CardDescription className="text-lg text-muted-foreground">

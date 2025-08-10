@@ -62,7 +62,7 @@ export const projectData: Project[] = [
     repoUrl: "https://github.com/taj-gillin/illuminate",
     demoUrl: "https://devpost.com/software/illuminated-qf09ik",
     award: "Best Use of Gen AI at Hack@Brown",
-    date: "Feb 2024",
+    date: "Feb 2025",
     team: ["Taj Gillin", "Danielle Whisnant", "Sami Nourji", "Andrew Kim"],
     details: {
       problemStatement: "Traditional educational content can often be static and disengaging. The goal was to explore how Generative AI could be leveraged to quickly transform textual information into dynamic, animated educational videos, making learning more accessible and engaging.",
@@ -103,7 +103,7 @@ export const projectData: Project[] = [
 
 function ProjectCard({ project }: { project: Project }) {
   return (
-    <Card className="flex flex-col h-full transition-shadow duration-300 ease-in-out border border-border bg-transparent shadow-none hover:shadow-md rounded-lg overflow-hidden">
+    <Card className="flex flex-col h-full border border-white/10 bg-transparent backdrop-blur-sm hover:backdrop-blur-md hover:bg-white/5 hover:border-white/20 shadow-none hover:shadow-md rounded-lg overflow-hidden transition-all duration-300 ease-in-out">
       {project.imageUrl && (
         <div className="relative w-full h-48">
           <Image
