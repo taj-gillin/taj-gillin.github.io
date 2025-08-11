@@ -97,12 +97,13 @@ export function ParticleSystem({
         const dx = mouse.x - p.x
         const dy = mouse.y - p.y
         const dist = Math.hypot(dx, dy)
-        const max = 150
+        const max = 80  // Reduced range from 150 to 80
         if (dist < max && dist > 0.0001) {
           const force = (max - dist) / max
           const angle = Math.atan2(dy, dx)
-          p.vx -= Math.cos(angle) * force * 0.02
-          p.vy -= Math.sin(angle) * force * 0.02
+          // Much gentler force: reduced from 0.02 to 0.005
+          p.vx -= Math.cos(angle) * force * 0.005
+          p.vy -= Math.sin(angle) * force * 0.005
         }
       }
       p.vx += (Math.random() - 0.5) * 0.02
