@@ -87,10 +87,10 @@ export function SkillList() {
   }
 
   return (
-    <Accordion type="multiple" className="w-full space-y-1">
+    <Accordion type="multiple" className="w-full space-y-3">
       {skillData.map((category) => (
-        <AccordionItem value={category.title} key={category.title} className="border-b border-border last:border-b-0 rounded-none px-1 py-2">
-          <AccordionTrigger className="text-lg font-semibold hover:no-underline text-foreground hover:text-primary py-3">
+        <AccordionItem value={category.title} key={category.title} className="border border-white/15 hover:border-primary/40 rounded-lg px-4 py-2 bg-white/8 hover:bg-primary/10 transition-all duration-300 backdrop-blur-sm shadow-sm hover:shadow-md">
+          <AccordionTrigger className="text-lg font-semibold hover:no-underline text-foreground hover:text-primary py-3 [&>svg]:text-primary [&>svg]:w-5 [&>svg]:h-5 [&>svg]:border [&>svg]:border-primary/30 [&>svg]:rounded-full [&>svg]:p-1 [&>svg]:bg-primary/10 hover:[&>svg]:bg-primary/20 hover:[&>svg]:border-primary/50">
             {category.title}
           </AccordionTrigger>
           <AccordionContent className="pt-3 pb-4">
