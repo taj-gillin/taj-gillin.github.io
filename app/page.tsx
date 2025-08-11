@@ -27,7 +27,7 @@ export default function HomePage() {
         {/* Main Content */}
         <main className="w-full min-h-screen font-sans">
           <div className="w-full space-y-32">
-            <section id="about" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-20">
+            <section id="about" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-32">
               <div className="w-full max-w-3xl mx-auto">
                 <h2 className="text-3xl font-semibold font-serif mb-8">About Me</h2>
                 <div className="space-y-6 text-lg leading-relaxed">
@@ -38,7 +38,7 @@ export default function HomePage() {
               </div>
             </section>
 
-            <section id="academics" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-20 flex flex-col justify-center">
+            <section id="academics" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-32 flex flex-col justify-center">
               <div className="w-full max-w-3xl mx-auto">
                 <h2 className="text-3xl font-semibold font-serif mb-8">Academics</h2>
                 <div className="space-y-8">
@@ -59,7 +59,7 @@ export default function HomePage() {
               </div>
             </section>
 
-            <section id="projects" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-20 flex flex-col justify-center">
+            <section id="projects" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-32 flex flex-col justify-center">
               <div className="w-full max-w-3xl mx-auto">
                 <h2 className="text-3xl font-semibold font-serif">Projects</h2>
                 <p className="text-lg text-muted-foreground mb-8">Click on a project to learn more!</p>
@@ -67,21 +67,21 @@ export default function HomePage() {
               </div>
             </section>
 
-            <section id="skills" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-20 flex flex-col justify-center">
+            <section id="skills" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-32 flex flex-col justify-center">
               <div className="w-full max-w-3xl mx-auto">
                 <h2 className="text-3xl font-semibold font-serif mb-8">Skills</h2>
                 <SkillList />
               </div>
             </section>
 
-            <section id="experience" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-20 flex flex-col justify-center">
+            <section id="experience" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-32 flex flex-col justify-center">
               <div className="w-full max-w-3xl mx-auto">
                 <h2 className="text-3xl font-semibold font-serif mb-8">Work Experience</h2>
                 <ExperienceList />
               </div>
             </section>
 
-            <section id="contact" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-20 flex flex-col justify-center">
+            <section id="contact" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-32 flex flex-col justify-center">
               <div className="w-full max-w-3xl mx-auto">
                 <h2 className="text-3xl font-semibold font-serif mb-8">Contact Information</h2>
                 <div className="space-y-6 text-lg">

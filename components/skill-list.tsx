@@ -42,9 +42,10 @@ const skillData: SkillCategory[] = [
       { name: "Next.js", proficiency: "Intermediate" },
       { name: "FastAPI", proficiency: "Intermediate" },
       { name: "Django", proficiency: "Intermediate" },
-      { name: "LangChain", proficiency: "Intermediate" },
-      { name: "Manim", proficiency: "Basic" },
+      { name: "Flask", proficiency: "Intermediate" },
       { name: "Three.js", proficiency: "Intermediate" },
+      { name: "LangChain", proficiency: "Basic" },
+      { name: "Manim", proficiency: "Basic" },
     ],
   },
   {
