@@ -20,7 +20,7 @@ export type ParticleMode = 'hero' | 'about' | 'academics' | 'projects' | 'skills
 
 interface ParticleSystemProps {
   mode?: ParticleMode
-  particleCount?: number
+  particleDensity?: number // particles per 100,000 pixels (density factor)
   interactive?: boolean
   className?: string
   useScrollMode?: boolean
@@ -28,7 +28,7 @@ interface ParticleSystemProps {
 
 export function ParticleSystem({
   mode = 'hero',
-  particleCount = 250,
+  particleDensity = 0.004, // ~260 particles for 1920x1080 screen
   interactive = true,
   className = '',
   useScrollMode = false,
@@ -42,6 +42,14 @@ export function ParticleSystem({
   const { currentMode } = useScrollSection()
 
   const activeMode = useScrollMode ? currentMode : mode
+
+  // Calculate particle count based on screen area and density
+  const calculateParticleCount = (width: number, height: number): number => {
+    const area = width * height
+    const baseCount = Math.floor(area * particleDensity)
+    // Clamp between reasonable bounds to prevent performance issues
+    return Math.max(50, Math.min(500, baseCount))
+  }
 
   // Base hue per section for subtle hue modulation
   const MODE_BASE_HUE: Record<ParticleMode, number> = {
@@ -60,7 +68,9 @@ export function ParticleSystem({
   // Initialize particles
   const initializeParticles = (width: number, height: number) => {
     const particles: Particle[] = []
-    for (let i = 0; i < particleCount; i++) {
+    const dynamicParticleCount = calculateParticleCount(width, height)
+    
+    for (let i = 0; i < dynamicParticleCount; i++) {
       const hueOffset = (Math.random() * 16) - 8 // -8° to +8° per particle for variety
       const baseHue = (baseHueRef.current + hueOffset + 360) % 360
       particles.push({
@@ -109,8 +119,8 @@ export function ParticleSystem({
     })
   }
 
-  // Projects: Grid-like formation
-  const updateProjectsParticles = (ctx: CanvasRenderingContext2D) => {
+  // Contact: Wave-like formation
+  const updateContactParticles = (ctx: CanvasRenderingContext2D) => {
     const { width, height } = ctx.canvas
     particlesRef.current.forEach((p, i) => {
       const gridSize = Math.sqrt(particlesRef.current.length)
@@ -191,8 +201,8 @@ export function ParticleSystem({
     if (!canvas) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
-    if (activeMode === 'projects') {
-      updateProjectsParticles(ctx)
+    if (activeMode === 'contact') {
+      updateContactParticles(ctx)
     } else {
       updateHeroParticles(ctx)
     }

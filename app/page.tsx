@@ -15,7 +15,7 @@ export default function HomePage() {
       {/* Luxe Background Layers */}
       <BackgroundLuxe />
       {/* Global Particle System that responds to scroll */}
-      <ParticleSystem useScrollMode={true} particleCount={260} interactive={true} />
+      <ParticleSystem useScrollMode={true} particleDensity={0.0004} interactive={true} />
       {/* Scroll snapping container */}
       <div id="page-scroll" className="h-screen overflow-y-auto overscroll-y-contain snap-y snap-mandatory scroll-smooth focus:outline-none relative z-10" tabIndex={0}>
         <SnapScrollController />
