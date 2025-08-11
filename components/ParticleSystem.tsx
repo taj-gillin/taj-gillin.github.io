@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTheme } from 'next-themes'
 import { useScrollSection } from '@/hooks/useScrollSection'
 
@@ -44,15 +44,15 @@ export function ParticleSystem({
   const activeMode = useScrollMode ? currentMode : mode
 
   // Calculate particle count based on screen area and density
-  const calculateParticleCount = (width: number, height: number): number => {
+  const calculateParticleCount = useCallback((width: number, height: number): number => {
     const area = width * height
     const baseCount = Math.floor(area * particleDensity)
     // Clamp between reasonable bounds to prevent performance issues
     return Math.max(50, Math.min(500, baseCount))
-  }
+  }, [particleDensity])
 
   // Base hue per section for subtle hue modulation
-  const MODE_BASE_HUE: Record<ParticleMode, number> = {
+  const MODE_BASE_HUE = useMemo<Record<ParticleMode, number>>(() => ({
     hero: 230,
     about: 212,
     academics: 205,
@@ -60,13 +60,13 @@ export function ParticleSystem({
     skills: 236,
     experience: 215,
     contact: 225,
-  }
+  }), [])
 
   const baseHueRef = useRef<number>(MODE_BASE_HUE[activeMode])
   const targetBaseHueRef = useRef<number>(MODE_BASE_HUE[activeMode])
 
   // Initialize particles
-  const initializeParticles = (width: number, height: number) => {
+  const initializeParticles = useCallback((width: number, height: number) => {
     const particles: Particle[] = []
     const dynamicParticleCount = calculateParticleCount(width, height)
     
@@ -86,10 +86,10 @@ export function ParticleSystem({
       })
     }
     particlesRef.current = particles
-  }
+  }, [calculateParticleCount])
 
   // Hero: Brownian motion + cursor repulsion
-  const updateHeroParticles = (ctx: CanvasRenderingContext2D) => {
+  const updateHeroParticles = useCallback((ctx: CanvasRenderingContext2D) => {
     const { width, height } = ctx.canvas
     const mouse = mouseRef.current
     particlesRef.current.forEach((p) => {
@@ -117,10 +117,10 @@ export function ParticleSystem({
       if (p.y > height) p.y = 0
       p.size = 1.5 + Math.sin(Date.now() * 0.0008 + p.x * 0.01) * 0.4
     })
-  }
+  }, [interactive])
 
   // Contact: Wave-like formation
-  const updateContactParticles = (ctx: CanvasRenderingContext2D) => {
+  const updateContactParticles = useCallback((ctx: CanvasRenderingContext2D) => {
     const { width, height } = ctx.canvas
     particlesRef.current.forEach((p, i) => {
       const gridSize = Math.sqrt(particlesRef.current.length)
@@ -142,12 +142,12 @@ export function ParticleSystem({
       p.y += p.vy
       p.size = 1.5 + Math.sin(Date.now() * 0.003 + i * 0.2) * 0.8
     })
-  }
+  }, [])
 
   // (Removed other section-specific patterns by request)
 
   // Drawing
-  const drawParticles = (ctx: CanvasRenderingContext2D) => {
+  const drawParticles = useCallback((ctx: CanvasRenderingContext2D) => {
     const { width, height } = ctx.canvas
     const isDark = theme === 'dark'
     ctx.clearRect(0, 0, width, height)
@@ -193,10 +193,10 @@ export function ParticleSystem({
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
       ctx.fill()
     })
-  }
+  }, [theme])
 
   // Animation loop
-  const animate = () => {
+  const animate = useCallback(() => {
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
@@ -208,17 +208,17 @@ export function ParticleSystem({
     }
     drawParticles(ctx)
     animationRef.current = requestAnimationFrame(animate)
-  }
+  }, [activeMode, updateContactParticles, updateHeroParticles, drawParticles])
 
   // Events
-  const handleMouseMove = (e: MouseEvent) => {
+  const handleMouseMove = useCallback((e: MouseEvent) => {
     const canvas = canvasRef.current
     if (!canvas) return
     const rect = canvas.getBoundingClientRect()
     mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top }
-  }
+  }, [])
 
-  const handleResize = () => {
+  const handleResize = useCallback(() => {
     const canvas = canvasRef.current
     if (!canvas) return
     const { innerWidth, innerHeight } = window
@@ -226,7 +226,7 @@ export function ParticleSystem({
     canvas.height = innerHeight
     setDimensions({ width: innerWidth, height: innerHeight })
     initializeParticles(innerWidth, innerHeight)
-  }
+  }, [initializeParticles])
 
   useEffect(() => {
     handleResize()
@@ -236,7 +236,7 @@ export function ParticleSystem({
       window.removeEventListener('resize', handleResize)
       if (interactive) window.removeEventListener('mousemove', handleMouseMove)
     }
-  }, [interactive])
+  }, [interactive, handleResize, handleMouseMove])
 
   useEffect(() => {
     // Update target hue when active section changes
@@ -245,7 +245,7 @@ export function ParticleSystem({
     return () => {
       if (animationRef.current) cancelAnimationFrame(animationRef.current)
     }
-  }, [dimensions, activeMode, theme])
+  }, [dimensions, activeMode, theme, MODE_BASE_HUE, animate])
 
   return (
     <canvas

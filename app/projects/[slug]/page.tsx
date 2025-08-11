@@ -43,7 +43,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     <div className="min-h-screen relative">
       {/* Background layers */}
       <BackgroundLuxe />
-      <ParticleSystem mode="projects" particleCount={200} interactive={true} />
+      <ParticleSystem mode="projects" particleDensity={0.0003} interactive={true} />
       
       {/* Scroll container for project content */}
       <div id="page-scroll" className="h-screen overflow-y-auto scroll-smooth relative z-10" tabIndex={0}>
