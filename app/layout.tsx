@@ -27,6 +27,11 @@ const lora = Lora({
 export const metadata: Metadata = {
   title: "Taj Gillin",
   description: "Taj Gillin's personal website.",
+  icons: {
+    icon: '/mahal.png',
+    shortcut: '/mahal.png',
+    apple: '/mahal.png',
+  },
 };
 
 export default function RootLayout({
