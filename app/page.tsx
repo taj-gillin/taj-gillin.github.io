@@ -35,10 +35,10 @@ export default function HomePage() {
                     Hi, I&apos;m Taj Gillin, a senior at Brown University pursuing a dual degree in Biophysics and Applied Math-Computer Science. Originally from San Diego (and you&apos;ll often catch me repping Padres gear), I&apos;ve always been drawn to understanding how complex systems work and love and tough puzzling problems.
                   </p>
                   <p>
-                    My journey into programming started in an unexpected place: building games in Minecraft using command blocks and its built-in language mcfunction. What began as a hobby taught me to think systematically about logic and problem-solving, ultimately sparking a genuine passion for coding that now drives my academic focus. I still have a deep appreciation for thoughtful design, particularly in some of my favorites: Hollow Knight, Outer Wilds, and The Stanley Parable.
+                    My journey into programming started through building games in Minecraft using command blocks and its built-in language mcfunction. What began as a hobby taught me to think systematically about logic and problem-solving, ultimately sparking a love for coding that now drives my academic focus. I still have a deep appreciation for thoughtful design, particularly in some of my favorites: Hollow Knight, Outer Wilds, and The Stanley Parable.
                   </p>
                   <p>
-                    When I&apos;m not diving into coursework or research, you&apos;ll find me with a guitar or bass in hand—I&apos;ve been playing guitar for several years and recently picked up bass. My musical tastes lean toward classic and alternative rock, with the Red Hot Chili Peppers being a longtime favorite. I&apos;m also an avid fantasy reader who could easily spend hours discussing Brandon Sanderson&apos;s Cosmere universe (fair warning: once I start talking about magic systems and worldbuilding, it&apos;s hard to stop me).
+                    When I&apos;m not diving into coursework or research, you&apos;ll find me with a guitar or bass in hand—I&apos;ve been playing guitar for several years and recently picked up bass. My musical tastes lean toward classic and alternative rock, with the Red Hot Chili Peppers being a longtime favorite. I&apos;m also an avid fantasy reader who could easily spend hours discussing Brandon Sanderson&apos;s Cosmere universe.
                   </p>
                 </div>
               </div>
