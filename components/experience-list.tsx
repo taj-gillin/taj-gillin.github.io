@@ -5,7 +5,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 export interface ExperienceItem {
   company: string;
@@ -100,33 +99,27 @@ export function ExperienceList() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-16">
       {experienceData.map((item, index) => (
-        <Card key={index} className="border border-white/10 bg-transparent backdrop-blur-sm hover:backdrop-blur-md hover:bg-white/5 hover:border-white/20 shadow-none hover:shadow-md rounded-lg transition-all duration-300 ease-in-out">
-          <CardHeader className="p-5">
-            <CardTitle className="text-xl font-semibold font-serif text-primary mb-1">{item.company}</CardTitle>
-            <CardDescription className="text-lg text-muted-foreground">
-              {item.position} | {item.period} | {item.location}
+        <Card key={index} className="border border-white/10 bg-transparent backdrop-blur-sm hover:backdrop-blur-md hover:bg-white/5 hover:border-white/20 shadow-lg hover:shadow-xl rounded-xl transition-all duration-300 ease-in-out group">
+          <CardHeader className="p-8 pb-6">
+            <CardTitle className="text-2xl font-bold font-serif text-primary mb-3 group-hover:text-primary/90 transition-colors">{item.company}</CardTitle>
+            <CardDescription className="text-lg text-muted-foreground leading-relaxed">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+                <span className="font-medium text-foreground/80">{item.position}</span>
+                <span className="hidden sm:inline text-muted-foreground">•</span>
+                <span className="text-muted-foreground">{item.period}</span>
+                <span className="hidden sm:inline text-muted-foreground">•</span>
+                <span className="text-muted-foreground/80">{item.location}</span>
+              </div>
             </CardDescription>
           </CardHeader>
-          <CardContent className="p-5 pt-0">
-            <ul className="list-disc pl-5 space-y-1 text-base leading-relaxed mb-4 text-foreground/90">
+          <CardContent className="p-8 pt-0">
+            <ul className="list-disc pl-6 space-y-4 text-base leading-relaxed text-foreground/90">
               {item.responsibilities.map((resp, i) => (
-                <li key={i}>{resp}</li>
+                <li key={i} className="marker:text-primary/60">{resp}</li>
               ))}
             </ul>
-            {item.skillsUtilized && item.skillsUtilized.length > 0 && (
-              <div>
-                <h4 className="text-sm font-semibold mb-2 text-muted-foreground">Skills Utilized:</h4>
-                <div className="flex flex-wrap gap-2">
-                  {item.skillsUtilized.map((skill) => (
-                    <Badge key={skill} variant="outline" className="text-xs font-medium">
-                      {skill}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            )}
           </CardContent>
         </Card>
       ))}

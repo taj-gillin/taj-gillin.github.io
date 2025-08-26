@@ -1,12 +1,12 @@
 import { Github, Linkedin, Mail } from "lucide-react";
 import { CourseList } from "@/components/course-list";
-import { ProjectList } from "@/components/project-list";
 import { SkillList } from "@/components/skill-list";
 import { ExperienceList } from "@/components/experience-list";
 import { Hero } from "@/components/Hero";
 import { ParticleSystem } from "@/components/ParticleSystem";
 import { BackgroundLuxe } from "@/components/BackgroundLuxe";
 import { SnapScrollController } from "@/components/SnapScrollController";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function HomePage() {
   
@@ -67,9 +67,19 @@ export default function HomePage() {
 
             <section id="projects" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-32 flex flex-col justify-center">
               <div className="w-full max-w-3xl mx-auto">
-                <h2 className="text-3xl font-semibold font-serif">Projects</h2>
-                <p className="text-lg text-muted-foreground mb-8">Click on a project to learn more!</p>
-                <ProjectList />
+                <h2 className="text-3xl font-semibold font-serif mb-8">Projects</h2>
+                <div className="flex justify-center">
+                  <Card className="w-full max-w-md text-center">
+                    <CardHeader>
+                      <CardTitle className="text-2xl">Projects Coming This Week</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground">
+                        I&apos;m putting the finishing touches on my project showcase. Check back soon!
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
               </div>
             </section>
 
