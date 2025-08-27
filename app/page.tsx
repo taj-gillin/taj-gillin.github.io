@@ -2,6 +2,7 @@ import { Github, Linkedin, Mail } from "lucide-react";
 import { CourseList } from "@/components/course-list";
 import { SkillList } from "@/components/skill-list";
 import { ExperienceList } from "@/components/experience-list";
+import { ResearchList } from "@/components/research-list";
 import { Hero } from "@/components/Hero";
 import { ParticleSystem } from "@/components/ParticleSystem";
 import { BackgroundLuxe } from "@/components/BackgroundLuxe";
@@ -62,6 +63,13 @@ export default function HomePage() {
                     <p className="text-lg text-muted-foreground">Graduated: May 2022 | San Diego, CA</p>
                   </div>
                 </div>
+              </div>
+            </section>
+
+            <section id="research" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-32 flex flex-col justify-center">
+              <div className="w-full max-w-3xl mx-auto">
+                <h2 className="text-3xl font-semibold font-serif mb-8">Research</h2>
+                <ResearchList />
               </div>
             </section>
 

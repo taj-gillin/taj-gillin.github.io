@@ -16,7 +16,7 @@ interface Particle {
   id: string
 }
 
-export type ParticleMode = 'hero' | 'about' | 'academics' | 'projects' | 'skills' | 'experience' | 'contact'
+export type ParticleMode = 'hero' | 'about' | 'academics' | 'research' | 'projects' | 'skills' | 'experience' | 'contact'
 
 interface ParticleSystemProps {
   mode?: ParticleMode
@@ -56,6 +56,7 @@ export function ParticleSystem({
     hero: 230,
     about: 212,
     academics: 205,
+    research: 210,
     projects: 220,
     skills: 236,
     experience: 215,

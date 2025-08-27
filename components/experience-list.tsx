@@ -55,18 +55,7 @@ const experienceData: ExperienceItem[] = [
     ],
     skillsUtilized: ["Python", "React", "TypeScript", "MongoDB", "FastAPI", "Celery", "Docker", "CADD", "Algorithm Development"],
   },
-  {
-    company: "Singh Lab Research",
-    position: "Undergraduate Researcher",
-    period: "May 2024 - Nov 2024",
-    location: "Providence, RI",
-    responsibilities: [
-      "Explored novel strategies for identifying drug-drug interactions using LLMs.",
-      "Conducted systematic experiments with machine learning techniques (fine-tuning, RAG, knowledge graphs, graph network analysis).",
-      "Developed robust data extraction and sanitization protocols, including web scraping with Puppeteer."
-    ],
-    skillsUtilized: ["LLMs", "Machine Learning", "RAG", "Knowledge Graphs", "Puppeteer", "Data Extraction"],
-  },
+
   {
     company: "Artificial Teaching Assistant (ATA)",
     position: "Founder",
