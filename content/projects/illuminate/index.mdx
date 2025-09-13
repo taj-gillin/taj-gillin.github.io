@@ -1,0 +1,164 @@
+---
+title: "Illuminate: AI-Generated Educational Videos"
+description: "Generate personalized animated educational videos for any topic using AI and LangChain"
+technologies: ["LangChain", "React", "FastAPI", "Manim", "AWS", "OpenAI", "Python", "JavaScript"]
+date: "February 2025"
+event: "Hack@Brown 2025 - Winner: Best Use of Gen AI"
+coverImage: "/projects/illuminate/cover.png"
+team: ["Taj Gillin", "Danielle Whisnant", "Sami Nourji", "Andrew Kim"]
+---
+
+import { 
+  ProjectImage,
+  TwoColumnLayout,
+  LeftColumn,
+  RightColumn
+} from '@/components/content';
+
+# Illuminate: AI-Generated Educational Videos
+
+An AI-powered platform that transforms any topic into engaging, animated educational videos with voiceover explanations and interactive quizzes. Built for Hack@Brown 2025 and winner of the **Best Use of Gen AI** award.
+
+**Team:** Taj Gillin, Danielle Whisnant, Sami Nourji, Andrew Kim  
+**Event:** Hack@Brown 2025  
+**Award:** Best Use of Gen AI
+
+---
+
+## The Future of Personalized Education
+
+The landscape of education is rapidly evolving, moving toward more personalized and engaging learning experiences. As Sal Khan discusses in "Brave New Worlds," the future of education lies in creating content that adapts to individual learning styles and paces. Traditional one-size-fits-all educational content often fails to capture the attention and curiosity of learners, especially when dealing with complex or abstract concepts.
+
+The challenge is clear: how do we democratize high-quality, engaging educational content? While creators like 3Blue1Brown have shown us the power of animated explanations to transform understanding, not everyone has the time, skills, or resources to create such content. What if we could harness artificial intelligence to automatically generate these educational experiences?
+
+<ProjectImage 
+  src="/projects/illuminate/main_page.png"
+  alt="Illuminate main interface showing topic input"
+  caption="The main interface allows users to input any topic they want to learn about"
+  zoom
+/>
+
+This is where Illuminate comes in. By combining the power of large language models with mathematical animation engines, we can automatically generate educational videos that explain any topic in an engaging, visual way. The goal is to make high-quality educational content as simple as typing a question.
+
+---
+
+## How It Works
+
+### The AI Pipeline
+
+Illuminate uses a sophisticated pipeline built with LangChain to orchestrate multiple AI services and transform a simple text prompt into a complete educational experience.
+
+<ProjectImage 
+  src="/projects/illuminate/pipeline.png"
+  alt="Technical architecture diagram showing the AI pipeline"
+  caption="The complete pipeline from user input to generated video and quiz"
+  zoom
+/>
+
+The process begins when a user inputs any topic they want to learn about. This simple prompt then flows through several AI-powered stages:
+
+1. **Script Generation**: The input is processed by a script generator that first creates a structured lesson plan, then iteratively refines it into a narrative script with suggested animation types and details.
+
+2. **Animation Code Generation**: Using the generated script, a Manim generator creates Python code for mathematical animations that will illustrate the concepts.
+
+3. **Quiz Generation**: A separate AI process generates interactive quiz questions, multiple choice options, and solutions to test the user's understanding.
+
+4. **Video Rendering**: The Manim code is executed to create the final animated video with synchronized voiceover.
+
+### Technical Architecture
+
+**Backend Infrastructure:**
+- **LangChain**: Orchestrates the entire AI pipeline, managing the flow between different LLM calls
+- **FastAPI**: Provides a robust backend API for handling requests and responses
+- **OpenAI GPT Models**: Powers the content generation and script creation
+
+**Frontend Experience:**
+- **React**: Built a responsive, interactive user interface
+- **Real-time Integration**: Seamless communication between frontend and backend services
+- **Interactive Quizzes**: Dynamic quiz interface that adapts to generated content
+
+**Animation Engine:**
+- **Manim**: Mathematical Animation Engine for creating high-quality educational animations
+- **Python Integration**: Generated animation code runs in a controlled environment
+- **Voiceover Synthesis**: Automated voice generation for narration
+
+---
+
+## Key Features
+
+### Personalized Content Generation
+
+The core strength of Illuminate lies in its ability to take any topic and create a tailored educational experience. Whether it's explaining quantum mechanics, teaching calculus, or breaking down historical events, the system adapts its approach to match the complexity and nature of the subject matter.
+
+<ProjectImage 
+  src="/projects/illuminate/quiz.png"
+  alt="Interactive quiz interface showing generated questions"
+  caption="Interactive quizzes test understanding and reinforce learning"
+  zoom
+/>
+
+### Interactive Learning
+
+Beyond just watching videos, Illuminate includes interactive quizzes that are automatically generated based on the content. This ensures that learners can test their understanding and identify areas that need more attention.
+
+### Scalable Infrastructure
+
+The platform is designed to handle multiple users simultaneously while maintaining fast response times through efficient resource management and optimized API calls.
+
+---
+
+## Technical Challenges
+
+### AI Code Generation
+
+One of the most significant challenges was getting large language models to generate reliable Manim animation code. The models often struggled with:
+- Creating syntactically correct Python code
+- Ensuring animations didn't overlap or conflict
+- Maintaining proper timing and synchronization
+- Including all necessary voiceover elements
+
+### Pipeline Integration
+
+Connecting multiple AI services and ensuring smooth data flow between them required careful orchestration. Each stage of the pipeline needed to produce output in a format that the next stage could reliably process.
+
+### Quality Control
+
+Implementing self-evaluation mechanisms to catch syntax errors and logical inconsistencies before execution was crucial for maintaining a good user experience.
+
+---
+
+## Impact and Future Directions
+
+### Educational Potential
+
+Illuminate represents a step toward making high-quality educational content more accessible. By automating the creation of animated explanations, we can help educators and learners focus on understanding rather than content creation.
+
+<ProjectImage 
+  src="/projects/illuminate/cover.png"
+  alt="Illuminate project cover showing the educational video generation concept"
+  caption="Illuminate transforms any topic into engaging, animated educational content"
+  zoom
+/>
+
+### Future Enhancements
+
+The next phase of development includes:
+- **Interactive Chat**: Allow follow-up questions during video playback
+- **Multiple AI Models**: Experiment with Claude and Deepseek for improved content generation
+- **In-Video Quizzes**: Pop-up questions during video playback
+- **Multimodal Input**: Accept images, diagrams, or documents as input to generate more contextual educational content
+- **Feedback Loop**: Learn from user interactions and quiz performance to improve future content generation
+- **Multi-Language Support**: Expand to serve global educational needs
+- **Teacher Tools**: Specialized features for educational institutions
+
+---
+
+## Conclusion
+
+Illuminate demonstrates the potential of AI to transform education by making engaging, personalized content creation accessible to everyone. While the technical challenges of AI-generated code and seamless pipeline integration were significant, the result is a platform that can turn any curiosity into a comprehensive learning experience.
+
+The project showcases how modern AI tools, when properly orchestrated, can create educational experiences that were previously only possible with significant human effort and expertise. As we continue to develop and refine the platform, we're excited about the possibilities for making learning more engaging, accessible, and personalized for students everywhere.
+
+---
+
+**Built with:** LangChain, React, FastAPI, Manim, AWS, OpenAI, Python, JavaScript

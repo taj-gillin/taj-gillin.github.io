@@ -1,0 +1,210 @@
+---
+title: "Parallel Ising Model: High-Performance 3D Simulations"
+description: "Massively parallel Monte Carlo simulations using MPI and GPU acceleration"
+technologies: ["MPI", "CUDA", "cuRAND", "OpenMP", "C++"]
+date: "December 2024"
+course: "APMA 2822B - High Performance Computing"
+coverImage: "/projects/parallel-ising/images/lattice.png"
+repoUrl: "https://github.com/taj-gillin/Parallel-Ising"
+demoUrl: "https://tajgillin.neocities.org/redblack/rb"
+award: "129x Speedup Achieved"
+---
+
+import { 
+  ProjectImage,
+  PerformanceTable,
+  TwoColumnLayout,
+  LeftColumn,
+  RightColumn
+} from '@/components/content';
+
+# Parallel Ising Model: High-Performance 3D Simulations
+
+Massively parallel Monte Carlo simulations of the 3D Ising model using MPI domain decomposition and GPU acceleration, achieving a **129x speedup** over serial implementation while studying ferromagnetic phase transitions and critical phenomena.
+
+**Course:** APMA 2822B - High Performance Computing  
+**Date:** December 2024  
+**Achievement:** 129x Speedup
+
+---
+
+## Abstract
+
+Ferromagnetism and phase transitions are fundamental concepts in statistical mechanics. The Ising Model provides a simplified yet effective framework to study these phenomena by modeling spins on a lattice. This project focuses on a 3D Ising Model and demonstrates the implementation of high-performance parallel computing approaches using **MPI for distributed memory** and **GPUs for acceleration**.
+
+Through careful optimization including shared memory strategies, GPU-aware MPI, and cuRAND-based random number generation, we achieved significant performance improvements with our optimized GPU implementation delivering a **129x speedup** over the serial version while maintaining excellent scaling behavior for large systems.
+
+---
+
+## Introduction
+
+The Ising model, first proposed by Wilhelm Lenz in 1920 and solved by his student Ernst Ising in 1D, has become one of the most important models in statistical physics. It successfully describes ferromagnetic-paramagnetic phase transitions and serves as a paradigm for understanding critical phenomena.
+
+<ProjectImage 
+  src="/projects/parallel-ising/images/lattice.png"
+  alt="3D Ising lattice visualization showing spin configurations"
+  caption="3D lattice visualization showing spin configurations"
+  zoom
+/>
+
+### Objective
+
+The goal of this project is to simulate the 3D Ising Model using parallel computing approaches, leveraging MPI for distributed memory and GPUs for acceleration. We aim to:
+
+- Implement and analyze the 3D Ising model below its critical temperature
+- Study finite-size scaling effects in large systems  
+- Develop efficient parallel algorithms for spin updates and energy calculations
+- Compare different optimization strategies for high-performance computing
+
+---
+
+## Theoretical Framework
+
+The Ising Model represents spins on a lattice, each taking a value of +1 or -1. The system minimizes the Hamiltonian, defined as:
+
+**H = -J ∑⟨i,j⟩ s_i s_j - h ∑_i s_i**
+
+where J is the interaction strength, h is the external magnetic field, and s_i denotes the spin at site i. The notation ⟨i,j⟩ indicates summation over nearest neighbors only.
+
+The energy change for a single spin flip is given by:
+
+**ΔE_i = -s_i(J ∑_nn s_n + h)**
+
+### Monte Carlo Simulation
+
+Monte Carlo methods are essential for studying the 3D Ising model because they provide a way to sample the enormous configuration space efficiently. With 2^N possible states for N spins, direct enumeration becomes impossible for any reasonably sized system.
+
+The Metropolis-Hastings algorithm allows us to generate configurations with probability proportional to the Boltzmann distribution exp(-E/k_BT).
+
+---
+
+## Performance Results
+
+Our optimization journey involved three major breakthroughs:
+
+### Precomputed Random Numbers
+- **Problem**: Random number generation consumed ~60% of execution time
+- **Solution**: Migrated to cuRAND for GPU-based parallel generation
+- **Result**: Reduced to less than 5% of total runtime
+
+### Shared Memory Optimization  
+- **Problem**: Frequent global memory access during energy calculations
+- **Solution**: Block-level loading and two-level reduction
+- **Result**: 0.95s → 0.71s for 64³ lattice (25% improvement)
+
+### GPU-Aware MPI
+- **Problem**: Three-step halo exchange process with multiple PCIe transfers
+- **Solution**: Direct GPU-to-GPU communication
+- **Result**: Final runtime of 0.28s (additional 2.5x improvement)
+
+<PerformanceTable 
+  title="Runtime Comparison Across Different Implementations"
+  data={[
+    { implementation: "Serial", runtime: 36.2, speedup: 1.0 },
+    { implementation: "MPI (1 rank)", runtime: 35.6, speedup: 1.02 },
+    { implementation: "MPI (8 ranks)", runtime: 5.8, speedup: 6.24 },
+    { implementation: "GPU (64³)", runtime: 0.95, speedup: 38.1 },
+    { implementation: "GPU optimized (64³)", runtime: 0.28, speedup: 129.3 },
+    { implementation: "GPU optimized (256³)", runtime: 5.5, speedup: 6.58, notes: "64x larger problem size" }
+  ]}
+/>
+
+---
+
+## Physical Results
+
+The simulation demonstrates proper physical behavior with clear convergence:
+
+<TwoColumnLayout>
+  <LeftColumn>
+    <ProjectImage 
+      src="/projects/parallel-ising/images/energy_vs_steps.png"
+      alt="Energy convergence over Monte Carlo steps"
+      caption="Energy vs iteration count showing system equilibration"
+      zoom
+    />
+  </LeftColumn>
+  <RightColumn>
+    <ProjectImage 
+      src="/projects/parallel-ising/images/magnetization_vs_steps.png"
+      alt="Magnetization evolution over Monte Carlo steps"  
+      caption="Magnetization vs iteration count demonstrating convergence"
+      zoom
+    />
+  </RightColumn>
+</TwoColumnLayout>
+
+### Roofline Analysis
+
+<ProjectImage 
+  src="/projects/parallel-ising/images/roofline_comparison.png"
+  alt="Roofline model analysis comparing different implementations"
+  caption="Roofline analysis reveals all implementations are memory-bound"
+  zoom
+/>
+
+**Key Insights:**
+- All implementations are memory-bound, operating below ridge points
+- Optimized GPU shows ~7x performance increase over baseline
+- Memory access patterns are critical for performance
+
+---
+
+## Implementation Highlights
+
+### MPI Domain Decomposition
+- 3D lattice partitioned into Px × Py × Pz sub-domains
+- Ghost layers for neighbor information
+- 6-way halo exchange pattern for 3D communication
+
+### GPU Acceleration  
+- Block-based approach with shared memory optimization
+- cuRAND for parallel random number generation
+- GPU-aware MPI for direct device-to-device communication
+
+### Red-Black Update Scheme
+- Prevents pattern formation in even-sized lattices
+- Enables parallel updates within color groups
+- Essential for both MPI and GPU implementations
+
+---
+
+## Future Directions
+
+### Optimization Opportunities
+- **Pinned Memory**: Eliminate extra copy operations for higher bandwidth
+- **Asynchronous Streams**: Overlap computation and communication
+- **Temperature Scaling**: Automated sweeps for phase transition studies
+
+### Performance Potential
+The roofline analysis suggests we're still operating below theoretical hardware limits, indicating potential for further optimization through improved memory access patterns and communication strategies.
+
+---
+
+## Interactive Demo
+
+Explore the 3D Ising model dynamics in real-time:
+
+**[View Interactive Demo →](https://tajgillin.neocities.org/redblack/rb)**
+
+---
+
+## Project Links
+
+- **[GitHub Repository](https://github.com/taj-gillin/Parallel-Ising)** - Complete source code
+- **[Interactive Demo](https://tajgillin.neocities.org/redblack/rb)** - Real-time 3D visualization
+
+---
+
+## Conclusion
+
+This project successfully demonstrated the implementation and optimization of a 3D Ising Model using modern high-performance computing techniques. Through careful application of parallel computing strategies, we achieved significant performance improvements, with our optimized GPU implementation delivering a **129x speedup** over the serial version.
+
+### Key Achievements
+
+- **Algorithmic Innovation**: Red-black update scheme enabled effective parallelization
+- **Performance Optimization**: Systematic optimization from 36.2s to 0.28s  
+- **Scalability**: Excellent scaling behavior (19.6x runtime for 64x problem size)
+- **Physical Accuracy**: Correct simulation of ferromagnetic phase transitions
+
+The combination of MPI domain decomposition and GPU acceleration proved particularly effective, providing a foundation for future studies of more complex systems and optimization strategies.

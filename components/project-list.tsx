@@ -37,6 +37,51 @@ export interface Project {
 
 export const projectData: Project[] = [
   {
+    slug: "parallel-ising",
+    title: "Parallel Ising Model: High-Performance 3D Simulations",
+    description: "Massively parallel Monte Carlo simulations using MPI and GPU acceleration",
+    technologies: ["MPI", "CUDA", "cuRAND", "OpenMP", "C++"],
+    imageUrl: "/projects/parallel-ising/images/ising_model.png",
+    repoUrl: "https://github.com/taj-gillin/Parallel-Ising",
+    demoUrl: "https://tajgillin.neocities.org/redblack/rb",
+    date: "December 2024",
+    details: {
+      problemStatement: "Ferromagnetism and phase transitions are fundamental concepts in statistical mechanics. The challenge was to implement high-performance parallel computing approaches for 3D Ising model simulations using MPI and GPU acceleration.",
+      approach: "Implemented domain decomposition with MPI for distributed memory systems and GPU acceleration with CUDA. Applied red-black update schemes, shared memory optimizations, GPU-aware MPI, and cuRAND for parallel random number generation.",
+      results: "Achieved a 129x speedup over serial implementation while maintaining excellent scaling behavior. The optimized GPU implementation reduced runtime from 36.2s to 0.28s for 64³ lattice simulations.",
+      keyFeatures: [
+        "MPI domain decomposition with 6-way halo exchange",
+        "GPU acceleration with CUDA kernels and shared memory optimization",
+        "Red-black update scheme preventing pattern formation",
+        "GPU-aware MPI for direct GPU-to-GPU communication",
+        "cuRAND parallel random number generation"
+      ],
+      futurePlans: "Future optimizations include pinned memory implementation, asynchronous CUDA streams for overlapping computation and communication, and temperature scaling studies for phase transition analysis.",
+      images: [
+        {
+          url: "/projects/parallel-ising/images/lattice.png",
+          alt: "3D Ising lattice visualization",
+          caption: "3D lattice showing spin configurations with interactive demo"
+        },
+        {
+          url: "/projects/parallel-ising/images/roofline_comparison.png",
+          alt: "Roofline model analysis",
+          caption: "Performance analysis showing memory-bound behavior across implementations"
+        },
+        {
+          url: "/projects/parallel-ising/images/energy_vs_steps.png",
+          alt: "Energy convergence",
+          caption: "Energy vs iteration showing system equilibration"
+        },
+        {
+          url: "/projects/parallel-ising/images/magnetization_vs_steps.png",
+          alt: "Magnetization evolution",
+          caption: "Magnetization vs iteration demonstrating convergence"
+        }
+      ]
+    }
+  },
+  {
     slug: "architect-internal-website",
     title: "Internal Platform for Architect Therapeutics",
     description: "Full-stack website for data management and task distribution on a computing cluster, enhancing research workflow.",
