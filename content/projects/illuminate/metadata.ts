@@ -7,3 +7,4 @@ export const illuminateMetadata = {
   coverImage: "/projects/illuminate/cover.png",
   team: ["Taj Gillin", "Danielle Whisnant", "Sami Nourji", "Andrew Kim"]
 };
+
