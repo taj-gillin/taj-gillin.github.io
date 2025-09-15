@@ -1,7 +1,7 @@
 ---
 title: "ATA: Artificial Teaching Assistant"
 description: "An LLM-powered teaching assistant that adapts to course material to guide students through conceptual and technical questions"
-technologies: ["OpenAI GPT-4", "Streamlit", "Python", "RAG", "DSPy", "ChatGPT"]
+technologies: ["OpenAI GPT-4", "Anthropic Claude", "Streamlit", "Python", "RAG", "DSPy"]
 date: "February 2024"
 event: "Hack@Brown 2024 - Winner: Best Use of AI in Education by Schmidt Futures"
 coverImage: "/projects/ata/bruno_banner.jpg"
@@ -90,7 +90,7 @@ ATA uses RAG to provide context-aware responses by retrieving relevant snippets 
 
 ### AI-Powered Guidance
 
-The system employs GPT-4 with few-shot learning techniques to ensure responses are both helpful and pedagogically sound. By training on carefully crafted examples, ATA learns to:
+The system employs GPT-4 and Anthropic Claude with few-shot learning techniques to ensure responses are both helpful and pedagogically sound. We found Claude particularly effective for generating more organic and natural responses that better engage students. By training on carefully crafted examples, ATA learns to:
 - Ask guiding questions rather than provide direct answers
 - Encourage students to explain their thought process
 - Provide hints and suggestions that lead to understanding
@@ -122,57 +122,6 @@ The system's ability to adapt to different courses makes it valuable across vari
 
 ---
 
-## Key Features
-
-### Course-Specific Adaptation
-- Integrates with existing course materials and assignments
-- Understands course context and learning objectives
-- Provides responses aligned with instructor expectations
-
-### Pedagogical Guidance
-- Encourages students to work through problems themselves
-- Asks guiding questions to promote understanding
-- Provides hints and suggestions rather than direct answers
-
-### Comprehensive Support
-- Handles conceptual, debugging, and logistical questions
-- Integrates with existing course infrastructure
-- Maintains academic integrity and educational standards
-
----
-
-## Technical Challenges
-
-### RAG Implementation
-Implementing effective retrieval augmented generation required careful design of document chunking, embedding strategies, and similarity search to ensure relevant course materials are retrieved for each query.
-
-### Pedagogical Response Design
-Creating an AI that responds in a pedagogically sound way required extensive prompt engineering and few-shot learning to ensure responses encourage learning rather than just providing answers.
-
-### Safety and Content Filtering
-Ensuring that ATA maintains educational integrity required implementing robust filtering systems to prevent inappropriate responses and maintain academic standards.
-
----
-
-## Future Directions
-
-### Enhanced Course Integration
-- Deeper integration with learning management systems
-- Support for more course types and subjects
-- Advanced analytics on student learning patterns
-
-### Improved Pedagogical Approaches
-- Adaptive learning based on student progress
-- Integration with assessment and feedback systems
-- Support for different learning styles and preferences
-
-### Scalability and Deployment
-- Expansion to more courses and institutions
-- Integration with existing educational technology stacks
-- Advanced monitoring and analytics capabilities
-
----
-
 ## Conclusion
 
 ATA represents a significant step forward in educational AI, demonstrating how course-specific adaptation can create more effective learning support tools. By combining retrieval augmented generation with pedagogical design principles, ATA provides students with the help they need while maintaining the integrity of the educational process.
@@ -181,4 +130,4 @@ The project's evolution from hackathon prototype to production use in multiple c
 
 ---
 
-**Built with:** OpenAI GPT-4, Streamlit, Python, RAG, DSPy, ChatGPT
+**Built with:** OpenAI GPT-4, Anthropic Claude, Streamlit, Python, RAG, DSPy
