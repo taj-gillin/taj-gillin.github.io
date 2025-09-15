@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Download, Github, Linkedin, Mail } from 'lucide-react'
+import { Download, Github, Linkedin, Mail, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export function Hero() {
@@ -54,6 +54,22 @@ export function Hero() {
               Contact
             </a>
           </Button>
+        </motion.div>
+
+        {/* Mobile-only scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 1.2 }}
+          className="md:hidden mt-16 flex flex-col items-center text-muted-foreground"
+        >
+          <p className="text-sm mb-2">Scroll to see more</p>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <ChevronDown className="h-6 w-6" />
+          </motion.div>
         </motion.div>
       </div>
 
