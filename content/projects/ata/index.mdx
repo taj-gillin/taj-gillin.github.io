@@ -17,11 +17,7 @@ import {
 
 # ATA: Artificial Teaching Assistant
 
-An intelligent teaching assistant that adapts to specific course environments to help students with conceptual, debugging, and logistical questions. Built for Hack@Brown 2024 and winner of the **Best Use of AI in Education by Schmidt Futures** award, now deployed across multiple Brown University courses.
-
-**Team:** Taj Gillin, Julian Dai, Woody Hulse  
-**Event:** Hack@Brown 2024  
-**Award:** Best Use of AI in Education by Schmidt Futures
+An intelligent teaching assistant that adapts to specific course environments to help students with conceptual, debugging, and logistical questions. Now deployed across multiple Brown University courses.
 
 ---
 
@@ -61,11 +57,7 @@ ATA is built with a pedagogical approach that encourages learning rather than ju
   zoom
 />
 
-This approach is reinforced through carefully crafted examples and chain-of-thought reasoning, ensuring that ATA responds in a way that promotes understanding and critical thinking.
-
-### Maintaining Educational Integrity
-
-ATA is designed to support learning, not replace it. When students ask for direct answers or solutions, the system is programmed to redirect them toward understanding the concepts and working through problems themselves.
+This approach is reinforced through carefully crafted examples and chain-of-thought reasoning, ensuring that ATA responds in a way that promotes understanding and critical thinking while maintaining educational integrity.
 
 <ProjectImage 
   src="/projects/ata/bruno_no_answer.jpg"
@@ -74,27 +66,17 @@ ATA is designed to support learning, not replace it. When students ask for direc
   zoom
 />
 
-This ensures that ATA enhances the learning experience without undermining the educational process or academic integrity.
-
 ---
 
 ## Technical Implementation
 
 ### Retrieval Augmented Generation
 
-ATA uses RAG to provide context-aware responses by retrieving relevant snippets from course materials. This includes:
-- Assignment specifications and requirements
-- Course syllabi and learning objectives
-- Code examples and solutions
-- Previous EdStem discussions and Q&A
+ATA uses RAG to provide context-aware responses by retrieving relevant snippets from course materials. The system draws from a comprehensive knowledge base that includes assignment specifications and requirements, ensuring that guidance aligns with specific project goals and constraints. It also incorporates course syllabi and learning objectives to maintain consistency with the instructor's pedagogical approach and expected outcomes. Additionally, ATA leverages code examples and solutions from course materials to provide concrete, relevant illustrations when helping students understand programming concepts. Finally, the system can access previous EdStem discussions and Q&A sessions, allowing it to learn from past student questions and provide insights based on common areas of confusion or interest.
 
 ### AI-Powered Guidance
 
-The system employs GPT-4 and Anthropic Claude with few-shot learning techniques to ensure responses are both helpful and pedagogically sound. We found Claude particularly effective for generating more organic and natural responses that better engage students. By training on carefully crafted examples, ATA learns to:
-- Ask guiding questions rather than provide direct answers
-- Encourage students to explain their thought process
-- Provide hints and suggestions that lead to understanding
-- Maintain a supportive, educational tone
+The system employs GPT-4 and Anthropic Claude with few-shot learning techniques to ensure responses are both helpful and pedagogically sound. We found Claude particularly effective for generating more organic and natural responses that better engage students. By training on carefully crafted examples, ATA learns to ask guiding questions rather than provide direct answers, fostering critical thinking and deeper engagement with the material. The system is designed to encourage students to explain their thought process, helping them articulate their understanding and identify gaps in their knowledge. Rather than simply giving solutions, ATA provides strategic hints and suggestions that lead students toward understanding, allowing them to experience the satisfaction of discovery while building confidence in their problem-solving abilities. Throughout all interactions, the system maintains a supportive, educational tone that creates a safe learning environment where students feel comfortable asking questions and exploring concepts.
 
 ### Safety and Content Filtering
 
@@ -110,11 +92,7 @@ What started as a Hack@Brown 2024 project has evolved into a practical tool used
 
 ### Supporting Students and TAs
 
-ATA addresses the core problems we identified:
-- **Reduces redundant questions** by providing consistent, course-specific answers
-- **Supports overworked TAs** by handling common questions and providing guidance
-- **Improves student experience** with immediate, context-aware help
-- **Maintains educational integrity** through pedagogical design
+ATA addresses the core problems we identified through its comprehensive approach to educational support. The system significantly reduces redundant questions by providing consistent, course-specific answers that draw from the same materials and perspectives that TAs would use, ensuring continuity in the learning experience. It supports overworked TAs by handling common questions and providing initial guidance, allowing human teaching assistants to focus their time and energy on more complex student needs and personalized instruction. Students benefit from an improved experience through immediate, context-aware help that's available 24/7, eliminating the frustration of long wait times and providing support exactly when they need it most. Throughout all of these benefits, ATA maintains educational integrity through its careful pedagogical design, ensuring that students receive guidance that promotes learning rather than shortcuts that undermine the educational process.
 
 ### Course Integration
 
@@ -124,9 +102,7 @@ The system's ability to adapt to different courses makes it valuable across vari
 
 ## Conclusion
 
-ATA represents a significant step forward in educational AI, demonstrating how course-specific adaptation can create more effective learning support tools. By combining retrieval augmented generation with pedagogical design principles, ATA provides students with the help they need while maintaining the integrity of the educational process.
-
-The project's evolution from hackathon prototype to production use in multiple courses shows the real-world impact of thoughtful AI design in education. As we continue to develop and deploy ATA across more courses, we're excited about the potential to transform how students and TAs interact in educational environments.
+ATA's evolution from hackathon prototype to production deployment across multiple Brown University courses demonstrates the transformative potential of course-specific AI assistance in education. By combining retrieval augmented generation with pedagogical design principles, ATA bridges the gap between generic AI tools and the specialized support that students actually need in their coursework.
 
 ---
 
