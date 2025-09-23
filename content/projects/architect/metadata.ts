@@ -4,6 +4,6 @@ export const architectMetadata = {
   technologies: ["React", "TypeScript", "MongoDB", "FastAPI", "Celery", "Redis", "Docker", "Python"],
   date: "Summer 2024",
   event: "Architect Therapeutics - Production System",
-  coverImage: "/projects/architect/systems_design.png",
+  coverImage: "/projects/architect/torrey_pines.jpg",
   team: ["Taj Gillin"]
 };
