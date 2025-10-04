@@ -1,5 +1,5 @@
 ---
-title: "Architect: Full-Stack Computational Research Platform"
+title: "Architect Therapeutics Internal Platform"
 description: "A distributed web application for managing and orchestrating complex computational workflows for algorithmic research in drug discovery"
 technologies: ["React", "TypeScript", "MongoDB", "FastAPI", "Celery", "Redis", "Docker", "Python"]
 date: "Summer 2024"
@@ -15,7 +15,7 @@ import {
   RightColumn
 } from '@/components/content';
 
-# Architect: Full-Stack Computational Research Platform
+# Architect Therapeutics Internal Platform
 
 A distributed web application designed to manage and orchestrate complex computational workflows for algorithmic research at Architect Therapeutics. This production system implements a modern microservices architecture supporting asynchronous task processing and data management across computing clusters to accelerate chemical compound discovery and optimization.
 
@@ -48,7 +48,7 @@ What researchers truly needed was a unified platform that could handle the entir
 The platform implements a distributed microservices architecture designed for scalability, reliability, and maintainability. Each component serves a specific purpose while maintaining loose coupling through well-defined APIs, creating a system that can grow with the research team's needs.
 
 <ProjectImage 
-  src="/projects/architect/torrey_pines.jpg"
+  src="/projects/architect/systems_design.jpg"
   alt="Complete system architecture diagram showing all components and their interactions"
   caption="Full-stack architecture implementing microservices design with distributed task processing"
   zoom
@@ -99,8 +99,3 @@ The production deployment has proven particularly valuable in supporting the ite
 Perhaps most significantly, the centralized data management has transformed collaboration within research teams. Previously, sharing computational results required manual file transfers and complex coordination between researchers. The platform's integrated approach means that results are immediately available to authorized team members, complete with full provenance tracking and version control. This has accelerated the pace of collaborative research and reduced the risk of working with outdated or inconsistent data.
 
 The system's reliability in the production environment has been crucial for maintaining research momentum. Computational experiments that may run for days or weeks require robust infrastructure that can handle failures gracefully. The platform's fault-tolerant design, with automatic retry mechanisms and comprehensive monitoring, ensures that valuable computational time is never lost due to infrastructure issues.
-
-
----
-
-**Built with:** React, TypeScript, MongoDB, FastAPI, Celery, Redis, Docker, Python

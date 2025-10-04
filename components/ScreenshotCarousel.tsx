@@ -48,13 +48,13 @@ export default function ScreenshotCarousel({ images }: { images: CarouselImage[]
       )}
       {/* Caption */}
       {images[idx].caption && (
-        <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-sm px-4 py-2 text-center">
+        <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-sm px-4 pt-2 pb-8 text-center">
           {images[idx].caption}
         </div>
       )}
       {/* Dots */}
       {images.length > 1 && (
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-10">
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1 z-20">
           {images.map((_, i) => (
             <span
               key={i}

@@ -1,5 +1,5 @@
 ---
-title: "Parallel Ising Model: High-Performance 3D Simulations"
+title: "3D Ising Model with Parallel Computing"
 description: "Massively parallel Monte Carlo simulations using MPI and GPU acceleration"
 technologies: ["MPI", "CUDA", "cuRAND", "OpenMP", "C++"]
 date: "December 2024"
@@ -48,7 +48,7 @@ In ferromagnetic materials, atomic spins tend to align parallel to each other be
 
 ### Objective
 
-The goal of this project is to simulate the 3D Ising Model using parallel computing approaches, leveraging MPI for distributed memory and GPUs for acceleration. Special emphasis is placed on scalability, performance optimization, and future enhancements. We aim to:
+The goal of this project is to simulate the 3D Ising Model using parallel computing approaches, leveraging MPI for distributed memory and GPUs for acceleration. Special emphasis is placed on scalability, performance optimization, and future enhancements. I aim to:
 
 - Implement and analyze the 3D Ising model below its critical temperature
 - Study finite-size scaling effects in large systems
@@ -61,13 +61,13 @@ The goal of this project is to simulate the 3D Ising Model using parallel comput
 
 ### Ising Model Formulation
 
-The Ising Model represents spins on a lattice, each taking a value of +1 or -1. From physics, we know that the system will minimize the Hamiltonian. The Hamiltonian is defined as:
+The Ising Model represents spins on a lattice, each taking a value of +1 or -1. From physics, I know that the system will minimize the Hamiltonian. The Hamiltonian is defined as:
 
 <BlockEquation label="1">
 {"H = -J \\sum_{\\langle i,j \\rangle} s_i s_j - h \\sum_i s_i"}
 </BlockEquation>
 
-where J is the interaction strength, h is the external magnetic field, and s_i denotes the spin at site i. The notation ⟨i,j⟩ indicates summation over nearest neighbors only. In our 3D implementation, each lattice site has six nearest neighbors (±x, ±y, ±z directions).
+where J is the interaction strength, h is the external magnetic field, and s_i denotes the spin at site i. The notation ⟨i,j⟩ indicates summation over nearest neighbors only. In my 3D implementation, each lattice site has six nearest neighbors (±x, ±y, ±z directions).
 
 The energy change for a single spin flip is given by:
 
@@ -79,7 +79,7 @@ where the sum runs over nearest neighbors of site i. This local energy change Δ
 
 ### Monte Carlo Simulation
 
-Monte Carlo methods are essential for studying the 3D Ising model because they provide a way to sample the enormous configuration space efficiently. With 2^N possible states for N spins, direct enumeration becomes impossible for any reasonably sized system. The Metropolis-Hastings algorithm, a Markov Chain Monte Carlo (MCMC) method, allows us to generate configurations with probability proportional to the Boltzmann distribution exp(-E/k_BT).
+Monte Carlo methods are essential for studying the 3D Ising model because they provide a way to sample the enormous configuration space efficiently. With 2^N possible states for N spins, direct enumeration becomes impossible for any reasonably sized system. The Metropolis-Hastings algorithm, a Markov Chain Monte Carlo (MCMC) method, allows me to generate configurations with probability proportional to the Boltzmann distribution exp(-E/k_BT).
 
 The Metropolis algorithm is employed for simulation. The algorithm proceeds as follows:
 
@@ -112,7 +112,7 @@ This approach allows the system to:
 
 ## Serial Implementation
 
-The serial implementation utilizes the sweeping method to systematically update spins across the lattice. To enhance statistical reliability, a red-black update scheme is applied, which alternates updates between subsets of spins to prevent pattern formation. Without this, we get pattern formation. In particular, when the size of the lattice is even, we get a checkerboard pattern. While the algorithm appears to work for an odd size, we would like to build a generalized algorithm that works regardless of dimensions.
+The serial implementation utilizes the sweeping method to systematically update spins across the lattice. To enhance statistical reliability, a red-black update scheme is applied, which alternates updates between subsets of spins to prevent pattern formation. Without this, I get pattern formation. In particular, when the size of the lattice is even, I get a checkerboard pattern. While the algorithm appears to work for an odd size, I would like to build a generalized algorithm that works regardless of dimensions.
 
 The red-black scheme divides the lattice points into two groups, like a 3D checkerboard pattern. Points (i,j,k) are classified as "red" if (i+j+k) is even, and "black" if (i+j+k) is odd. This ensures that no adjacent spins are updated simultaneously, maintaining the validity of the energy calculations.
 
@@ -172,7 +172,7 @@ For direction in {x, y, z}:
 4. Update ghost layers with received data`}
 </AlgorithmBlock>
 
-The domain decomposition approach enables efficient parallel scaling by evenly distributing the work across the processes. As we see in the results, this leads to a nearly linear scaling of the runtime.
+The domain decomposition approach enables efficient parallel scaling by evenly distributing the work across the processes. As I see in the results, this leads to a nearly linear scaling of the runtime.
 
 ### GPU Implementation
 
@@ -188,21 +188,21 @@ There are, however, clear limitations with this basic implementation. The algori
 
 ## Optimizations
 
-Our optimization journey involved three major breakthroughs that dramatically improved performance:
+My optimization journey involved three major breakthroughs that dramatically improved performance:
 
 ### Precomputed Random Numbers
 
 **Problem Identified:** Initial profiling revealed that random number generation was consuming approximately 60% of the total runtime, particularly in the GPU implementation. In the original implementation, random numbers were generated serially on the CPU and transferred to the GPU for each Monte Carlo step.
 
-**Solution Implemented:** We migrated to cuRAND for GPU-based random number generation. Each GPU thread maintains its own random number state using cuRAND's state-based generators, allowing for parallel generation of random numbers directly on the device.
+**Solution Implemented:** I migrated to cuRAND for GPU-based random number generation. Each GPU thread maintains its own random number state using cuRAND's state-based generators, allowing for parallel generation of random numbers directly on the device.
 
 **Results:** The optimization reduced the time spent on random number generation from approximately 60% of the total runtime to less than 5%. This dramatic improvement stems from both the parallel generation capability and the elimination of PCIe transfers for random numbers.
 
 ### Shared Memory Optimization
 
-**Problem Identified:** Our initial GPU implementation accessed global memory frequently, particularly during energy calculations where each spin needs to read its six nearest neighbors. This resulted in high memory latency and reduced performance.
+**Problem Identified:** My initial GPU implementation accessed global memory frequently, particularly during energy calculations where each spin needs to read its six nearest neighbors. This resulted in high memory latency and reduced performance.
 
-**Solution Implemented:** We implemented two key shared memory strategies:
+**Solution Implemented:** I implemented two key shared memory strategies:
 1. **Block-level Loading**: Thread blocks cooperatively load lattice sections into shared memory
 2. **Two-level Reduction**: Local reduction in shared memory before global atomic operations
 
@@ -212,9 +212,9 @@ Our optimization journey involved three major breakthroughs that dramatically im
 
 **Problem Identified:** Halo exchanges required a three-step process: copying data from GPU to CPU, performing MPI communication, then copying data back to GPU. This approach introduced significant overhead.
 
-**Solution Implemented:** We implemented GPU-aware MPI, which allows direct GPU-to-GPU communication between nodes. When available, this feature enables MPI to access GPU memory directly, eliminating the need for explicit CPU staging buffers.
+**Solution Implemented:** I implemented GPU-aware MPI, which allows direct GPU-to-GPU communication between nodes. When available, this feature enables MPI to access GPU memory directly, eliminating the need for explicit CPU staging buffers.
 
-**Results:** With this optimization, we brought the time to compute 1000 steps on 64³ down to 0.28 seconds.
+**Results:** With this optimization, I brought the time to compute 1000 steps on 64³ down to 0.28 seconds.
 
 ---
 
@@ -236,11 +236,11 @@ Below is a table of the runtime comparison across different implementations. All
   ]}
 />
 
-Notably, we get a similar runtime for the MPI implementation with 1 rank and the serial implementation. With 8 ranks, we get a significant speedup of about eightfold. Our naive GPU implementation is much faster than the MPI implementation, but the optimized GPU implementation is faster still. Additionally, we see good scaling with the GPU implementation, as analyzed later.
+Notably, I get a similar runtime for the MPI implementation with 1 rank and the serial implementation. With 8 ranks, I get a significant speedup of about eightfold. My naive GPU implementation is much faster than the MPI implementation, but the optimized GPU implementation is faster still. Additionally, I see good scaling with the GPU implementation, as analyzed later.
 
 ### Roofline Model
 
-The roofline model analysis provides valuable insights into the performance characteristics and limitations of our different implementations.
+The roofline model analysis provides valuable insights into the performance characteristics and limitations of my different implementations.
 
 <ProjectImage 
   src="/projects/parallel-ising/images/roofline_comparison.png"
@@ -249,31 +249,31 @@ The roofline model analysis provides valuable insights into the performance char
   zoom
 />
 
-Our analysis reveals that all implementations are memory-bound, operating well below their respective ridge points (AMD MI250X GPU: 29.2 FLOPS/byte, AMD EPYC 7V13 CPU: 12.0 FLOPS/byte). This is expected given the nature of the Ising model computation, where each spin update requires reading multiple neighboring values but performs relatively few arithmetic operations.
+My analysis reveals that all implementations are memory-bound, operating well below their respective ridge points (AMD MI250X GPU: 29.2 FLOPS/byte, AMD EPYC 7V13 CPU: 12.0 FLOPS/byte). This is expected given the nature of the Ising model computation, where each spin update requires reading multiple neighboring values but performs relatively few arithmetic operations.
 
-The baseline GPU implementation achieves 19.93 GFLOPS with a memory bandwidth utilization of 42.52 GB/s. However, our optimized GPU implementation shows significant improvement, reaching 139.73 GFLOPS and 298.09 GB/s memory bandwidth, approximately a 7x performance increase.
+The baseline GPU implementation achieves 19.93 GFLOPS with a memory bandwidth utilization of 42.52 GB/s. However, my optimized GPU implementation shows significant improvement, reaching 139.73 GFLOPS and 298.09 GB/s memory bandwidth, approximately a 7x performance increase.
 
 The RedBlack CPU implementation operates at 0.11 GFLOPS with a memory bandwidth of 0.23 GB/s, while the MPI+RedBlack version achieves 0.86 GFLOPS and 2.24 GB/s memory bandwidth. Both CPU implementations show relatively low hardware utilization, suggesting potential for further optimization.
 
 ### Scalability
 
-Performance is evaluated across varying lattice sizes (64³ and 256³). Looking at our results, we see our optimized GPU implementation take 0.28s for a lattice size of 64³ and 5.5s for a lattice size of 256³.
+Performance is evaluated across varying lattice sizes (64³ and 256³). Looking at my results, I see my optimized GPU implementation take 0.28s for a lattice size of 64³ and 5.5s for a lattice size of 256³.
 
-While this is a 64x increase in lattice size, we only have a ~19.6x increase in runtime. This is a clear indication of our parallelization successfully scaling and improving at scale.
+While this is a 64x increase in lattice size, I only have a ~19.6x increase in runtime. This is a clear indication of my parallelization successfully scaling and improving at scale.
 
 ### Implementation Comparison
 
-Our performance analysis reveals significant differences between implementations:
+My performance analysis reveals significant differences between implementations:
 
 - **Serial vs. MPI**: The single-rank MPI implementation performs similarly to the serial version (36.2s vs 35.6s), but scaling to 8 ranks yields a near-linear speedup, reducing runtime to 5.8s. This demonstrates effective parallelization with minimal overhead.
 
 - **CPU vs. GPU**: The baseline GPU implementation outperforms both serial and MPI versions significantly, completing the same workload in 0.95s. This represents a 38x speedup over serial and 6.1x over 8-rank MPI implementation.
 
-- **Optimized GPU**: Our optimizations (shared memory, GPU-aware MPI, precomputed random numbers) further reduced the GPU runtime to 0.28s, achieving a 129x speedup over serial and a 3.4x improvement over the baseline GPU implementation.
+- **Optimized GPU**: My optimizations (shared memory, GPU-aware MPI, precomputed random numbers) further reduced the GPU runtime to 0.28s, achieving a 129x speedup over serial and a 3.4x improvement over the baseline GPU implementation.
 
 - **Scaling Behavior**: When increasing the problem size from 64³ to 256³ (64x more lattice points), the optimized GPU implementation shows excellent scaling, with runtime increasing only by a factor of 19.6 (from 0.28s to 5.5s).
 
-The efficiency analysis shows that our optimized GPU implementation achieves the highest hardware utilization, though still well below theoretical peaks due to the memory-bound nature of the algorithm. The MPI implementation demonstrates good scaling but is limited by the AMD EPYC 7V13 CPU memory bandwidth, while the GPU implementations benefit from the significantly higher memory bandwidth available on the AMD MI250X GPU accelerator.
+The efficiency analysis shows that my optimized GPU implementation achieves the highest hardware utilization, though still well below theoretical peaks due to the memory-bound nature of the algorithm. The MPI implementation demonstrates good scaling but is limited by the AMD EPYC 7V13 CPU memory bandwidth, while the GPU implementations benefit from the significantly higher memory bandwidth available on the AMD MI250X GPU accelerator.
 
 ---
 
@@ -304,7 +304,7 @@ The energy and magnetization are plotted as functions of iteration count, demons
 
 ### Visualization
 
-In addition to metadata, such as the energy and magnetization, we can also visualize the spins on the lattice.
+In addition to metadata, such as the energy and magnetization, I can also visualize the spins on the lattice.
 
 <ProjectImage 
   src="/projects/parallel-ising/images/lattice.png"
@@ -319,16 +319,16 @@ An interactive web demo can be found at [https://tajgillin.neocities.org/redblac
 
 ## Discussion
 
-The implementation and analysis of the 3D Ising model reveals several key insights about parallel computing strategies and their effectiveness. Our results demonstrate that while both MPI and GPU implementations offer significant performance improvements over the serial version, the optimized GPU implementation provides the best performance, achieving a 129x speedup over the serial implementation.
+The implementation and analysis of the 3D Ising model reveals several key insights about parallel computing strategies and their effectiveness. My results demonstrate that while both MPI and GPU implementations offer significant performance improvements over the serial version, the optimized GPU implementation provides the best performance, achieving a 129x speedup over the serial implementation.
 
 ### Key Findings
 
 - **Red-black update scheme** successfully prevents pattern formation and enables parallel updates, proving essential for both MPI and GPU implementations
 - **Memory access patterns** significantly impact performance, as shown by the substantial improvements achieved through shared memory optimizations and GPU-aware MPI
 - **Roofline analysis** reveals that all implementations are memory-bound, suggesting that future optimizations should focus on improving memory access patterns rather than computational efficiency
-- **Excellent scaling behavior** of our optimized GPU implementation (19.6x increase in runtime for a 64x increase in problem size) indicates effective parallelization
+- **Excellent scaling behavior** of my optimized GPU implementation (19.6x increase in runtime for a 64x increase in problem size) indicates effective parallelization
 
-From a physics perspective, this simulation is being run at low temperature, and we are seeing spontaneous polarization! At high temperatures, we simply see thermal fluctuations. The visual demo is quite fun to play with.
+From a physics perspective, this simulation is being run at low temperature, and I am seeing spontaneous polarization! At high temperatures, I simply see thermal fluctuations. The visual demo is quite fun to play with.
 
 ---
 
@@ -336,11 +336,11 @@ From a physics perspective, this simulation is being run at low temperature, and
 
 ### Pinned Memory
 
-One promising avenue for optimization involves the implementation of pinned memory for GPU operations. Currently, our implementation uses pageable host memory for CPU-GPU transfers, which requires the CUDA driver to first copy the data to a temporary pinned buffer before transfer. By directly allocating pinned memory, we can eliminate this extra copy and achieve higher bandwidth for memory transfers.
+One promising avenue for optimization involves the implementation of pinned memory for GPU operations. Currently, my implementation uses pageable host memory for CPU-GPU transfers, which requires the CUDA driver to first copy the data to a temporary pinned buffer before transfer. By directly allocating pinned memory, I can eliminate this extra copy and achieve higher bandwidth for memory transfers.
 
 ### Asynchronous Streams
 
-A significant optimization opportunity lies in the implementation of asynchronous CUDA streams to overlap computation and communication. The current implementation processes halo exchanges and core computations sequentially, leading to idle GPU resources during communication phases. By dividing the computation domain into interior and boundary regions, we could compute the interior while simultaneously performing halo exchanges for the boundaries.
+A significant optimization opportunity lies in the implementation of asynchronous CUDA streams to overlap computation and communication. The current implementation processes halo exchanges and core computations sequentially, leading to idle GPU resources during communication phases. By dividing the computation domain into interior and boundary regions, I could compute the interior while simultaneously performing halo exchanges for the boundaries.
 
 ### Temperature Scaling
 
@@ -350,16 +350,15 @@ From a physics perspective, extending the simulation to study temperature scalin
 
 ## Conclusion
 
-This project has successfully demonstrated the implementation and optimization of a 3D Ising Model using modern high-performance computing techniques. Through careful application of parallel computing strategies, we achieved significant performance improvements, with our optimized GPU implementation delivering a **129x speedup** over the serial version. The combination of MPI domain decomposition and GPU acceleration proved particularly effective, allowing us to simulate larger systems with reasonable computational overhead.
+This project has successfully demonstrated the implementation and optimization of a 3D Ising Model using modern high-performance computing techniques. Through careful application of parallel computing strategies, I achieved significant performance improvements, with my optimized GPU implementation delivering a **129x speedup** over the serial version. The combination of MPI domain decomposition and GPU acceleration proved particularly effective, allowing me to simulate larger systems with reasonable computational overhead.
 
-Our performance analysis revealed the critical role of memory access patterns in determining overall efficiency. The implementation of shared memory optimizations and GPU-aware MPI significantly reduced communication overhead, though the roofline analysis suggests potential for further improvements. The red-black update scheme proved essential for maintaining simulation accuracy while enabling parallel updates, demonstrating the importance of algorithm design in parallel implementations.
+My performance analysis revealed the critical role of memory access patterns in determining overall efficiency. The implementation of shared memory optimizations and GPU-aware MPI significantly reduced communication overhead, though the roofline analysis suggests potential for further improvements. The red-black update scheme proved essential for maintaining simulation accuracy while enabling parallel updates, demonstrating the importance of algorithm design in parallel implementations.
 
-From a physics perspective, our implementation successfully captured the essential behavior of the 3D Ising model, including spontaneous magnetization at low temperatures and proper thermal fluctuations at higher temperatures. The interactive visualization tool provides an intuitive way to explore these phenomena, making the complex physics more accessible.
+From a physics perspective, my implementation successfully captured the essential behavior of the 3D Ising model, including spontaneous magnetization at low temperatures and proper thermal fluctuations at higher temperatures. The interactive visualization tool provides an intuitive way to explore these phenomena, making the complex physics more accessible.
 
-Looking forward, this work provides a foundation for future studies of more complex systems and optimization strategies. While we've achieved significant speedup, the identified optimization opportunities suggest exciting possibilities for even better performance in future implementations.
+Looking forward, this work provides a foundation for future studies of more complex systems and optimization strategies. While I've achieved significant speedup, the identified optimization opportunities suggest exciting possibilities for even better performance in future implementations.
 
 ---
-
 
 ## Appendix: GPU Implementation Details
 

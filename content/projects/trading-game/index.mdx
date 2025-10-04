@@ -1,0 +1,229 @@
+---
+title: "Trading Game"
+description: "Card-based trading simulator with real-time order matching and Monte Carlo AI strategies"
+technologies: ["TypeScript", "Electron", "React", "Monte Carlo", "IPC"]
+date: "July 2024"
+purpose: "Quantitative Finance Internship Preparation"
+coverImage: "/projects/trading-game/tt_cover.png"
+---
+
+import { 
+  ProjectImage,
+  TwoColumnLayout,
+  LeftColumn,
+  RightColumn,
+  AlgorithmBlock,
+  ExpandableSection
+} from '@/components/content';
+
+# Trading Game: Market Simulation and AI Strategy Development
+
+A sophisticated card-based trading simulator featuring real-time order matching, custom contract creation, and Monte Carlo AI strategies. Built to understand market microstructure and quantitative trading principles before a finance internship.
+
+**Purpose:** Quantitative Finance Internship Preparation  
+**Author:** Taj Gillin  
+**Date:** July 2024  
+
+---
+
+## Introduction
+
+### Background
+
+Before beginning a quantitative finance internship, I had minimal exposure to financial markets or trading mechanics. Traditional preparation methods seemed insufficient for understanding the complex dynamics of modern electronic trading systems. While researching effective preparation strategies, I discovered that sophisticated trading simulations were commonly used in finance education and recruitment.
+
+Rather than relying on existing educational games, I designed and implemented a comprehensive trading simulator that would force me to understand market mechanics at a fundamental level. The system simulates a card-based trading environment where multiple players trade financial contracts whose values derive from progressively revealed playing cards.
+
+<ProjectImage 
+  src="/projects/trading-game/tt_live_trading.png" 
+  alt="Trading Terminal live trading interface showing order book, cards, and trading controls"
+  caption="Live trading interface featuring real-time order book, market data, and trading controls"
+  zoom
+/>
+
+The core innovation lies in creating realistic market dynamics around simple, understandable underlying assets. Contracts like "Sum of Red Community Cards" or "Count of Face Cards" are intuitive to evaluate, yet their uncertain future values create genuine trading opportunities and strategic depth.
+
+### Objective
+
+The primary goal was to build a realistic trading environment that would teach market microstructure concepts through implementation rather than theory. The system needed to support:
+
+- Real-time order matching with proper market mechanics
+- Sophisticated AI opponents with different trading strategies  
+- Flexible contract definition and evaluation systems
+- Multi-phase game progression from setup through settlement
+
+The project ultimately became an exploration of both financial market design and the fundamental challenges of algorithmic trading, particularly the difficulty of modeling adaptive opponents in strategic environments.
+
+---
+
+## System Architecture
+
+### Game Flow and Phases
+
+The trading simulation follows a structured progression through distinct phases, each designed to mirror aspects of real financial markets.
+
+<ProjectImage 
+  src="/projects/trading-game/tt_settings.png" 
+  alt="Game configuration interface with AI strategy settings"
+  caption="Configuration interface for setting up AI opponents with different trading personalities"
+  zoom
+/>
+
+The system begins with a configuration phase where players select active contracts and configure AI opponents with different personalities and strategies. Each AI agent can be assigned specific behavioral traits including risk tolerance, aggressiveness, and strategic sophistication.
+
+<ProjectImage 
+  src="/projects/trading-game/tt_preperation.png" 
+  alt="Preparation phase showing player cards and community cards"
+  caption="Preparation phase where players analyze initial information before trading begins"
+  zoom
+/>
+
+During the preparation phase, players receive initial card information and can analyze the potential values of active contracts. This phase simulates the pre-market period in real trading where participants digest overnight information before markets open.
+
+The live trading phase implements real-time order placement and execution with continuous price discovery as new cards are revealed. Finally, settlement calculates final contract values and determines profit and loss across all positions.
+
+### Electron Architecture
+
+The application utilizes Electron's multi-process architecture to separate concerns between user interface and trading logic. The main process handles all game state management, AI execution, and order matching, while the renderer process focuses solely on user interface and visualization.
+
+Inter-process communication occurs through secure IPC channels established via preload scripts, ensuring that sensitive trading logic remains isolated from the user interface. This separation enables real-time updates to flow from the trading engine to the UI without blocking either process.
+
+---
+
+## Core Implementation Systems
+
+### Real-Time Order Matching Engine
+
+The foundation of any electronic trading system is the order matching engine. The implementation follows established market microstructure principles with price-time priority matching, where incoming orders are matched against the best available prices first, then by arrival time among orders at the same price level.
+
+The order book maintains separate buy and sell queues, each sorted by price and timestamp. When a new order arrives, the matching algorithm identifies all opposing orders that can trade, sorts them by priority, and executes trades incrementally until the incoming order is fully filled or no more matches are possible.
+
+The matching algorithm follows a straightforward process: identify all opposing orders that can trade with the incoming order, sort them by price-time priority, then execute trades incrementally until the incoming order is fully filled or no more matches are possible. Each execution updates order statuses and player balances in real-time.
+
+<AlgorithmBlock title="Order Matching Process">
+{`function matchOrder(newOrder):
+    opposingOrders = getOpposingOrders(newOrder)
+    sortedOrders = sortByPriceTimePriority(opposingOrders)
+    
+    for each existingOrder in sortedOrders:
+        if newOrder.volume <= 0: break
+        
+        tradeVolume = min(newOrder.volume, existingOrder.volume)
+        executeTrade(newOrder, existingOrder, tradeVolume)
+        
+        updateOrderStatus(existingOrder, tradeVolume)
+        newOrder.volume -= tradeVolume
+    
+    broadcastMarketUpdate()`}
+</AlgorithmBlock>
+
+Large orders can execute against multiple counterparties through partial fills, splitting across available liquidity at different price levels. The system supports both market orders (execute immediately at best available price) and limit orders (rest in the book until matched or cancelled). Real-time updates are broadcast immediately via IPC to all connected clients, ensuring that players see market changes as they happen and creating realistic bid-ask spreads that mirror actual financial markets.
+
+### Visual Contract Definition System
+
+Rather than hard-coding specific contract types, the system implements a flexible contract definition engine using a visual node editor. This approach allows players to create custom financial instruments by connecting operations in a directed acyclic graph, providing unlimited extensibility while maintaining intuitive usability.
+
+<ProjectImage 
+  src="/projects/trading-game/tt_contract_builder.png" 
+  alt="Visual contract builder interface showing drag-and-drop node editor"
+  caption="Visual contract builder featuring drag-and-drop interface for creating custom trading instruments"
+  zoom
+/>
+
+The contract evaluation system breaks down complex calculations into discrete, chainable steps. Players begin by selecting a data source (community cards, player cards, or all cards), then apply filtering operations to isolate specific card subsets. Subsequent operations can extract numerical values, perform arithmetic calculations, or apply aggregation functions to produce final contract values.
+
+For example, a contract calculating "Sum of black community number cards" becomes a four-step pipeline: start with community cards, filter for black cards, filter for number cards (excluding face cards), then sum the remaining values. More complex contracts like "Player card sum times count of red cards" require branching logic where multiple operations feed into arithmetic combinations.
+
+The underlying evaluation engine performs topological sorting to determine execution order and validates that all step dependencies are satisfied before allowing contract creation. This ensures that every custom contract can be reliably evaluated during live trading, regardless of complexity.
+
+The evaluation engine uses topological sorting to determine execution order, then processes each step sequentially while maintaining intermediate results. This approach ensures that complex contract definitions with multiple dependencies can be reliably evaluated in the correct order during live trading.
+
+### Monte Carlo AI Strategy Implementation
+
+The AI system implements a pluggable strategy architecture supporting multiple approaches to market analysis and trading decisions. Rather than simple random decision-making, the system features sophisticated agents capable of simulation-driven fair value estimation and adaptive behavior based on market conditions.
+
+The Monte Carlo strategy represents the most advanced implementation, utilizing continuous simulation to estimate contract fair values. The algorithm operates as an "anytime" system, where confidence in fair value estimates improves with additional simulation runs across successive trading turns.
+
+Each AI agent maintains persistent state across trading sessions, tracking simulation results and building increasingly accurate models of contract behavior. The Monte Carlo strategy operates as an "anytime" algorithm, where each trading turn triggers additional simulation batches that refine fair value estimates.
+
+The simulation process works by identifying all unknown cards (those not yet revealed to the AI), creating thousands of possible future scenarios by randomly distributing these cards, then calculating final contract values for each scenario. The running average of these simulated values provides the AI's best estimate of fair value, while the variance indicates confidence levels that influence trading aggressiveness.
+
+<AlgorithmBlock title="Monte Carlo Fair Value Estimation">
+{`function estimateFairValue(gameState, contractId):
+    knownCards = getVisibleCards(gameState)
+    unknownCards = createDeck() - knownCards
+    
+    totalValue = 0
+    simulationCount = 0
+    
+    for i = 1 to SIMULATIONS_PER_BATCH:
+        shuffledUnknown = shuffle(unknownCards)
+        simulatedState = distributeCards(gameState, shuffledUnknown)
+        
+        contractValue = evaluateContract(contractId, simulatedState)
+        totalValue += contractValue
+        simulationCount++
+    
+    fairValueEstimate = totalValue / simulationCount
+    confidence = calculateConfidence(simulationResults)
+    
+    return {fairValueEstimate, confidence}`}
+</AlgorithmBlock>
+
+---
+
+## The Fundamental Challenge of Opponent Modeling
+
+### Strategic Interaction Complexity
+
+While implementing the Monte Carlo simulations, I encountered the fundamental challenge that defines quantitative trading: modeling adaptive, intelligent opponents in strategic environments. My initial approach focused on simulating card reveals to estimate contract values, but this missed a crucial element that makes real trading extraordinarily difficult.
+
+The core problem emerges from the recursive nature of strategic thinking. To predict optimal trading decisions, one must predict market prices. To predict market prices, one must predict other players' actions. To predict other players' actions, one must model their prediction of your actions. This creates an infinite recursion where each level of reasoning depends on modeling increasingly complex beliefs about beliefs.
+
+I attempted several approaches to break this cycle. Bayesian belief updating seemed promising initially - tracking other players' revealed preferences through their bid patterns and continuously updating probability distributions of their strategies. This approach worked in simple scenarios but quickly became computationally intractable as the number of variables to track exploded exponentially.
+
+Game-theoretic equilibrium analysis represented another approach - solving for Nash equilibrium strategies under the assumption of rational opponents. However, this method proved computationally infeasible for games of meaningful complexity. Moreover, real players (and AI agents) exhibit bounded rationality and behavioral biases that violate the equilibrium assumptions.
+
+### Implementation Limitations
+
+Fixed-depth lookahead approaches captured only shallow strategic interactions, missing the deeper game-theoretic considerations that drive sophisticated trading behavior. Monte Carlo Tree Search exploded the state space beyond computational feasibility when accounting for the full range of possible opponent strategies and beliefs.
+
+Neural network approximation required training data that simply didn't exist for the specific strategic interactions I was attempting to model. Even if such data existed, the non-stationary nature of adaptive opponents means that learned behaviors quickly become obsolete as other players adjust their strategies.
+
+### The Insight
+
+After extensive experimentation with increasingly sophisticated opponent modeling approaches, I reached a crucial understanding: this is precisely the problem that quantitative trading firms invest millions of dollars attempting to solve, often with limited success. The challenge isn't primarily technical implementation - it's the fundamental theoretical impossibility of perfectly modeling adaptive, intelligent opponents in dynamic environments.
+
+This realization proved more valuable than any technical achievement. Understanding why algorithmic trading remains fundamentally difficult, despite massive resource investment by sophisticated institutions, provided essential perspective for approaching real quantitative problems with appropriate humility and realistic expectations about what can be achieved through mathematical modeling alone.
+
+---
+
+## Discussion and Learning Outcomes
+
+### Technical Implementation Success
+
+The project successfully demonstrated several key technical achievements. The real-time order matching engine correctly implements price-time priority matching with proper market microstructure, supporting both market and limit orders with partial fill capability. The visual contract definition system provides unlimited extensibility while maintaining intuitive usability through its drag-and-drop interface.
+
+The Monte Carlo AI strategy implementation showcases sophisticated simulation-based decision making with confidence interval calculations and adaptive behavior. The multi-process Electron architecture successfully separates concerns between trading logic and user interface while maintaining real-time performance through efficient IPC communication.
+
+### Educational Impact
+
+The implementation process provided practical understanding of market microstructure concepts that proved essential for subsequent work in quantitative finance. Debugging order matching edge cases, optimizing simulation performance, and wrestling with opponent modeling challenges created intuitive knowledge that complemented theoretical learning.
+
+More importantly, the project illuminated the fundamental challenges that make quantitative trading difficult. Understanding why certain problems remain computationally intractable despite massive resource investment by sophisticated institutions provided valuable perspective for approaching real quantitative problems with appropriate expectations.
+
+### Application Architecture
+
+The final system demonstrates clean separation of concerns through a modular architecture. The main process handles all trading logic, AI execution, and state management, while the renderer process focuses solely on visualization and user interaction. The pluggable AI strategy system enables easy extension with new trading algorithms, and the visual contract builder provides unlimited customization of trading instruments.
+
+---
+
+## Conclusion
+
+This project successfully combined technical implementation with domain exploration to create a sophisticated trading simulation that addresses real challenges in quantitative finance. The system demonstrates several key innovations: a visual contract definition engine that enables unlimited extensibility, sophisticated AI strategies utilizing Monte Carlo simulation for fair value estimation, and a real-time order matching engine that correctly implements market microstructure principles.
+
+Beyond the technical achievements, the project provided valuable insights into the fundamental challenges of algorithmic trading. The difficulty of modeling adaptive opponents in strategic environments represents a core problem that affects all quantitative trading strategies, from high-frequency market making to longer-term statistical arbitrage.
+
+The implementation process proved more educational than traditional academic preparation, providing practical understanding of market mechanics through hands-on problem solving. The insights gained about both technical implementation challenges and the theoretical limits of algorithmic approaches proved valuable for subsequent work in quantitative finance.
+
+The project ultimately demonstrates that building sophisticated systems to understand complex domains can be more effective than studying those domains through traditional methods. The combination of technical achievement and domain insight makes this an example of learning through implementation rather than passive consumption of existing knowledge.

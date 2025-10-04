@@ -8,6 +8,8 @@ import { BackgroundLuxe } from '@/components/BackgroundLuxe';
 import Link from 'next/link';
 import 'katex/dist/katex.min.css';
 import { ProjectHeader } from '@/components/project';
+import { ProjectSidebarNav } from '@/components/project-sidebar-nav';
+import { extractHeadingsFromMDX } from '@/lib/mdx-utils';
 
 type ProjectPageProps = {
     params: Promise<{
@@ -73,56 +75,71 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     notFound();
   }
 
+  // Extract table of contents from MDX content
+  const tableOfContents = extractHeadingsFromMDX(mdx.content);
+  const projectTitle = mdx.meta.title ?? slug;
+
   return (
-    <div className="h-screen overflow-y-auto">
-      {/* Background layer */}
-      <div className="fixed inset-0 z-0">
-        <BackgroundLuxe />
+    <>
+      {/* Project Sidebar - positioned absolutely to avoid layout conflicts */}
+      <div className="fixed left-0 top-0 z-30">
+        <ProjectSidebarNav 
+          projectTitle={projectTitle}
+          tableOfContents={tableOfContents}
+        />
       </div>
       
-      {/* Scrollable content layer */}
-      <div className="relative z-10 min-h-screen">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-4xl">
-          {/* Navigation */}
-          <nav className="mb-8">
-            <Link 
-              href="/#projects" 
-              className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              ← Back to Projects
-            </Link>
-          </nav>
+      {/* Main Content - with left margin to account for sidebar */}
+      <div id="project-content" className="h-screen overflow-y-auto ml-60">
+        {/* Background layer */}
+        <div className="fixed inset-0 z-0">
+          <BackgroundLuxe />
+        </div>
+        
+        {/* Scrollable content layer */}
+        <div className="relative z-10 min-h-screen">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-4xl">
+            {/* Navigation */}
+            <nav className="mb-8">
+              <Link 
+                href="/#projects" 
+                className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                ← Back to Projects
+              </Link>
+            </nav>
 
-          {/* Page header */}
-          <ProjectHeader 
-            title={mdx.meta.title ?? slug}
-            description={mdx.meta.description}
-            course={mdx.meta.course}
-            date={mdx.meta.date}
-            repoUrl={mdx.meta.repoUrl}
-            demoUrl={mdx.meta.demoUrl}
-          />
-
-          {/* MDX Content */}
-          <article className="prose dark:prose-invert max-w-none">
-            <MDXRemote 
-              source={mdx.content} 
-              options={{
-                mdxOptions: {
-                  remarkPlugins: [],
-                  rehypePlugins: [],
-                }
-              }}
-              components={mdxComponents} 
+            {/* Page header */}
+            <ProjectHeader 
+              title={projectTitle}
+              description={mdx.meta.description}
+              course={mdx.meta.course}
+              date={mdx.meta.date}
+              repoUrl={mdx.meta.repoUrl}
+              demoUrl={mdx.meta.demoUrl}
             />
-          </article>
 
-          {/* Footer */}
-          <footer className="mt-20 py-8 border-t border-border text-center text-muted-foreground">
-            <p>&copy; {new Date().getFullYear()} Taj Gillin. All rights reserved.</p>
-          </footer>
+            {/* MDX Content */}
+            <article className="prose dark:prose-invert max-w-none">
+              <MDXRemote 
+                source={mdx.content} 
+                options={{
+                  mdxOptions: {
+                    remarkPlugins: [],
+                    rehypePlugins: [],
+                  }
+                }}
+                components={mdxComponents} 
+              />
+            </article>
+
+            {/* Footer */}
+            <footer className="mt-20 py-8 border-t border-border text-center text-muted-foreground">
+              <p>&copy; {new Date().getFullYear()} Taj Gillin. All rights reserved.</p>
+            </footer>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

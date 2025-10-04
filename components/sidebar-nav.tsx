@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ModeToggle } from '@/components/mode-toggle';
 import { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
+import { usePathname } from 'next/navigation';
 
 const NAV_ITEMS = [
   { id: "hero", href: "#hero", label: "Home" },
@@ -18,6 +19,10 @@ const NAV_ITEMS = [
 
 export function SidebarNav() {
   const [activeSection, setActiveSection] = useState("");
+  const pathname = usePathname();
+  
+  // Check if we're on a project page
+  const isProjectPage = pathname?.startsWith('/projects/');
 
   useEffect(() => {
     const container = document.getElementById('page-scroll')
@@ -64,6 +69,11 @@ export function SidebarNav() {
       element.scrollIntoView({ behavior: 'smooth' })
     }
   };
+
+  // Don't render the home sidebar on project pages
+  if (isProjectPage) {
+    return null;
+  }
 
   return (
     <aside className="w-60 h-screen sticky top-0 flex flex-col justify-between overflow-y-auto p-6 space-y-6 border-r border-border bg-background lg:block hidden">

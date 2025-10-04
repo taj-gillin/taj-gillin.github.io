@@ -1,5 +1,5 @@
 ---
-title: "Parallel Ising Model: High-Performance 3D Simulations"
+title: "3D Ising Model with Parallel Computing"
 description: "Massively parallel Monte Carlo simulations using MPI and GPU acceleration"
 technologies: ["MPI", "CUDA", "cuRAND", "OpenMP", "C++"]
 date: "December 2024"
@@ -18,7 +18,7 @@ import {
   RightColumn
 } from '@/components/content';
 
-# Parallel Ising Model: High-Performance 3D Simulations
+# 3D Ising Model with Parallel Computing
 
 Massively parallel Monte Carlo simulations of the 3D Ising model using MPI domain decomposition and GPU acceleration, achieving a **129x speedup** over serial implementation while studying ferromagnetic phase transitions and critical phenomena.
 

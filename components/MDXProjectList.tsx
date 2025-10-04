@@ -56,18 +56,6 @@ export function MDXProjectList() {
           <ProjectCard project={project} />
         </Link>
       ))}
-      {/* Placeholder card for upcoming projects */}
-      <Card className="flex flex-col h-full border border-white/10 bg-transparent backdrop-blur-sm hover:backdrop-blur-md hover:bg-white/5 hover:border-white/20 shadow-none hover:shadow-md rounded-lg overflow-hidden transition-all duration-300 ease-in-out">
-        <CardHeader className="p-5 flex-1 flex flex-col justify-center">
-          <CardTitle className="text-xl font-semibold font-serif text-primary mb-2 text-center">More Projects Coming Soon</CardTitle>
-          <CardDescription className="text-base leading-relaxed text-muted-foreground text-center">
-            This list is being updated with new projects. Check back soon for more work!
-          </CardDescription>
-        </CardHeader>
-        <CardFooter className="p-5 pt-0">
-          <p className="text-sm text-muted-foreground text-center w-full">...</p>
-        </CardFooter>
-      </Card>
     </div>
   );
 }

@@ -1,0 +1,144 @@
+---
+title: "Programming in Minecraft"
+description: Games, physics simulations, and neural networks built entirely in Minecraft's native programming language"
+technologies: ["mcfunction", "Minecraft", "Python", "TensorFlow", "Numerical Methods"]
+date: "2020-2024"
+purpose: "First Programming Experience"
+coverImage: "/projects/minecraft/tower-defense-cover.png"
+---
+
+import { 
+  ProjectImage,
+  TwoColumnLayout,
+  LeftColumn,
+  RightColumn,
+  BlockEquation,
+  AlgorithmBlock,
+  ExpandableSection
+} from '@/components/content';
+
+# Programming in Minecraft: Tower Defense, Physics Simulations, and Neural Networks
+
+Three computational projects built entirely in Minecraft's native programming language—my first introduction to coding.
+
+**First Coding Experience:** Age 10-12  
+**Language:** mcfunction (Minecraft's built-in command language)  
+**Timeline:** 2020-2024  
+
+---
+
+## Introduction
+
+I learned to code in Minecraft. Not with mods or plugins, but with `mcfunction`—the game's built-in command language. It's about as bare-bones as you can get: basic arithmetic (+, -, *, /, %), no variables (just "scoreboard" registers), and no standard library. Want to build something? You're doing it from scratch.
+
+Turns out, those limitations were actually great for learning. Can't simulate physics without floating-point math? Figure it out. Want to run a neural network without exponentials? Get creative. Over the years, I built games that ended up on Minecraft Realms, and pushed the language to do things it probably wasn't meant to do. Here are three projects that show what happens when you refuse to let constraints stop you.
+
+---
+
+## Yeggs Tower Defense
+
+At over 11,000 lines of code, this fully-featured tower defense game has players defend against waves of hostile minecarts using strategically placed towers. Drawing inspiration from Kingdom Rush and Bloons Tower Defense, it features six base tower types, each with three upgrade levels leading to two specialization branches with three unique abilities—creating 18 distinct tower variants. Players earn currency by eliminating enemies and spend it to build or upgrade towers across multiple custom maps.
+
+<div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-lg border border-border bg-muted mb-6">
+  <iframe
+    src="https://www.youtube.com/embed/44So-6zd8QM"
+    title="Yeggs Tower Defense Trailer"
+    className="w-full h-full"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+  />
+</div>
+
+<ScreenshotCarousel images={[
+  {
+    url: "/projects/minecraft/tower-defense_castle_map.png",
+    alt: "Castle-themed tower defense map",
+    caption: "Castle Map"
+  },
+  {
+    url: "/projects/minecraft/tower-defense_taj_map.png", 
+    alt: "Custom-designed tower defense map",
+    caption: "Taj Map"
+  },
+  {
+    url: "/projects/minecraft/tower-defense_ufo_map.png",
+    alt: "UFO-themed tower defense map", 
+    caption: "UFO Map"
+  }
+]} />
+
+[Download the map](https://drive.google.com/drive/folders/1ZluubrA9z1IiTfYSR82ENpKj1U1gZwYR) to play it yourself, or watch the [YouTube trailer](https://www.youtube.com/watch?v=44So-6zd8QM).
+
+---
+
+## Newtonian Physics Simulation
+
+After building games, I wondered if Minecraft could simulate real physics. The challenge: mcfunction has no calculus, no floating-point math, no exponentials. The solution: numerical methods. By discretizing time and replacing derivatives with finite differences, complex differential equations become simple iterative updates.
+
+The [Newton-Raphson method](https://en.wikipedia.org/wiki/Newton%27s_method) captures this principle—iteratively improving approximations. For physics, we don't solve equations analytically; we step through time: Δx ≈ v · Δt.
+
+**GitHub:** [numerical-approach-testing](https://github.com/taj-gillin/numerical-approach-testing)
+
+### Physics Implementation
+
+The simulations implement gravitational attraction and aerodynamic drag using Euler integration:
+
+<BlockEquation label="1">
+{"\\mathbf{F}_g = -\\frac{Gm_1m_2}{r^2}\\hat{r}, \\quad \\mathbf{F}_d = -\\frac{1}{2}\\rho v^2 C_d A \\hat{v}"}
+</BlockEquation>
+
+<BlockEquation label="2">
+{"\\mathbf{a}_n = \\frac{\\mathbf{F}_n}{m}, \\quad \\mathbf{v}_{n+1} = \\mathbf{v}_n + \\mathbf{a}_n \\Delta t, \\quad \\mathbf{x}_{n+1} = \\mathbf{x}_n + \\mathbf{v}_n \\Delta t"}
+</BlockEquation>
+
+For visualization, I use armor stands as particles. They store position data and automatically render in-game, providing built-in position tracking and smooth animation. Each tick, the simulation calculates forces, updates velocity and position, then applies the new position to the armor stand entity.
+
+### Challenges
+
+**Numerical precision:** Minecraft scoreboards store only 32-bit integers. I scaled all values by 1000 (position 5.234 → 5234), giving three decimal places. Rounding errors accumulate, but careful timestep tuning maintains stability.
+
+**Collision singularities:** When gravitating objects collide, r → 0 and force explodes. Solution: gravity damping at small scales using F_g = -Gm₁m₂/(r² + ε²), preventing division by zero.
+
+The system simulates both projectile motion with air resistance and n-body gravitational dynamics, where multiple objects create emergent orbital phenomena despite using only integer arithmetic.
+
+---
+
+## DeepMine - Neural Networks in Minecraft
+
+Implementing a complete neural network—trained in Python, running inference entirely in mcfunction—to classify handwritten MNIST digits. No Python bridge, no external servers, just pure integer arithmetic performing matrix multiplication and activation functions.
+
+**GitHub:** [deepmine](https://github.com/taj-gillin/deepmine)
+
+<ProjectImage 
+  src="/projects/minecraft/deepmine_classifcation.png"
+  alt="Neural network classifying handwritten digits in Minecraft"
+  caption="Live digit classification using a neural network running entirely in mcfunction"
+  zoom
+/>
+
+### Pipeline
+
+**Training (Python):** A simple MLP (784→32→16→10) trained on MNIST handwritten digits using TensorFlow. Preprocessing to binary values (fully white or black) ensures users can recreate digits with blocks.
+
+**Weight Extraction:** Since mcfunction only has integers, I scale weights by 10,000 (0.7234 → 7234), preserving four decimal places. A Python script exports these scaled weights as scoreboard initialization commands.
+
+**Inference (Minecraft):** Three operations implemented in mcfunction:
+
+1. **Matrix multiplication:** Nested loops compute output[i] = Σ(input[j] × weight[i][j]) + bias[i] using multiply-accumulate operations. Fixed-point multiplication requires rescaling after each layer.
+
+2. **ReLU activation:** Simple conditional: if neuron < 0, set to 0.
+
+3. **Softmax (approximated):** Since we only need argmax and exponential is monotonic, skip the exponential entirely and just find the maximum output value.
+
+Users draw digits on a 28×28 block grid, then run the predictor. The network reads the blocks, performs forward propagation through all layers, and displays the predicted digit—all instantaneously in a single game tick. Despite crude integer arithmetic and approximated softmax, the system classifies accurately. Neural networks are robust to quantization; the four decimal places suffice for digit recognition.
+
+---
+
+## Conclusion
+
+Looking back, starting with mcfunction was oddly valuable. Modern languages let you call `math.sqrt()` without thinking about how it works. In Minecraft, you build everything from scratch—data structures from scoreboards, physics from discrete time steps, neural networks from integer arithmetic. When I eventually learned Python and C++, a lot of concepts clicked immediately because I'd already built them the hard way.
+
+These three projects—a tower defense game, physics simulations, and a neural network—all run on a language with no standard library, no floating-point math, and barely any features. But that's kind of the point. The tower defense game handles complexity like professional game development does. The physics simulations use the same numerical methods as real scientific computing. The neural network actually works.
+
+Would I recommend learning to code this way? Probably not—it's unnecessarily hard. But the constraints taught me to think about what computation actually is, rather than just which library to import. Sometimes learning through limitation teaches you more than having every tool at your disposal.
+

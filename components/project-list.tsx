@@ -38,7 +38,7 @@ export interface Project {
 export const projectData: Project[] = [
   {
     slug: "parallel-ising",
-    title: "Parallel Ising Model: High-Performance 3D Simulations",
+    title: "3D Ising Model with Parallel Computing",
     description: "Massively parallel Monte Carlo simulations using MPI and GPU acceleration",
     technologies: ["MPI", "CUDA", "cuRAND", "OpenMP", "C++"],
     imageUrl: "/projects/parallel-ising/images/ising_model.png",
@@ -100,7 +100,7 @@ export const projectData: Project[] = [
   },
   {
     slug: "illuminate-hackathon",
-    title: "Illuminate: AI Video Generator",
+    title: "Illuminate",
     description: "Hack@Brown winning project that generates animated educational videos from any text input using GenAI. Transforms complex topics into engaging, animated explanations.",
     technologies: ["React", "FastAPI", "LangChain", "Manim", "AWS", "Python", "TypeScript"],
     imageUrl: "/projects/illuminate/cover.png",
