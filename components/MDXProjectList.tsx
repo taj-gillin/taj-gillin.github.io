@@ -12,9 +12,9 @@ import { getAllProjects, ProjectMetadata } from '@/lib/projects';
 
 function ProjectCard({ project }: { project: ProjectMetadata }) {
   return (
-    <Card className="flex flex-col h-full border border-white/10 bg-transparent backdrop-blur-sm hover:backdrop-blur-md hover:bg-white/5 hover:border-white/20 shadow-none hover:shadow-md rounded-lg overflow-hidden transition-all duration-300 ease-in-out">
+    <Card className="flex flex-col h-full border border-white/10 bg-transparent backdrop-blur-sm hover:backdrop-blur-md hover:bg-white/5 hover:border-white/20 shadow-none hover:shadow-md rounded-lg overflow-hidden transition-all duration-300 ease-in-out gap-0 py-0">
       {project.coverImage && (
-        <div className="relative w-full h-48">
+        <div className="relative w-full h-56">
           <Image
             src={project.coverImage}
             alt={project.title}
@@ -35,7 +35,7 @@ function ProjectCard({ project }: { project: ProjectMetadata }) {
           {project.description}
         </CardDescription>
       </CardHeader>
-      <CardFooter className="p-5 pt-0 mt-auto">
+      <CardFooter className="p-5 pt-1 mt-auto">
         <p className="text-sm text-muted-foreground">{project.date}</p>
       </CardFooter>
     </Card>
