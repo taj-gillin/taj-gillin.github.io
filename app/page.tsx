@@ -8,6 +8,7 @@ import { ParticleSystem } from "@/components/ParticleSystem";
 import { BackgroundLuxe } from "@/components/BackgroundLuxe";
 import { SnapScrollController } from "@/components/SnapScrollController";
 import { MDXProjectList } from "@/components/MDXProjectList";
+import Image from "next/image";
 
 export default function HomePage() {
   
@@ -28,8 +29,8 @@ export default function HomePage() {
         {/* Main Content */}
         <main className="w-full min-h-screen font-sans">
           <div className="w-full space-y-32">
-            <section id="about" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-32">
-              <div className="w-full max-w-3xl mx-auto">
+            <section id="about" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-32 flex flex-col justify-center">
+              <div className="w-full max-w-4xl mx-auto">
                 <h2 className="text-3xl font-semibold font-serif mb-8">About Me</h2>
                 <div className="space-y-6 text-lg leading-relaxed">
                   <p>
@@ -42,6 +43,17 @@ export default function HomePage() {
                   Outside of academics, I&apos;m into music and fantasy books. My music taste is pretty similar to my dad&apos;s, and my favorite band is The Red Hot Chili Peppers. I&apos;m also deep into Brandon Sanderson&apos;s Cosmere universe.
                   </p>
                 </div>
+                <div className="flex justify-center mt-8">
+                  <div className="relative w-48 h-48 sm:w-56 sm:h-56 rounded-full overflow-hidden border-2 border-primary/30 shadow-lg">
+                    <Image
+                      src="/pfp/breakthrough.jpeg"
+                      alt="Taj Gillin"
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                </div>
               </div>
             </section>
 
@@ -53,6 +65,7 @@ export default function HomePage() {
                     <h3 className="text-2xl font-semibold font-serif mb-2">Brown University</h3>
                     <p className="text-xl text-muted-foreground">Physics, Biological Track (ScB) and Applied Math-Computer Science (ScB)</p>
                     <p className="text-lg text-muted-foreground">Expected Graduation: May 2026 | GPA: 4.0</p>
+                    <p className="text-lg text-muted-foreground mt-2">Pursuing honors thesis in computer science and honors thesis in physics</p>
                     <div className="mt-6">
                       <CourseList />
                     </div>

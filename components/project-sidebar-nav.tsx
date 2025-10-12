@@ -84,9 +84,17 @@ export function ProjectSidebarNav({ projectTitle, tableOfContents }: ProjectSide
         </Link>
         
         {/* Project title */}
-        <h2 className="text-lg font-semibold text-foreground mb-6 border-b border-border pb-2">
+        <h2 className="text-lg font-semibold text-foreground mb-4 border-b border-border pb-2">
           {projectTitle}
         </h2>
+        
+        {/* Back to Projects button */}
+        <Link 
+          href="/#projects" 
+          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
+        >
+          ← Back to Projects
+        </Link>
         
         {/* Table of Contents */}
         <nav>

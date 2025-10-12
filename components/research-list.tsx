@@ -9,6 +9,7 @@ import {
 export interface ResearchItem {
   institution: string;
   position: string;
+  advisor: string;
   period: string;
   location: string;
   logoUrl?: string;
@@ -18,8 +19,20 @@ export interface ResearchItem {
 
 const researchData: ResearchItem[] = [
   {
+    institution: "Balestriero Lab Research",
+    position: "",
+    advisor: "Randall Balestriero",
+    period: "Sep 2025 - Present",
+    location: "Providence, RI",
+    responsibilities: [
+      "Completing honors thesis on continual learning with world models, focusing on benchmarks and architecture evaluation",
+      "Integrating with existing lab repository on world models, developing readable, reliable code with docs and automated tests"
+    ],
+  },
+  {
     institution: "CMS Experiment Research at CERN",
-    position: "Undergraduate Researcher",
+    position: "",
+    advisor: "Loukas Gouskos",
     period: "May 2025 - Present",
     location: "Providence, RI",
     responsibilities: [
@@ -31,7 +44,8 @@ const researchData: ResearchItem[] = [
   },
   {
     institution: "Singh Lab Research",
-    position: "Undergraduate Researcher",
+    position: "",
+    advisor: "Ritambhara Singh",
     period: "May 2024 - Nov 2024",
     location: "Providence, RI",
     responsibilities: [
@@ -55,12 +69,14 @@ export function ResearchList() {
           <CardHeader className="p-8 pb-6">
             <CardTitle className="text-2xl font-bold font-serif text-primary mb-3 group-hover:text-primary/90 transition-colors">{item.institution}</CardTitle>
             <CardDescription className="text-lg text-muted-foreground leading-relaxed">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-                <span className="font-medium text-foreground/80">{item.position}</span>
-                <span className="hidden sm:inline text-muted-foreground">•</span>
-                <span className="text-muted-foreground">{item.period}</span>
-                <span className="hidden sm:inline text-muted-foreground">•</span>
-                <span className="text-muted-foreground/80">{item.location}</span>
+              <div className="flex flex-col gap-2">
+                {item.position && <span className="font-medium text-foreground/80">{item.position}</span>}
+                <span className="text-muted-foreground">Advisor: {item.advisor}</span>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+                  <span className="text-muted-foreground">{item.period}</span>
+                  <span className="hidden sm:inline text-muted-foreground">•</span>
+                  <span className="text-muted-foreground/80">{item.location}</span>
+                </div>
               </div>
             </CardDescription>
           </CardHeader>

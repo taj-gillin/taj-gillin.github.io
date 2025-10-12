@@ -82,7 +82,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   return (
     <>
       {/* Project Sidebar - positioned absolutely to avoid layout conflicts */}
-      <div className="fixed left-0 top-0 z-30">
+      <div className="fixed left-0 top-0 z-30 hidden lg:block">
         <ProjectSidebarNav 
           projectTitle={projectTitle}
           tableOfContents={tableOfContents}
@@ -90,7 +90,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       </div>
       
       {/* Main Content - with left margin to account for sidebar */}
-      <div id="project-content" className="h-screen overflow-y-auto ml-60">
+      <div id="project-content" className="h-screen overflow-y-auto lg:ml-60">
         {/* Background layer */}
         <div className="fixed inset-0 z-0">
           <BackgroundLuxe />

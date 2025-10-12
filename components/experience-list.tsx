@@ -24,34 +24,32 @@ const experienceData: ExperienceItem[] = [
     period: "Jun 2025 - Aug 2025",
     location: "New York, NY",
     responsibilities: [
-      "Used rigorous quantitative and data analysis skills to complete research and development project",
+      "Used rigorous quantitative and data analysis skills to complete a research and development project",
       "Participated in mock trading to obtain familiarity with how the market operates at the level of individual orders",
-      "Competed in automated trading strategy and design competition",
-      "Received classroom-style instruction on a wide range of financial concepts",
-      "Received daily mentorship from full-time Quantitative Traders"
+      "Competed in an automated trading strategy and design competition",
+      "Received classroom-style instruction on a wide range of financial concepts and daily mentorship from full-time traders"
     ],
   },
   {
     company: "Brown University Computer Science",
     position: "Teaching Assistant",
-    period: "Jan 2024 - Dec 2024",
+    period: "Jan 2024 - Present",
     location: "Providence, RI",
     responsibilities: [
-      "Developed curriculum and assignments for a new course, Foundations in AI (CSCI0410/1411).",
-      "Taught and helped undergraduate and graduate students with difficult topics in Foundations of AI and Deep Learning (1470/2470).",
-      "Gained fluency and a strong understanding of taught content."
+      "Developed curriculum for a new course, Foundations in AI (CSCI0410/1411), alongside professors and TAs",
+      "Taught and helped undergraduate and graduate students build a strong conceptual understanding of difficult topics in Foundations of AI and Deep Learning (1470/2470), and gained fluency in the taught content"
     ],
     skillsUtilized: ["AI", "Deep Learning", "Curriculum Development", "Teaching"],
   },
   {
     company: "Architect Therapeutics",
     position: "Software Engineer",
-    period: "Jun 2024 - Present",
-    location: "San Diego, CA; Remote",
+    period: "Jun 2024 - Nov 2024",
+    location: "San Diego, CA, f.b. Remote",
     responsibilities: [
-      "Drove computational research to accelerate chemical compound discovery and optimization.",
-      "Developed sophisticated computational algorithms for hit discovery and lead optimization using CADD and advanced statistical methodologies.",
-      "Designed and implemented a web-based computational management platform for job scheduling, tracking, and results visualization."
+      "Drove computational research to accelerate compound discovery of new chemical space using sp3 CH activation",
+      "Developed computational algorithms for hit discovery and lead optimization, leveraging computer-aided drug design (CADD) and statistical approaches for series data pattern detection and cross-sample anomaly detection",
+      "Designed and implemented a web-based computational management platform that streamlines job scheduling, computation tracking, and results visualization, used as the central platform in the company by all chemists and biologists"
     ],
     skillsUtilized: ["Python", "React", "TypeScript", "MongoDB", "FastAPI", "Celery", "Docker", "CADD", "Algorithm Development"],
   },
@@ -59,7 +57,7 @@ const experienceData: ExperienceItem[] = [
   {
     company: "Artificial Teaching Assistant (ATA)",
     position: "Founder",
-    period: "Jan 2024 - Present",
+    period: "Jan 2024 - Dec 2024",
     location: "Providence, RI",
     responsibilities: [
       "Conceived and developed a course-specific LLM assistant for nuanced student guidance.",
