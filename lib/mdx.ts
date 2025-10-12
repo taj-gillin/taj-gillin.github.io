@@ -16,6 +16,8 @@ import {
 } from '@/components/content';
 import { H1, H2, H3, H4, H5, H6, P, HR, UL, OL, LI, A } from '@/components/content/Typography';
 import ScreenshotCarousel from '@/components/ScreenshotCarousel';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 // MDX components mapping
 export const mdxComponents = {
@@ -34,6 +36,8 @@ export const mdxComponents = {
   AlgorithmIf,
   AlgorithmBlock,
   ScreenshotCarousel,
+  Button,
+  Link,
   h1: H1,
   h2: H2,
   h3: H3,

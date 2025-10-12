@@ -1,6 +1,6 @@
 ---
 title: "Architect Therapeutics Internal Platform"
-description: "A distributed web application for managing and orchestrating complex computational workflows for algorithmic research in drug discovery"
+description: "A distributed web application for managing and orchestrating computational workflows for algorithmic research in drug discovery"
 technologies: ["React", "TypeScript", "MongoDB", "FastAPI", "Celery", "Redis", "Docker", "Python"]
 date: "Summer 2024"
 event: "Architect Therapeutics - Production System"
@@ -17,7 +17,7 @@ import {
 
 # Architect Therapeutics Internal Platform
 
-A distributed web application designed to manage and orchestrate complex computational workflows for algorithmic research at Architect Therapeutics. This production system implements a modern microservices architecture supporting asynchronous task processing and data management across computing clusters to accelerate chemical compound discovery and optimization.
+A distributed web application designed to manage and orchestrate computational workflows for algorithmic research at Architect Therapeutics. This production system implements a modern microservices architecture supporting asynchronous task processing and data management across computing clusters to accelerate chemical compound discovery and optimization.
 
 **Role:** Software Engineer  
 **Company:** Architect Therapeutics  
@@ -28,18 +28,15 @@ A distributed web application designed to manage and orchestrate complex computa
 
 ## The Challenge in Computational Drug Discovery
 
-Modern pharmaceutical research relies heavily on computational methods for drug discovery, requiring sophisticated algorithms to analyze molecular structures, predict compound properties, and optimize chemical designs. At Architect Therapeutics, researchers needed a robust platform to manage complex computational workflows that could scale across distributed computing resources while providing seamless data management and results analysis.
+For a summer internship, then later as a contractor during the school year, I developed an internal web platform for Architect Therapeutics. My first task was to develop an algorithm for identifying drug hits from mass spec readings. Once this was done, researchers needed a way to run this, along with other algorithms, and view the results. So, I build a platofrm to manage and orchestrate the various jobs. This was developed with constant feedback and suggestions from the researchers, and it gave me a good understanding of systems design, especially when working with others and planning for future features.
 
-The challenge was multifaceted: computational jobs could run for hours or days, required different resources and parameters, and generated large datasets that needed to be stored, analyzed, and shared across research teams. Traditional approaches often involved manual job submission, limited monitoring capabilities, and fragmented data management systems that hindered research productivity.
 
 <ProjectImage 
   src="/projects/architect/home_page.png"
   alt="Architect platform welcome interface with clean, professional design"
-  caption="The platform's clean interface provides easy access to computational tools and research workflows"
+  caption="The platform's homepage with a beautiful view of San Diego"
   zoom
 />
-
-What researchers truly needed was a unified platform that could handle the entire computational research lifecycle seamlessly - from algorithm development and parameter configuration to job scheduling, execution monitoring, and comprehensive results analysis.
 
 ---
 
@@ -54,17 +51,15 @@ The platform implements a distributed microservices architecture designed for sc
   zoom
 />
 
-At the frontend, a React application built with TypeScript provides researchers with an intuitive interface for managing their computational workflows. The interface emphasizes clarity and ease of use, allowing scientists to focus on their research rather than wrestling with complex technical systems. Real-time updates keep users informed about job progress without requiring constant manual checking.
+At the frontend, a React application built with TypeScript provides researchers with an intuitive interface for managing their computational workflows. It is a SPA with routes and page navigation, ran using Vite. The backend centers around a FastAPI router that orchestrates communication between all system components. This high-performance Python framework handles authentication, manages API requests, and ensures secure access to computational resources. The RESTful design makes the system accessible to both human users through the web interface and automated tools through programmatic access.
 
-The backend centers around a FastAPI router that orchestrates communication between all system components. This high-performance Python framework handles authentication, manages API requests, and ensures secure access to computational resources. The RESTful design makes the system accessible to both human users through the web interface and automated tools through programmatic access.
-
-The heart of the computational system lies in its distributed task processing architecture. Celery workers handle the execution of algorithms across multiple computing nodes, while Redis serves as both a message broker and caching layer. This design allows the platform to scale computational capacity dynamically based on demand, ensuring that researchers never have to wait for resources when conducting time-sensitive experiments.
+The heart of the computational system lies in its distributed task processing architecture. Celery workers handle the execution of algorithms across multiple computing nodes, while Redis serves as both a message broker and caching layer. This design allows the platform to scale computational capacity dynamically based on demand, ensuring that researchers never have to wait for resources when conducting time-sensitive experiments. With Celery, jobs can run in parallel on the compute cluster asynchronously, allowing the researchers to complete other tasks or use other parts of the website while the jobs run.
 
 ---
 
 ## Data Management and Computational Workflows
 
-Central to the platform's effectiveness is its sophisticated approach to data management and computational workflow orchestration. The system recognizes that pharmaceutical research generates diverse data types and requires flexible storage solutions that can adapt to evolving research needs.
+Central to the platform's effectiveness is data management. Designing a flexible and scalable database schema was a key challenge and required a significant rewrite after a few months of the original design to accommodate new features. MongoDB serves as the primary data store, chosen for its ability to handle the varied data structures along with relational data. 
 
 <ProjectImage 
   src="/projects/architect/datasets_page.png"
@@ -73,9 +68,7 @@ Central to the platform's effectiveness is its sophisticated approach to data ma
   zoom
 />
 
-MongoDB serves as the primary data store, chosen for its ability to handle the varied data structures that emerge from different computational algorithms. Unlike traditional relational databases, this document-based approach allows researchers to store complex molecular data, algorithm parameters, and results without being constrained by rigid schema requirements. The database design includes comprehensive version control, ensuring that researchers can track the evolution of their datasets and reproduce previous experiments with confidence.
-
-The computational workflow system handles the complex orchestration of long-running algorithms across distributed computing resources. When researchers submit computational jobs, the platform intelligently manages resource allocation, queue prioritization, and execution monitoring. This removes the burden of manual job management from scientists, allowing them to focus on interpreting results rather than managing infrastructure.
+The platform's containerized architecture, built with Docker, ensures consistent execution environments. Because I was developing on a different machine than deployment, this was a crucial choice and saved a lot of pain. Each part of the system—the frontend, backend, database, and Celery workers—are all seperately containerized and can be rebooted or edited independently.
 
 <ProjectImage 
   src="/projects/architect/heatmap_dashboard.png"
@@ -84,18 +77,12 @@ The computational workflow system handles the complex orchestration of long-runn
   zoom
 />
 
-The platform's containerized architecture, built with Docker, ensures consistent execution environments across all computing nodes. This approach eliminates the common research problem of "it works on my machine" by guaranteeing that algorithms execute identically regardless of the underlying hardware. The system automatically handles scaling, fault tolerance, and recovery, providing researchers with a reliable foundation for their computational work.
-
 ---
 
-## Production Impact and Research Acceleration
+## Production Impact
 
-The transition from concept to production deployment at Architect Therapeutics has demonstrated the platform's real-world value in accelerating pharmaceutical research. The system has fundamentally changed how computational research is conducted within the organization, eliminating the friction that previously existed between researchers and computing resources.
+I built this platform independently from the ground up, architecting every component from the database schema to the distributed task processing system. Throughout development, I worked closely with the computational scientists, incorporating their feedback and expertise to ensure the platform would truly serve their research needs. This collaborative approach meant frequent design discussions and iterative refinements, transforming their workflow requirements into a robust technical solution.
 
-Before the platform's implementation, researchers spent significant time on administrative tasks: manually submitting jobs to computing clusters, tracking execution status across multiple systems, and managing data scattered across various storage locations. The unified platform has automated these processes, allowing scientists to focus their expertise on algorithm development and results interpretation rather than infrastructure management.
+The platform has since become the central hub for all computational research at Architect Therapeutics. What began as a summer internship project evolved into production infrastructure that the research team now depends on daily. The system handles everything from algorithm execution to data management, fundamentally changing how scientists interact with their computational resources. Rather than wrestling with manual job submissions and scattered data, researchers can now focus entirely on the scientific work that drives drug discovery forward.
 
-The production deployment has proven particularly valuable in supporting the iterative nature of pharmaceutical research. Drug discovery often requires running hundreds or thousands of computational experiments with slight parameter variations. The platform's intelligent job scheduling and resource management ensure that these large-scale computational campaigns execute efficiently, with automatic load balancing preventing any single experiment from monopolizing resources.
-
-Perhaps most significantly, the centralized data management has transformed collaboration within research teams. Previously, sharing computational results required manual file transfers and complex coordination between researchers. The platform's integrated approach means that results are immediately available to authorized team members, complete with full provenance tracking and version control. This has accelerated the pace of collaborative research and reduced the risk of working with outdated or inconsistent data.
-
-The system's reliability in the production environment has been crucial for maintaining research momentum. Computational experiments that may run for days or weeks require robust infrastructure that can handle failures gracefully. The platform's fault-tolerant design, with automatic retry mechanisms and comprehensive monitoring, ensures that valuable computational time is never lost due to infrastructure issues.
+Today, the platform continues to serve as the company's core computational infrastructure and is actively maintained by new employees who have taken over its stewardship. The modular architecture and documentation I developed have enabled smooth knowledge transfer, allowing the system to grow and evolve with the organization's expanding research needs. Seeing something I built from scratch become an enduring part of the company's technical foundation has been one of the most rewarding aspects of this project.

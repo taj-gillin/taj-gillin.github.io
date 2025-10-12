@@ -78,6 +78,12 @@ const courseData: CourseCategory[] = [
         semester: "Spring 2025",
         description: "Covered optimization techniques for prescriptive analytics, including Boolean Satisfiability, Constraint Programming, Linear/Integer Programming, and Meta-Heuristics. Had hands-on, competitive, open-ended projects for each topic.",
       },
+      {
+        id: "CSCI 2952X",
+        name: "Research Topics in Self Supervised Learning",
+        semester: "Fall 2025",
+        description: "Covered state-of-the-art Self Supervised Learning (SSL) pipelines from the basics, including computer vision, multimodal, and world models. Included coding exercises and research group projects to implement alternative solutions, with guest lectures from top SSL researchers.",
+      },
     ],
   },
   {
@@ -181,6 +187,18 @@ const courseData: CourseCategory[] = [
         semester: "Fall 2024",
         description: "Studied thermodynamics and statistical mechanics, covering heat transfer, kinetic theory, and their applications to physical systems.",
       },
+      {
+        id: "PHYS 2050",
+        name: "Quantum Mechanics",
+        semester: "Fall 2025",
+        description: "Provided advanced study of quantum mechanics, covering fundamental principles, formalism of quantum mechanics, theory of angular momentum, and approximation methods.",
+      },
+      {
+        id: "PHYS 2630",
+        name: "Biological Physics",
+        semester: "Fall 2025",
+        description: "Covered biological physics at the graduate level, including structure of cells and biological molecules, diffusion and random motion, flow and friction in fluids, entropy and energy, chemical reactions and self-assembly, solution electrostatics, and action potential and nerve impulses.",
+      },
     ],
   },
   {
@@ -205,6 +223,12 @@ const courseData: CourseCategory[] = [
         semester: "Spring 2025",
         description: "Examined human security challenges including climate change, pandemics, AI, and migration. Explored the intersection of social, economic, environmental, and political factors in security policy.",
       },
+      {
+        id: "ENGL 0930",
+        name: "Introduction to Creative Nonfiction",
+        semester: "Fall 2025",
+        description: "Learned the techniques and narrative structures of creative nonfiction. Reading and writing focused on personal essays, memoir, science writing, travel writing, and other related subgenres.",
+      },
     ],
   },
 ];
@@ -223,7 +247,7 @@ export function CourseList() {
           </AccordionTrigger>
           <AccordionContent className="pt-3 pb-4 space-y-3">
             {category.courses.length > 0 ? (
-              category.courses.map((course) => (
+              [...category.courses].reverse().map((course) => (
                 <div key={course.id} className="p-3 border border-white/10 rounded-md bg-transparent backdrop-blur-sm hover:backdrop-blur-md hover:bg-white/5 hover:border-white/20 transition-all duration-300">
                   <h4 className="text-md font-semibold text-primary">{course.name}</h4>
                   <p className="text-sm text-muted-foreground">

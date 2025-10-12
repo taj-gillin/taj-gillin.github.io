@@ -23,7 +23,7 @@ const skillData: SkillCategory[] = [
     title: "Programming Languages",
     skills: [
       { name: "Python", proficiency: "Advanced" },
-      { name: "JavaScript/TypeScript", proficiency: "Advanced" },
+      { name: "JavaScript/TypeScript", proficiency: "Intermediate" },
       { name: "C++", proficiency: "Intermediate" },
       { name: "C", proficiency: "Intermediate" },
       { name: "Java", proficiency: "Intermediate" },
@@ -45,7 +45,6 @@ const skillData: SkillCategory[] = [
       { name: "Flask", proficiency: "Intermediate" },
       { name: "Three.js", proficiency: "Intermediate" },
       { name: "LangChain", proficiency: "Basic" },
-      { name: "Manim", proficiency: "Basic" },
     ],
   },
   {

@@ -23,9 +23,9 @@ An intelligent teaching assistant that adapts to specific course environments to
 
 ## The Challenge in Modern Education
 
-As both students and teaching assistants in the Brown CS department, we experienced firsthand the critical issues facing modern education. Students struggle to receive the help they need to learn effectively, while TAs are overwhelmed trying to meet the needs of hundreds of students.
+As both students and teaching assistants in the Brown CS department, we experienced firsthand the issues facing modern education. Students struggle to receive the help they need to learn effectively, complaining about long wait times, while TAs are overwhelmed with too many students.
 
-Our research revealed a stark reality: **79% of students** report using ChatGPT before going to office hours, and **50%** use it before even trying EdStem. Meanwhile, **two-thirds of TAs** report being asked the same questions repeatedly, creating an inefficient cycle that leaves everyone frustrated.
+Before coding this project, I created a survey to get an understanding of students' use of AI and views on current office hours. While expected, our research was still surprising: **79% of students** report using ChatGPT before going to office hours, and **50%** use it before even trying EdStem (Brown's Q&A system). Meanwhile, **two-thirds of TAs** report being asked the same questions repeatedly, creating an inefficient cycle that leaves everyone frustrated.
 
 <ProjectImage 
   src="/projects/ata/bruno_overview.jpg"
@@ -34,7 +34,7 @@ Our research revealed a stark reality: **79% of students** report using ChatGPT 
   zoom
 />
 
-Students face long waits, feel pressured to ask questions quickly, and often receive incomplete answers. When they can't get help, they turn to generic AI tools that don't understand their specific course context or pedagogical goals. This creates a gap between what students need and what they can access.
+Students reported facing long waits, feeling pressured to ask questions quickly, and often receiving incomplete answers. When they can't get help, they turn to generic AI tools that don't understand their specific course context or pedagogical goals. This creates a gap between what students need and what they can access.
 
 ---
 
@@ -48,7 +48,7 @@ The key innovation is **course adaptation** - ATA doesn't just answer questions,
 
 ### Pedagogical Design
 
-ATA is built with a pedagogical approach that encourages learning rather than just providing answers. Instead of simply giving solutions, it guides students through their thought process, asking them to explain their reasoning and helping them discover answers themselves.
+ATA is built with a pedagogical approach that encourages learning rather than just providing answers. Instead of simply giving solutions, it guides students through their thought process in a socratic manner, asking them to explain their reasoning and helping them discover answers themselves.
 
 <ProjectImage 
   src="/projects/ata/bruno_example.jpg"
@@ -98,11 +98,6 @@ ATA addresses the core problems we identified through its comprehensive approach
 
 The system's ability to adapt to different courses makes it valuable across various subjects and teaching styles. By pulling from course-specific materials, ATA ensures that its guidance aligns with each instructor's approach and learning objectives.
 
----
-
-## Conclusion
-
-ATA's evolution from hackathon prototype to production deployment across multiple Brown University courses demonstrates the transformative potential of course-specific AI assistance in education. By combining retrieval augmented generation with pedagogical design principles, ATA bridges the gap between generic AI tools and the specialized support that students actually need in their coursework.
 ---
 
 **Built with:** OpenAI GPT-4, Anthropic Claude, Streamlit, Python, RAG, DSPy
