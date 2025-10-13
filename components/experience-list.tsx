@@ -42,6 +42,18 @@ const experienceData: ExperienceItem[] = [
     skillsUtilized: ["AI", "Deep Learning", "Curriculum Development", "Teaching"],
   },
   {
+    company: "Brown Design Workshop",
+    position: "Monitor",
+    period: "Jan 2024 - Present",
+    location: "Providence, RI",
+    responsibilities: [
+      "Lead workshops on 3D printing, laser cutting, woodworking, and electronics while enforcing safety protocols and maintaining organized, collaborative makerspace environment",
+      "Provide technical guidance and troubleshooting support to members on diverse fabrication projects, fostering creative problem-solving and skill development across multiple tools and materials",
+      "Participate in monthly team meetings to develop policies and space improvements while documenting daily operations and maintenance in official logbook"
+    ],
+    skillsUtilized: ["3D Printing", "Laser Cutting", "Woodworking", "Electronics", "Safety Protocols", "Technical Support", "Project Management"],
+  },
+  {
     company: "Architect Therapeutics",
     position: "Software Engineer",
     period: "Jun 2024 - Nov 2024",
