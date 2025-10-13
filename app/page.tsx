@@ -40,7 +40,7 @@ export default function HomePage() {
                     My journey into programming started through building games in Minecraft using command blocks and its built-in language mcfunction. What began as a hobby taught me to think systematically about logic and problem-solving, ultimately sparking a love for coding that now drives my academic focus. I still have a deep appreciation for thoughtful design, particularly in some of my favorites: Hollow Knight, Outer Wilds, and The Stanley Parable.
                   </p>
                   <p>
-                  Outside of academics, I&apos;m into music and fantasy books. My music taste is pretty similar to my dad&apos;s, and my favorite band is The Red Hot Chili Peppers. I&apos;m also deep into Brandon Sanderson&apos;s Cosmere universe.
+                  Outside of academics, I&apos;m into music and fantasy books. My music taste is pretty similar to my dad&apos;s, and my favorite band is The Red Hot Chili Peppers. I&apos;m also deep into Brandon Sanderson&apos;s Cosmere universe. I am on Brown&apos;s Club Ice Hockey team (there are ice rinks in San Diego, believe it or not), and I love to ski and wakesurf!
                   </p>
                 </div>
                 <div className="flex justify-center mt-8">
