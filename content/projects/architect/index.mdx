@@ -28,7 +28,7 @@ A distributed web application designed to manage and orchestrate computational w
 
 ## The Challenge in Computational Drug Discovery
 
-For a summer internship, then later as a contractor during the school year, I developed an internal web platform for Architect Therapeutics. My first task was to develop an algorithm for identifying drug hits from mass spec readings. Once this was done, researchers needed a way to run this, along with other algorithms, and view the results. So, I build a platofrm to manage and orchestrate the various jobs. This was developed with constant feedback and suggestions from the researchers, and it gave me a good understanding of systems design, especially when working with others and planning for future features.
+For a summer internship, then later as a contractor during the school year, I developed an internal web platform for Architect Therapeutics. My first task was to develop an algorithm for identifying drug hits from mass spec readings. Once this was done, researchers needed a way to run this, along with other algorithms, and view the results. So, I built a platform to manage and orchestrate the various jobs. This was developed with constant feedback and suggestions from the researchers, and it gave me a good understanding of systems design, especially when working with others and planning for future features.
 
 
 <ProjectImage 
@@ -51,7 +51,7 @@ The platform implements a distributed microservices architecture designed for sc
   zoom
 />
 
-At the frontend, a React application built with TypeScript provides researchers with an intuitive interface for managing their computational workflows. It is a SPA with routes and page navigation, ran using Vite. The backend centers around a FastAPI router that orchestrates communication between all system components. This high-performance Python framework handles authentication, manages API requests, and ensures secure access to computational resources. The RESTful design makes the system accessible to both human users through the web interface and automated tools through programmatic access.
+At the frontend, a React application built with TypeScript provides researchers with an intuitive interface for managing their computational workflows. It is a SPA with routes and page navigation, run using Vite. The backend centers around a FastAPI router that orchestrates communication between all system components. This high-performance Python framework handles authentication, manages API requests, and ensures secure access to computational resources. The RESTful design makes the system accessible to both human users through the web interface and automated tools through programmatic access.
 
 The heart of the computational system lies in its distributed task processing architecture. Celery workers handle the execution of algorithms across multiple computing nodes, while Redis serves as both a message broker and caching layer. This design allows the platform to scale computational capacity dynamically based on demand, ensuring that researchers never have to wait for resources when conducting time-sensitive experiments. With Celery, jobs can run in parallel on the compute cluster asynchronously, allowing the researchers to complete other tasks or use other parts of the website while the jobs run.
 
