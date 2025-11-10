@@ -22,7 +22,7 @@ const researchData: ResearchItem[] = [
     institution: "Balestriero Lab Research",
     position: "",
     advisor: "Randall Balestriero",
-    period: "Sep 2025 - Present",
+    period: "August 2025 - Present",
     location: "Providence, RI",
     responsibilities: [
       "Completing honors thesis on continual learning with world models, focusing on benchmarks and architecture evaluation",
@@ -46,7 +46,7 @@ const researchData: ResearchItem[] = [
     institution: "Singh Lab Research",
     position: "",
     advisor: "Ritambhara Singh",
-    period: "May 2024 - Nov 2024",
+    period: "May 2024 - November 2024",
     location: "Providence, RI",
     responsibilities: [
       "Explored novel strategies for identifying drug-drug interactions using LLMs.",
