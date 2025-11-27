@@ -25,6 +25,17 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+
+  /**
+   * Webpack configuration to handle plotly.js dependencies
+   */
+  webpack: (config) => {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      buffer: require.resolve('buffer/'),
+    };
+    return config;
+  },
 };
 
 export default nextConfig;

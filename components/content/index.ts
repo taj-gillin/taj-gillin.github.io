@@ -8,4 +8,5 @@ export { ProjectImage } from './ProjectImage';
 export { PerformanceTable } from './PerformanceTable';
 export { Algorithm, AlgorithmLine, AlgorithmFor, AlgorithmIf } from './Algorithm';
 export { CodeBlock as AceternityCodeBlock, AlgorithmBlock } from '../ui/code-block';
+export { default as LatentLandscape } from './LatentLandscape';
 

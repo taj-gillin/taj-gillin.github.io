@@ -1,0 +1,119 @@
+---
+title: "World models: l2 latent distance is not a good enough cost"
+description: "Visualization of latent distance for a few environments"
+date: "November 2024"
+category: "research"
+---
+
+# Argument
+
+My goal was to visualize latent distance vs action space. That is, as you take actions, how does the latent distance from your current state to the goal change.
+
+So, I took environments where the only actions correspond to moving and all other parts of the state or constant. Then, for any point, we can generate the state that has the player at that location, run it through dino (using dinov2 as is used in dino-wm), and calculate the l2 latent distance to the goal state. Generating this for a mesh of points gives a surface of the cost vs state, as graphed above. 
+
+Below, the green dot is the goal, and the surface is the latent distance. The environment is visualized on the bottom plane.
+
+<LatentLandscape 
+  src="/blog/wm-l2-cost/minigrid_fourrooms/landscape_goal_2.json" 
+  caption="Goal at [10, 10] — near the center doorway intersection."
+/>
+
+<LatentLandscape 
+  src="/blog/wm-l2-cost/two_room/landscape_goal_2.json" 
+  caption="Goal at [300, 50]."
+  height={600}
+/>
+
+
+If we had a *perfect* predictor, we would know exactly the shape of this surface, locally, at any point. My argument is that even with a perfect predictor, if we optimize actions using dino latent l2 as our cost, we will get stuck in minimums that may seem close but are actually far in action space. For example, if the goal is on the opposite side of the wall, we are actually quite far in terms of actions, but the cost is low so we will almost certainly never move in the opposite direction to find our way around the wall.
+
+As a solution, I think we can make latents close based on actions.
+
+# Solutions?
+
+A training objective could be incentivizing alignment of adjacent latents from training data based on the actions
+- i would suspect you will need some random data to help with this, otherwise you will only get info on paths...could be a good ablation
+- this will lead to collapse! how do you get other terms to be further? some contrastive method would be good here
+- if we take a set of actions and go $z_1 \rightarrow z_2 \rightarrow z_3 \rightarrow z_4$, we want $D(z_1, z_2) < D(z_1, z_3) < D(z_1, z_4)$. If we push apart $z_1$ and $z_3$, does this accomplish it? i think there must be a better way to do this
+
+
+I think there are two ways to address this:
+1. fine tune encoder to push states close in action space close in latent space
+2. learn a new distance
+
+
+# Visualization
+
+## Minigrid Empty Environment
+
+<LatentLandscape 
+  src="/blog/wm-l2-cost/minigrid_empty/landscape_goal_0.json" 
+  caption="Goal at [6, 6]."
+/>
+
+<LatentLandscape 
+  src="/blog/wm-l2-cost/minigrid_empty/landscape_goal_1.json" 
+  caption="Goal at [6, 1]."
+/>
+
+<LatentLandscape 
+  src="/blog/wm-l2-cost/minigrid_empty/landscape_goal_2.json" 
+  caption="Goal at [3, 3] — center of the grid."
+/>
+
+## Minigrid Four Rooms Environment
+
+<LatentLandscape 
+  src="/blog/wm-l2-cost/minigrid_fourrooms/landscape_goal_0.json" 
+  caption="Goal at [17, 17]."
+/>
+
+<LatentLandscape 
+  src="/blog/wm-l2-cost/minigrid_fourrooms/landscape_goal_1.json" 
+  caption="Goal at [1, 17]."
+/>
+
+<LatentLandscape 
+  src="/blog/wm-l2-cost/minigrid_fourrooms/landscape_goal_2.json" 
+  caption="Goal at [10, 10] — near the center doorway intersection."
+/>
+
+## Two Room Environment
+
+<LatentLandscape 
+  src="/blog/wm-l2-cost/two_room/landscape_goal_0.json" 
+  caption="Goal at [450, 450]."
+  height={600}
+/>
+
+<LatentLandscape 
+  src="/blog/wm-l2-cost/two_room/landscape_goal_1.json" 
+  caption="Goal at [450, 250]."
+  height={600}
+/>
+
+<LatentLandscape 
+  src="/blog/wm-l2-cost/two_room/landscape_goal_2.json" 
+  caption="Goal at [300, 50]."
+  height={600}
+/>
+
+## Simple Point Maze Environment
+
+<LatentLandscape 
+  src="/blog/wm-l2-cost/simple_point_maze/landscape_goal_0.json" 
+  caption="Goal at [4.5, 4.5]."
+  height={600}
+/>
+
+<LatentLandscape 
+  src="/blog/wm-l2-cost/simple_point_maze/landscape_goal_1.json" 
+  caption="Goal at [4, 1]."
+  height={600}
+/>
+
+<LatentLandscape 
+  src="/blog/wm-l2-cost/simple_point_maze/landscape_goal_2.json" 
+  caption="Goal at [2.5, 2.5]."
+  height={600}
+/>

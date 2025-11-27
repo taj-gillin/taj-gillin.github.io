@@ -8,9 +8,17 @@ import { TableOfContentsItem } from '@/lib/mdx-utils';
 interface ProjectSidebarNavProps {
   projectTitle: string;
   tableOfContents: TableOfContentsItem[];
+  backLink?: {
+    href: string;
+    label: string;
+  };
 }
 
-export function ProjectSidebarNav({ projectTitle, tableOfContents }: ProjectSidebarNavProps) {
+export function ProjectSidebarNav({ 
+  projectTitle, 
+  tableOfContents,
+  backLink = { href: "/#projects", label: "← Back to Projects" }
+}: ProjectSidebarNavProps) {
   const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
@@ -88,12 +96,12 @@ export function ProjectSidebarNav({ projectTitle, tableOfContents }: ProjectSide
           {projectTitle}
         </h2>
         
-        {/* Back to Projects button */}
+        {/* Back link */}
         <Link 
-          href="/#projects" 
+          href={backLink.href} 
           className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
         >
-          ← Back to Projects
+          {backLink.label}
         </Link>
         
         {/* Table of Contents */}

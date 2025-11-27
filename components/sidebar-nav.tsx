@@ -21,8 +21,9 @@ export function SidebarNav() {
   const [activeSection, setActiveSection] = useState("");
   const pathname = usePathname();
   
-  // Check if we're on a project page
+  // Check if we're on a project or blog page (these have their own sidebars)
   const isProjectPage = pathname?.startsWith('/projects/');
+  const isBlogPage = pathname?.startsWith('/blog/');
 
   useEffect(() => {
     const container = document.getElementById('page-scroll')
@@ -70,8 +71,8 @@ export function SidebarNav() {
     }
   };
 
-  // Don't render the home sidebar on project pages
-  if (isProjectPage) {
+  // Don't render the home sidebar on project or blog pages
+  if (isProjectPage || isBlogPage) {
     return null;
   }
 

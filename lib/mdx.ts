@@ -12,7 +12,8 @@ import {
   AlgorithmLine,
   AlgorithmFor,
   AlgorithmIf,
-  AlgorithmBlock
+  AlgorithmBlock,
+  LatentLandscape
 } from '@/components/content';
 import { H1, H2, H3, H4, H5, H6, P, HR, UL, OL, LI, A } from '@/components/content/Typography';
 import ScreenshotCarousel from '@/components/ScreenshotCarousel';
@@ -35,6 +36,7 @@ export const mdxComponents = {
   AlgorithmFor,
   AlgorithmIf,
   AlgorithmBlock,
+  LatentLandscape,
   ScreenshotCarousel,
   Button,
   Link,
