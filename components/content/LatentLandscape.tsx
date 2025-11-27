@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import type { Layout } from 'plotly.js';
 
 // Dynamically import Plotly to avoid SSR issues
 const Plot = dynamic(() => import('react-plotly.js'), { 
@@ -67,7 +68,7 @@ interface VisualizationData {
       xaxis_title: string;
       yaxis_title: string;
       zaxis_title: string;
-      aspectmode: string;
+      aspectmode: 'auto' | 'data' | 'cube' | 'manual';
     };
     width: number;
     height: number;
@@ -317,7 +318,7 @@ const LatentLandscape: React.FC<LatentLandscapeProps> = ({
 
   const plotData = createPlotData(data);
   
-  const layout = {
+  const layout: Partial<Layout> = {
     title: {
       text: data.layout.title,
       font: {
@@ -327,17 +328,17 @@ const LatentLandscape: React.FC<LatentLandscapeProps> = ({
     },
     scene: {
       xaxis: { 
-        title: data.layout.scene.xaxis_title,
+        title: { text: data.layout.scene.xaxis_title },
         gridcolor: 'hsl(var(--border))',
         zerolinecolor: 'hsl(var(--border))'
       },
       yaxis: { 
-        title: data.layout.scene.yaxis_title,
+        title: { text: data.layout.scene.yaxis_title },
         gridcolor: 'hsl(var(--border))',
         zerolinecolor: 'hsl(var(--border))'
       },
       zaxis: { 
-        title: data.layout.scene.zaxis_title,
+        title: { text: data.layout.scene.zaxis_title },
         gridcolor: 'hsl(var(--border))',
         zerolinecolor: 'hsl(var(--border))'
       },
@@ -395,6 +396,7 @@ const LatentLandscape: React.FC<LatentLandscapeProps> = ({
               responsive: true,
               modeBarButtonsToAdd: [{
                 name: 'Download PNG',
+                title: 'Download as PNG',
                 icon: {
                   width: 24,
                   height: 24,
