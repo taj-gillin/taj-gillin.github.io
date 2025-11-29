@@ -14,6 +14,7 @@ export interface ProjectMetadata {
   repoUrl?: string;
   demoUrl?: string;
   award?: string;
+  externalUrl?: string;
   slug: string;
 }
 
@@ -29,7 +30,7 @@ export function getAllProjects(): ProjectMetadata[] {
         const mdxPath = join(contentDir, slug, 'index.mdx');
         const fileContents = readFileSync(mdxPath, 'utf8');
         const { data } = matter(fileContents);
-        
+
         return {
           ...data,
           slug,

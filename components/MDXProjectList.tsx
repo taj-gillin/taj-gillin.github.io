@@ -51,11 +51,22 @@ export function MDXProjectList() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {projects.map((project) => (
-        <Link href={`/projects/${project.slug}`} key={project.slug} className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg h-full">
-          <ProjectCard project={project} />
-        </Link>
-      ))}
+      {projects.map((project) => {
+        const href = project.externalUrl || `/projects/${project.slug}`;
+        const isExternal = !!project.externalUrl;
+
+        return (
+          <Link
+            href={href}
+            key={project.slug}
+            className="block focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg h-full"
+            target={isExternal ? "_blank" : undefined}
+            rel={isExternal ? "noopener noreferrer" : undefined}
+          >
+            <ProjectCard project={project} />
+          </Link>
+        );
+      })}
     </div>
   );
 }
