@@ -3,6 +3,7 @@ import { CourseList } from "@/components/course-list";
 import { SkillList } from "@/components/skill-list";
 import { ExperienceList } from "@/components/experience-list";
 import { ResearchList } from "@/components/research-list";
+import { PublicationsList } from "@/components/publications-list";
 import { Hero } from "@/components/Hero";
 import { ParticleSystem } from "@/components/ParticleSystem";
 import { BackgroundLuxe } from "@/components/BackgroundLuxe";
@@ -11,7 +12,7 @@ import { MDXProjectList } from "@/components/MDXProjectList";
 import Image from "next/image";
 
 export default function HomePage() {
-  
+
   return (
     <div className="min-h-screen relative">
       {/* Luxe Background Layers */}
@@ -25,7 +26,7 @@ export default function HomePage() {
         <section id="hero" className="min-h-screen snap-start">
           <Hero />
         </section>
-        
+
         {/* Main Content */}
         <main className="w-full min-h-screen font-sans">
           <div className="w-full space-y-32">
@@ -40,7 +41,7 @@ export default function HomePage() {
                     My journey into programming started through building games in Minecraft using command blocks and its built-in language mcfunction. What began as a hobby taught me to think systematically about logic and problem-solving, ultimately sparking a love for coding that now drives my academic focus. I still have a deep appreciation for thoughtful design, particularly in some of my favorite games: Hollow Knight, Outer Wilds, and The Stanley Parable.
                   </p>
                   <p>
-                  Outside of academics, I&apos;m into music and fantasy books, and I love Legos. My favorite band is The Red Hot Chili Peppers and I&apos;m deep into Brandon Sanderson&apos;s Cosmere universe. I am on Brown&apos;s Club Ice Hockey team (there are ice rinks in San Diego, believe it or not), and I love to ski and wakesurf! 
+                    Outside of academics, I&apos;m into music and fantasy books, and I love Legos. My favorite band is The Red Hot Chili Peppers and I&apos;m deep into Brandon Sanderson&apos;s Cosmere universe. I am on Brown&apos;s Club Ice Hockey team (there are ice rinks in San Diego, believe it or not), and I love to ski and wakesurf!
                   </p>
                 </div>
                 <div className="flex justify-center mt-8">
@@ -82,7 +83,16 @@ export default function HomePage() {
             <section id="research" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-32 flex flex-col justify-center">
               <div className="w-full max-w-3xl mx-auto">
                 <h2 className="text-3xl font-semibold font-serif mb-8">Research</h2>
-                <ResearchList />
+                <div className="space-y-12">
+                  <div>
+                    <h3 className="text-xl font-semibold font-serif mb-6 text-foreground/80">Experience</h3>
+                    <ResearchList />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold font-serif mb-6 text-foreground/80">Publications & Presentations</h3>
+                    <PublicationsList />
+                  </div>
+                </div>
               </div>
             </section>
 
@@ -137,7 +147,7 @@ export default function HomePage() {
             </section>
           </div>
         </main>
-        
+
         <footer className="w-full max-w-4xl mx-auto mt-20 py-8 border-t border-border text-center text-muted-foreground px-4 sm:px-8 lg:px-12">
           <p>&copy; {new Date().getFullYear()} Taj Gillin. All rights reserved.</p>
         </footer>

@@ -80,3 +80,4 @@ export function BlogList({ category }: BlogListProps) {
   );
 }
 
+

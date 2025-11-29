@@ -46,3 +46,4 @@ export function getBlogsByCategory(category: BlogCategory): BlogMetadata[] {
   return getAllBlogs().filter(blog => blog.category === category);
 }
 
+

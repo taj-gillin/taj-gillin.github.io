@@ -12,9 +12,7 @@ export interface ResearchItem {
   advisor: string;
   period: string;
   location: string;
-  logoUrl?: string;
   responsibilities: string[];
-  skillsUtilized?: string[];
 }
 
 const researchData: ResearchItem[] = [
@@ -40,33 +38,19 @@ const researchData: ResearchItem[] = [
       "Future application to the FCC project by demonstrating support for algorithms and collider physics on simulated data",
       "Collaborated with researchers at CERN to create reproducible and readable code and results"
     ],
-    skillsUtilized: ["Graph Neural Networks", "Particle Physics", "Python", "Data Analysis", "CERN Technologies"],
-  },
-  {
-    institution: "Singh Lab Research",
-    position: "",
-    advisor: "Ritambhara Singh",
-    period: "May 2024 - November 2024",
-    location: "Providence, RI",
-    responsibilities: [
-      "Explored novel strategies for identifying drug-drug interactions using LLMs.",
-      "Conducted systematic experiments with machine learning techniques (fine-tuning, RAG, knowledge graphs, graph network analysis).",
-      "Developed robust data extraction and sanitization protocols, including web scraping with Puppeteer."
-    ],
-    skillsUtilized: ["LLMs", "Machine Learning", "RAG", "Knowledge Graphs", "Puppeteer", "Data Extraction"],
   },
 ];
 
 export function ResearchList() {
   if (!researchData || !researchData.length) {
-    return <p>Research experience details will be listed here soon.</p>;
+    return <p className="text-muted-foreground">Research experience details will be listed here soon.</p>;
   }
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-4">
       {researchData.map((item, index) => (
-        <Card key={index} className="border border-white/10 bg-transparent backdrop-blur-sm hover:backdrop-blur-md hover:bg-white/5 hover:border-white/20 shadow-lg hover:shadow-xl rounded-xl transition-all duration-300 ease-in-out group">
-          <CardHeader className="p-8 pb-6">
+        <Card key={index} className="border border-white/10 bg-transparent backdrop-blur-sm hover:backdrop-blur-md hover:bg-white/5 hover:border-white/20 shadow-lg hover:shadow-xl rounded-xl transition-all duration-300 ease-in-out group py-0 gap-0">
+          <CardHeader className="p-5 pb-3">
             <CardTitle className="text-2xl font-bold font-serif text-primary mb-3 group-hover:text-primary/90 transition-colors">{item.institution}</CardTitle>
             <CardDescription className="text-lg text-muted-foreground leading-relaxed">
               <div className="flex flex-col gap-2">
@@ -80,7 +64,7 @@ export function ResearchList() {
               </div>
             </CardDescription>
           </CardHeader>
-          <CardContent className="p-8 pt-0">
+          <CardContent className="p-5 pt-0">
             <ul className="list-disc pl-6 space-y-4 text-base leading-relaxed text-foreground/90">
               {item.responsibilities.map((resp, i) => (
                 <li key={i} className="marker:text-primary/60">{resp}</li>
