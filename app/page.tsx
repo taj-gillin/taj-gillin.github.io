@@ -7,7 +7,6 @@ import { PublicationsList } from "@/components/publications-list";
 import { Hero } from "@/components/Hero";
 import { ParticleSystem } from "@/components/ParticleSystem";
 import { BackgroundLuxe } from "@/components/BackgroundLuxe";
-import { SnapScrollController } from "@/components/SnapScrollController";
 import { MDXProjectList } from "@/components/MDXProjectList";
 import Image from "next/image";
 
@@ -19,18 +18,17 @@ export default function HomePage() {
       <BackgroundLuxe />
       {/* Global Particle System that responds to scroll */}
       <ParticleSystem useScrollMode={true} particleDensity={0.0004} interactive={true} />
-      {/* Scroll snapping container */}
-      <div id="page-scroll" className="h-screen overflow-y-auto overscroll-y-contain snap-y snap-mandatory scroll-smooth focus:outline-none relative z-10" tabIndex={0}>
-        <SnapScrollController />
+      {/* Scroll container */}
+      <div id="page-scroll" className="h-screen overflow-y-auto overscroll-y-contain scroll-smooth focus:outline-none relative z-10" tabIndex={0}>
         {/* Hero Section */}
-        <section id="hero" className="min-h-screen snap-start">
+        <section id="hero" className="min-h-screen">
           <Hero />
         </section>
 
         {/* Main Content */}
         <main className="w-full min-h-screen font-sans">
-          <div className="w-full space-y-32">
-            <section id="about" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-32 flex flex-col justify-center">
+          <div className="w-full space-y-10">
+            <section id="about" className="scroll-mt-16 min-h-screen px-4 sm:px-8 lg:px-12 py-16 flex flex-col justify-center">
               <div className="w-full max-w-4xl mx-auto">
                 <h2 className="text-3xl font-semibold font-serif mb-8">About Me</h2>
                 <div className="space-y-6 text-lg leading-relaxed">
@@ -58,7 +56,7 @@ export default function HomePage() {
               </div>
             </section>
 
-            <section id="academics" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-32 flex flex-col justify-center">
+            <section id="academics" className="scroll-mt-16 min-h-screen px-4 sm:px-8 lg:px-12 py-16 flex flex-col justify-center">
               <div className="w-full max-w-3xl mx-auto">
                 <h2 className="text-3xl font-semibold font-serif mb-8">Academics</h2>
                 <div className="space-y-8">
@@ -80,7 +78,7 @@ export default function HomePage() {
               </div>
             </section>
 
-            <section id="research" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-32 flex flex-col justify-center">
+            <section id="research" className="scroll-mt-16 min-h-screen px-4 sm:px-8 lg:px-12 py-16 flex flex-col justify-center">
               <div className="w-full max-w-3xl mx-auto">
                 <h2 className="text-3xl font-semibold font-serif mb-8">Research</h2>
                 <div className="space-y-12">
@@ -96,28 +94,28 @@ export default function HomePage() {
               </div>
             </section>
 
-            <section id="projects" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-32 flex flex-col justify-center">
+            <section id="projects" className="scroll-mt-16 min-h-screen px-4 sm:px-8 lg:px-12 py-16 flex flex-col justify-center">
               <div className="w-full max-w-6xl mx-auto">
                 <h2 className="text-3xl font-semibold font-serif mb-8">Projects</h2>
                 <MDXProjectList />
               </div>
             </section>
 
-            <section id="skills" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-32 flex flex-col justify-center">
+            <section id="skills" className="scroll-mt-16 min-h-screen px-4 sm:px-8 lg:px-12 py-16 flex flex-col justify-center">
               <div className="w-full max-w-3xl mx-auto">
                 <h2 className="text-3xl font-semibold font-serif mb-8">Skills</h2>
                 <SkillList />
               </div>
             </section>
 
-            <section id="experience" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-32 flex flex-col justify-center">
+            <section id="experience" className="scroll-mt-16 min-h-screen px-4 sm:px-8 lg:px-12 py-16 flex flex-col justify-center">
               <div className="w-full max-w-3xl mx-auto">
                 <h2 className="text-3xl font-semibold font-serif mb-8">Work Experience</h2>
                 <ExperienceList />
               </div>
             </section>
 
-            <section id="contact" className="scroll-mt-16 min-h-screen snap-start px-4 sm:px-8 lg:px-12 py-32 flex flex-col justify-center">
+            <section id="contact" className="scroll-mt-16 min-h-screen px-4 sm:px-8 lg:px-12 py-16 flex flex-col justify-center">
               <div className="w-full max-w-3xl mx-auto">
                 <h2 className="text-3xl font-semibold font-serif mb-8">Contact Information</h2>
                 <div className="space-y-6 text-lg">
