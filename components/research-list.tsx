@@ -39,6 +39,18 @@ const researchData: ResearchItem[] = [
       "Collaborated with researchers at CERN to create reproducible and readable code and results"
     ],
   },
+  {
+    institution: "Singh Lab Research",
+    position: "",
+    advisor: "Ritambhara Singh",
+    period: "May 2024 - November 2024",
+    location: "Providence, RI",
+    responsibilities: [
+      "Explored novel strategies for identifying drug-drug interactions using LLMs.",
+      "Conducted systematic experiments with machine learning techniques (fine-tuning, RAG, knowledge graphs, graph network analysis).",
+      "Developed robust data extraction and sanitization protocols, including web scraping with Puppeteer."
+    ],
+  }
 ];
 
 export function ResearchList() {
