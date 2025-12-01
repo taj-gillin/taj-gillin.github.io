@@ -28,7 +28,7 @@ export function Hero() {
           className="flex flex-wrap gap-6 justify-center items-center"
         >
           <Button asChild size="lg" className="gap-2 text-base px-6 py-3">
-            <a href="/Taj Gillin Resume October 2025.pdf" download>
+            <a href="/Taj Gillin Resume December 2025.pdf" download>
               <Download className="h-5 w-5" />
               Resume
             </a>
