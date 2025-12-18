@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import Link from 'next/link';
 import Image from 'next/image';
 import { getAllProjects, ProjectMetadata } from '@/lib/projects';
+import { ExternalLink } from "lucide-react";
 
 function ProjectCard({ project }: { project: ProjectMetadata }) {
   return (
@@ -26,7 +27,10 @@ function ProjectCard({ project }: { project: ProjectMetadata }) {
       )}
       <CardHeader className="p-5">
         <div className="flex items-start justify-between">
-          <CardTitle className="text-xl font-semibold font-serif text-primary mb-1">{project.title}</CardTitle>
+          <CardTitle className="text-xl font-semibold font-serif text-primary mb-1 flex items-center">
+            {project.title}
+            {project.externalUrl && <ExternalLink className="w-4 h-4 ml-2 opacity-50" />}
+          </CardTitle>
           {project.award && (
             <Badge variant="default" className="ml-2">🏆 {project.award}</Badge>
           )}
