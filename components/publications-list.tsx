@@ -7,7 +7,7 @@ import {
 export interface Publication {
     title: string;
     authors: string[];
-    venue: string;
+    venue?: string;
     year: number;
     type: "poster" | "paper" | "presentation";
     pdfUrl?: string;
@@ -18,11 +18,18 @@ const publicationsData: Publication[] = [
     {
         title: "World Modeling Without Resets",
         authors: ["Taj Gillin", "Lucas Maes", "Randall Balestriero"],
-        venue: "NECV 2025",
+        venue: "NECV",
         year: 2025,
         type: "poster",
         pdfUrl: "/research/[NECV 2025] Taj Gillin Poster.pdf",
     },
+    {
+        title: "BERT-JEPA: Reorganizing CLS Embeddings for Language-Invariant Semantics",
+        authors: ["Taj Gillin", "Adam Lalani", "Kenneth Zhang", "Marcel Mateos Salles"],
+        year: 2026,
+        type: "paper",
+        pdfUrl: "https://arxiv.org/abs/2601.00366",
+    }
 ];
 
 export function PublicationsList() {
@@ -45,9 +52,16 @@ export function PublicationsList() {
                             </p>
 
                             <div className="flex items-center gap-3 text-xs text-muted-foreground/60 mt-1">
-                                <span>
-                                    {pub.venue} {pub.year}
-                                </span>
+                                {pub.venue && (
+                                    <span>
+                                        {pub.venue} {pub.year}
+                                    </span>
+                                )}
+                                {!pub.venue && (
+                                    <span>
+                                        {pub.year}
+                                    </span>
+                                )}
                                 <span>•</span>
                                 <span className="capitalize">
                                     {pub.type}
