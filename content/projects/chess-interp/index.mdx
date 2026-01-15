@@ -1,0 +1,137 @@
+---
+title: "ChessGPT"
+description: "Mechanistic interpretability on a chess transformer model"
+date: "January 2026"
+technologies: ["PyTorch", "Chess", "Transformer", "Mechanistic Interpretability"]
+coverImage: "/projects/chess-interp/cover.png"
+---
+
+import { 
+  ProjectImage,
+  TwoColumnLayout,
+  LeftColumn,
+  RightColumn,
+  Equation,
+  BlockEquation,
+  DataTable,
+} from '@/components/content';
+
+# ChessGPT
+
+When I started this project, I set the goal is to build a gpt type model that plays chess, then do interpretability on this to demonstrate various mechanistic interpretability concepts.
+
+I have three phases for this project. At the time of writing this, two of them are completed.
+1) Pretraining: build and train the model
+2) Probing: take the pretrained model and learn a linear probe of various points in the residual stream for things like board position, existence of tactics, and more
+3) Intervention: using the probes, intervene in certain states to adjust the models board state, tendency to predict and act on tactics, and maybe more. It would be great if I could create an interactive model here where I could intervene on the fly and see the effect.
+
+
+
+# Pretraining
+
+## Data 
+
+#### Source
+
+For pretraining and some probing, I am using chess games pulled from the [Lichess hugging face dataset](https://huggingface.co/datasets/Lichess/standard-chess-games). I filter for games in which there are at least 15 moves and both players have an elo of at least 1800. In total, I pull around 40,000 games.
+
+#### Format
+
+Ad described below, I structure our model to take in the series of moves up to the current state instead of the current board state. On most chess websites, books, and tournaments you will see moves written in Standard Algebraic Notation (SAN).  However, most computational chess models use a different format that is part of the Universal Chess Interface (UCI). While the Lichess database is in SAN, we translate this is UCI and use this as input to our model.
+
+### Tokenization
+
+UCI moves are structured as \[square the piece is moving from\]\[square the piece is moving to\]\<promotion\>. Castles can be represented in this format as moving the king to the location after castle. 
+
+## Task
+Chess is, aside from modeling player behavior, Markovian. When deciding on a move, what matters is the current position not the sequence of moves that led there. This means the strongest formulation of a chess prediction task would take the current board state as input and predict the best move, essentially learning a value function over positions.
+
+But that's not the formulation I chose. My goal is to learn about mechanistic interpretability through models that resemble large language models. To mimic the self-supervised next-token prediction paradigm of LLMs, I instead frame the task as sequence prediction: given the moves played so far, predict the next move.
+
+Formally, given a sequence of moves <Equation>{"\\{m_1, m_2, \\dots, m_n\\}"}</Equation>, the model learns a function <Equation>{"f"}</Equation> that takes <Equation>{"\\{m_1, m_2, \\dots, m_{k}\\}"}</Equation> and predicts <Equation>{"m_{k+1}"}</Equation>. Just as language models can extract <Equation>{"n-1"}</Equation> training examples from a single sentence of length <Equation>{"n"}</Equation> (by masking increasingly longer prefixes), I extract <Equation>{"n-1"}</Equation> training examples from each chess game.
+
+This formulation has an interesting implication: the model must implicitly reconstruct the board state from the move sequence. It cannot simply "look" at the current position. Instead, it must track how each move transforms the board. This makes the internal representations potentially richer and more interpretable.
+
+## Model
+
+The architecture is a GPT-style transformer based on [NanoGPT](https://github.com/karpathy/nanoGPT). The pipeline consists of:
+
+1) Tokenizer: Converts UCI move notation (e.g., e2e4, g1f3) into token IDs
+2) Embedding layer: Maps tokens to dense vectors and adds positional encodings
+3) Transformer blocks: 12 layers, each containing:
+a) Multi-head self-attention
+b) Feed-forward MLP
+c) Layer normalization and residual connections
+4) Output head: Projects the final hidden state to a probability distribution over all possible tokens
+
+The model outputs a probability distribution across all moves in the vocabulary. During inference, the predicted move is simply the one with the highest probability.
+
+The model was trained using cross-entropy loss, comparing the predicted probability distribution against the actual next move played in each game.
+
+## Evaluation
+
+Predicting the exact move a human played is a noisy target, as multiple moves might be equally good in any position, and playing styles vary widely. So I evaluate the model along several dimensions. I was also interested in how these metrics change with respect to the move number in the game. Below are the metrics I evaluated.
+
+### Accuracy
+
+What percentage of predicted moves match the moves actually played? This is a strict metric: even if the model's prediction is an excellent move, it counts as wrong if it differs from the game record.
+
+### Legality
+
+Perhaps more fundamental than accuracy: is the model even making legal moves? For any board position, the vast majority of possible UCI strings represent illegal moves. There are at most 20 possible starting squares for a side's pieces, and each piece has limited legal destinations depending on its type and the board state.
+I measure legality two ways:
+1) Top-1 legality: How often is the highest-probability move legal?
+2) Legal probability mass: What fraction of the total probability distribution is assigned to legal moves?
+
+### Confidence
+
+How certain is the model in its predictions? A maximally confident model would assign 100% probability to a single move. A minimally confident model would output a uniform distribution. I quantify this using entropy:
+
+<BlockEquation>
+{"H(x) = -\\sum_{m_i \\in M}^{n} p(m_i) \\log p(m_i)"}
+</BlockEquation>
+
+Lower entropy means higher confidence.
+
+### Results
+
+<ProjectImage 
+  src="/projects/chess-interp/performance_curves.png"
+  alt="Performance Curves"
+  caption="Performance across various metrics as a function of move number"
+  zoom
+/>
+
+For all the graphs, note that scales. We see decent accuracy, with rather low accuracy in the opening, highest accuracy during the middlegame, and a plateauing as it reaches the end game. We see very good performance for legality. Notably, where the accuracy is low at the start the the game, the legality is perfect. This makes sense, as there are many openings and it is an ill-posed task to predict what opening someone is going to play. But as the game progresses, the number of good moves to make in a position becomes a much smaller set. In both Top-1 and probability mass, we see a sigmoid-shaped curve with decreasing performance for later moves, but still strong performance overall. Lastly, in terms of confidence, we see validation for the opening, in which the model has very low confidence in its predictions, with entropy decreasing rapidly. Then, as the game progresses, the entropy increases and the model becomes less sure of which move to make.
+
+As an exercise, here's ChessGPT's response to 1. e4, the most common opening move:
+
+
+<DataTable
+  headers={["Rank", "Move", "Probability"]}
+  rows={[
+    [1, "c7c5", "25.44%"],
+    [2, "e7e5", "24.15%"],
+    [3, "e7e6", "17.53%"],
+    [4, "c7c6", "9.02%"],
+    [5, "d7d5", "6.19%"],
+    [6, "d7d6", "5.23%"],
+    [7, "b7b6", "3.99%"],
+    [8, "b8c6", "3.56%"],
+    [9, "g7g6", "2.39%"],
+    [10, "g8f6", "1.82%"],
+  ]}
+  caption="Top 10 predicted responses to 1. e4"
+/>
+
+These are all legitimate, commonly-played responses to 1. e4, ordered roughly by popularity in real games. The model has learned the statistical distribution of chess openings.
+
+Then, I played a few games with it. Anecdotally, while it is far from a great chess player, it is not an awful player.  It handles openings reasonably well, makes sensible developing moves, and occasionally finds nice tactical ideas like forks. But it also misses obvious opportunities like a free piece sitting in front of a pawn, or an escape via check when under attack.
+
+It plays like someone who has just learned the rules and understands how pieces move, but hasn't yet developed the pattern recognition that makes strong players. This is perhaps unsurprising: the model was trained to predict human moves, not to win games. It has learned the *distribution* of chess, not the *optimization* of chess.
+
+
+
+# Probing (writeup coming 1/15!)
+
+# Intervention (coming soon)

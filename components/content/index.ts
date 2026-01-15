@@ -1,5 +1,6 @@
 // Content components for MDX
 export { Equation, BlockEquation } from './Equation';
+export { DataTable } from './DataTable';
 export { KaTeXEquation } from './KaTeXEquation';
 export { CodeBlock, InlineCode } from './CodeBlock';
 export { TwoColumnLayout, LeftColumn, RightColumn } from './TwoColumnLayout';
