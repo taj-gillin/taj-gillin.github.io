@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Lora } from "next/font/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 import "./globals.css";
 import "katex/dist/katex.min.css";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -42,6 +43,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <GoogleTagManager gtmId="GTM-P2LCFGRG" />
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${lora.variable} antialiased`}
       >
