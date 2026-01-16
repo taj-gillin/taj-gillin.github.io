@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface CarouselImage {
   url: string;
@@ -8,20 +8,55 @@ interface CarouselImage {
   caption?: string;
 }
 
-export default function ScreenshotCarousel({ images }: { images: CarouselImage[] }) {
+interface ScreenshotCarouselProps {
+  images: CarouselImage[];
+  contain?: boolean; // If true, shows the entire image without cropping
+  fixedSize?: boolean; // If true with contain, locks carousel to first image's aspect ratio
+}
+
+export default function ScreenshotCarousel({ images, contain = false, fixedSize = false }: ScreenshotCarouselProps) {
   const [idx, setIdx] = useState(0);
+  const [aspectRatio, setAspectRatio] = useState<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Load first image to get its dimensions for fixed size mode
+  useEffect(() => {
+    if (contain && fixedSize && images.length > 0) {
+      const img = new window.Image();
+      img.onload = () => {
+        setAspectRatio(img.naturalWidth / img.naturalHeight);
+      };
+      img.src = images[0].url;
+    }
+  }, [contain, fixedSize, images]);
+
   if (!images || images.length === 0) return null;
 
   const prev = () => setIdx((i) => (i === 0 ? images.length - 1 : i - 1));
   const next = () => setIdx((i) => (i === images.length - 1 ? 0 : i + 1));
 
+  // Determine container styles
+  const getContainerClass = () => {
+    if (!contain) return 'aspect-video';
+    if (fixedSize && aspectRatio) return ''; // Use inline style for custom aspect ratio
+    return 'min-h-[300px]';
+  };
+
+  const containerStyle = contain && fixedSize && aspectRatio 
+    ? { aspectRatio: aspectRatio.toString() } 
+    : undefined;
+
   return (
-    <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-lg border border-border bg-muted flex flex-col items-center">
+    <div 
+      ref={containerRef}
+      className={`relative w-full rounded-xl overflow-hidden shadow-lg border border-border bg-muted flex flex-col items-center ${getContainerClass()}`}
+      style={containerStyle}
+    >
       <Image
         src={images[idx].url}
         alt={images[idx].alt}
         fill
-        className="object-cover"
+        className={contain ? "object-contain" : "object-cover"}
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         priority={idx === 0}
       />
