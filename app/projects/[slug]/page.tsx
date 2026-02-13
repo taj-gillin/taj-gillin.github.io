@@ -4,9 +4,8 @@ import { join } from 'path';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import matter from 'gray-matter';
 import { mdxComponents } from '@/lib/mdx';
-import { BackgroundLuxe } from '@/components/BackgroundLuxe';
-import Link from 'next/link';
 import 'katex/dist/katex.min.css';
+
 import { ProjectHeader } from '@/components/project';
 import { ProjectSidebarNav } from '@/components/project-sidebar-nav';
 import { extractHeadingsFromMDX } from '@/lib/mdx-utils';

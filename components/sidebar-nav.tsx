@@ -19,7 +19,8 @@ const NAV_ITEMS = [
 export function SidebarNav() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
-  const [isOffHero, setIsOffHero] = useState(false);
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+  /* removed unused isOffHero */
   const pathname = usePathname();
   // Sidebar state: on Home, only open if shattered. Elsewhere, always open.
   const [canOpen, setCanOpen] = useState(pathname !== '/');
@@ -28,34 +29,7 @@ export function SidebarNav() {
   const isProjectPage = pathname?.startsWith('/projects/');
   const isBlogPage = pathname?.startsWith('/blog/');
 
-  // Scroll spy logic and off-hero detection
   useEffect(() => {
-    // If not on home page, we're definitely "off hero"
-    if (pathname !== '/') {
-      setIsOffHero(true);
-      return;
-    }
-
-    // On home page, detect scroll
-    const handleScroll = () => {
-      // The scroll container is inside HomeInteractive, but we can detect its scroll
-      // by looking for the element with specific classes or by catching the event.
-      // Since HomeInteractive uses h-full overflow-y-auto on its main div, 
-      // window.scrollY might be 0. We need to check the actual scroll container.
-
-      const scrollContainer = document.querySelector('.overflow-y-auto');
-      if (scrollContainer) {
-        const scrollY = scrollContainer.scrollTop;
-        // Threshold: halfway through the first screen usually covers the background transition
-        setIsOffHero(scrollY > window.innerHeight * 0.5);
-      }
-    };
-
-    // Use a small delay to ensure the DOM is ready if needed, 
-    // or just attach to window with capture to catch bubbled events.
-    window.addEventListener('scroll', handleScroll, { capture: true, passive: true });
-    handleScroll(); // Initial check
-
     // Listen for shatter event
     const handleShatter = () => setCanOpen(true);
     if (pathname === '/') {
@@ -66,7 +40,6 @@ export function SidebarNav() {
     }
 
     return () => {
-      window.removeEventListener('scroll', handleScroll, { capture: true } as any);
       window.removeEventListener('hero-shattered', handleShatter);
     };
   }, [pathname]);
