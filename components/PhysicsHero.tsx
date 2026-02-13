@@ -223,6 +223,7 @@ export function PhysicsHero({ scrollContainerRef }: PhysicsHeroProps) {
             if (hasShatteredRef.current) return
             console.log("Triggering Shatter!")
             hasShatteredRef.current = true
+            window.dispatchEvent(new CustomEvent('hero-shattered'))
 
             letterBodies.forEach(body => {
                 Matter.Body.setStatic(body, false)

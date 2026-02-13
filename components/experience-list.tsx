@@ -99,17 +99,17 @@ export function ExperienceList() {
     <Accordion type="multiple" className="w-full">
       {experienceData.map((item, index) => (
         <AccordionItem value={`exp-${index}`} key={index}>
-          <AccordionTrigger className="py-4 text-base hover:no-underline">
+          <AccordionTrigger className="py-4 text-lg font-sans hover:no-underline">
             <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-2 text-left">
               <span className="font-medium text-foreground">{item.company}</span>
-              <span className="text-muted-foreground text-sm">— {item.position}</span>
+              <span className="text-muted-foreground text-sm font-sans">— {item.position}</span>
             </div>
-            <span className="text-muted-foreground text-sm shrink-0 ml-auto mr-4 hidden sm:block">{item.period}</span>
+            <span className="text-muted-foreground text-base font-sans shrink-0 ml-auto mr-4 hidden sm:block">{item.period}</span>
           </AccordionTrigger>
           <AccordionContent className="pb-6">
-            <div className="text-sm text-muted-foreground mb-3 sm:hidden">{item.period} · {item.location}</div>
-            <div className="text-sm text-muted-foreground mb-3 hidden sm:block">{item.location}</div>
-            <ul className="list-disc pl-5 space-y-2 text-sm leading-relaxed text-foreground/80">
+            <div className="text-base text-muted-foreground font-sans mb-3 sm:hidden">{item.period} · {item.location}</div>
+            <div className="text-base text-muted-foreground mb-3 hidden sm:block">{item.location}</div>
+            <ul className="list-disc pl-5 space-y-2 text-base leading-relaxed text-foreground/80">
               {item.responsibilities.map((resp, i) => (
                 <li key={i}>{resp}</li>
               ))}

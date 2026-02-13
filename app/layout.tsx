@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { GoogleTagManager } from "@next/third-parties/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 import "katex/dist/katex.min.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SidebarNav } from "@/components/sidebar-nav";
+
+// Font configurations
+const roboto = Roboto({ variable: "--font-roboto", weight: ["100", "300", "400", "500", "700", "900"], subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Taj Gillin",
@@ -24,7 +28,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <GoogleTagManager gtmId="GTM-P2LCFGRG" />
       <body
-        className="antialiased"
+        className={`${roboto.variable} antialiased`}
       >
         <ThemeProvider
           attribute="class"

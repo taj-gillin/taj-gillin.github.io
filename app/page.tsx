@@ -1,4 +1,4 @@
-import { Github, Linkedin, Mail } from "lucide-react";
+
 import { CourseList } from "@/components/course-list";
 import { ExperienceList } from "@/components/experience-list";
 import { ResearchList } from "@/components/research-list";
@@ -88,6 +88,11 @@ export default function HomePage() {
           </div>
         </section>
 
+        <section id="experience" className="scroll-mt-16">
+          <h2 className="text-3xl font-normal mb-10 border-b border-white/15 pb-3">Work Experience</h2>
+          <ExperienceList />
+        </section>
+
         <section id="projects" className="scroll-mt-16">
           <h2 className="text-3xl font-normal mb-10 border-b border-white/15 pb-3">Projects</h2>
           <div className="w-full">
@@ -95,37 +100,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="experience" className="scroll-mt-16">
-          <h2 className="text-3xl font-normal mb-10 border-b border-white/15 pb-3">Work Experience</h2>
-          <ExperienceList />
-        </section>
 
-        <section id="contact" className="scroll-mt-16 pb-20">
-          <h2 className="text-3xl font-normal mb-10 border-b border-white/15 pb-3">Get In Touch</h2>
-          <div className="flex flex-col md:flex-row gap-8 justify-between items-start">
-            <p className="text-xl text-gray-300 max-w-md leading-relaxed">
-              I&apos;m always open to discussing new projects, research collaborations, or interesting opportunities.
-            </p>
-            <div className="flex flex-col gap-4">
-              <a href="mailto:taj_gillin@brown.edu" className="group flex items-center text-lg text-gray-300 hover:text-white transition-colors">
-                <Mail className="mr-4 h-6 w-6 text-gray-500 group-hover:text-white transition-colors" />
-                taj_gillin@brown.edu
-              </a>
-              <a href="mailto:tajgillin@gmail.com" className="group flex items-center text-lg text-gray-300 hover:text-white transition-colors">
-                <Mail className="mr-4 h-6 w-6 text-gray-500 group-hover:text-white transition-colors" />
-                tajgillin@gmail.com
-              </a>
-              <a href="https://github.com/taj-gillin" target="_blank" rel="noopener noreferrer" className="group flex items-center text-lg text-gray-300 hover:text-white transition-colors">
-                <Github className="mr-4 h-6 w-6 text-gray-500 group-hover:text-white transition-colors" />
-                GitHub Profile
-              </a>
-              <a href="https://www.linkedin.com/in/taj-gillin-983864237/" target="_blank" rel="noopener noreferrer" className="group flex items-center text-lg text-gray-300 hover:text-white transition-colors">
-                <Linkedin className="mr-4 h-6 w-6 text-gray-500 group-hover:text-white transition-colors" />
-                LinkedIn Profile
-              </a>
-            </div>
-          </div>
-        </section>
 
       </main>
 

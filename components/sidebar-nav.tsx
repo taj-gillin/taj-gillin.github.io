@@ -8,7 +8,6 @@ import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 
 const NAV_ITEMS = [
-  { id: "hero", href: "#hero", label: "Home" },
   { id: "about", href: "#about", label: "About Me" },
   { id: "academics", href: "#academics", label: "Academics" },
   { id: "research", href: "#research", label: "Research" },
@@ -22,6 +21,8 @@ export function SidebarNav() {
   const [activeSection, setActiveSection] = useState("");
   const [isOffHero, setIsOffHero] = useState(false);
   const pathname = usePathname();
+  // Sidebar state: on Home, only open if shattered. Elsewhere, always open.
+  const [canOpen, setCanOpen] = useState(pathname !== '/');
 
   // Check if we're on a project or blog page (these have their own sidebars)
   const isProjectPage = pathname?.startsWith('/projects/');
@@ -55,14 +56,40 @@ export function SidebarNav() {
     window.addEventListener('scroll', handleScroll, { capture: true, passive: true });
     handleScroll(); // Initial check
 
-    return () => window.removeEventListener('scroll', handleScroll, { capture: true } as any);
+    // Listen for shatter event
+    const handleShatter = () => setCanOpen(true);
+    if (pathname === '/') {
+      setCanOpen(false); // Reset on home mount/nav
+      window.addEventListener('hero-shattered', handleShatter);
+    } else {
+      setCanOpen(true);
+    }
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll, { capture: true } as any);
+      window.removeEventListener('hero-shattered', handleShatter);
+    };
   }, [pathname]);
 
-  const handleNavLinkClick = (hash: string) => {
+  const handleToggle = () => {
+    if (isOpen) {
+      setIsOpen(false);
+    } else {
+      // On home, if not shattered/canOpen yet, do nothing (click propagates to shatter)
+      // On other pages, or if already shattered, open menu
+      if (pathname === '/' && !canOpen) return;
+      setIsOpen(true);
+    }
+  };
+
+  const handleNavLinkClick = (hash: string, e?: React.MouseEvent) => {
     setIsOpen(false);
 
-    // If not on home page, simple navigation
+    // If not on home page, simple navigation (Link handles href)
     if (pathname !== '/') return;
+
+    // On home page, prevent Link navigation and scroll manually
+    if (e) e.preventDefault();
 
     // On home page, find element and scroll
     const element = document.getElementById(hash.substring(1));
@@ -116,7 +143,7 @@ export function SidebarNav() {
     <>
       {/* Hamburger Trigger - Fixed Top Left */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleToggle}
         className="fixed top-6 left-6 z-[60] w-10 h-10 flex flex-col items-center justify-center gap-[5px] bg-black rounded-md hover:bg-gray-800 transition-colors mix-blend-difference"
         aria-label="Toggle Menu"
       >
@@ -161,8 +188,8 @@ export function SidebarNav() {
               animate="visible"
               exit="exit"
               className={cn(
-                "fixed top-0 left-0 bottom-0 w-64 z-50 p-8 border-r shadow-2xl flex flex-col transition-colors duration-300",
-                isOffHero ? "bg-white text-black border-black/10" : "bg-black text-white border-white/10"
+                "fixed top-[-50px] left-0 bottom-0 w-64 z-50 px-8 pb-8 pt-[calc(2rem+50px)] border-r shadow-2xl flex flex-col transition-colors duration-300",
+                "bg-black/80 backdrop-blur-xl text-white border-white/10"
               )}
             >
               <div className="flex justify-between items-center mb-10 mt-12">
@@ -170,7 +197,9 @@ export function SidebarNav() {
                   variants={itemVariants}
                   className="text-3xl font-bold font-serif"
                 >
-                  Taj Gillin
+                  <Link href="/" onClick={(e) => handleNavLinkClick("#hero", e)}>
+                    Taj Gillin
+                  </Link>
                 </motion.h1>
               </div>
 
@@ -180,15 +209,12 @@ export function SidebarNav() {
                     <motion.li key={item.label} variants={itemVariants}>
                       <Link
                         href={item.href}
-                        onClick={() => handleNavLinkClick(item.href)}
+                        onClick={(e) => handleNavLinkClick(item.href, e)}
                         className={cn(
-                          "block text-xl py-2 transition-colors duration-200 hover:pl-2",
-                          isOffHero
-                            ? "hover:text-gray-600"
-                            : "hover:text-gray-300",
+                          "block text-xl py-2 transition-colors duration-200 hover:pl-2 hover:text-gray-300",
                           activeSection === item.id
-                            ? (isOffHero ? "text-black font-semibold" : "text-white font-semibold")
-                            : (isOffHero ? "text-gray-400" : "text-gray-500")
+                            ? "text-white font-semibold"
+                            : "text-gray-500"
                         )}
                       >
                         {item.label}
@@ -201,15 +227,9 @@ export function SidebarNav() {
               <motion.div
                 variants={itemVariants}
                 className={cn(
-                  "mt-auto pt-8 border-t transition-colors duration-300",
-                  isOffHero ? "border-black/10" : "border-white/10"
+                  "mt-auto pt-8 border-t transition-colors duration-300 border-transparent text-transparent select-none cursor-default"
                 )}
               >
-                {/* Optional footer content */}
-                <p className={cn(
-                  "text-sm transition-colors duration-300",
-                  isOffHero ? "text-gray-400" : "text-gray-500"
-                )}>© {new Date().getFullYear()} Taj Gillin</p>
               </motion.div>
             </motion.aside>
           </>

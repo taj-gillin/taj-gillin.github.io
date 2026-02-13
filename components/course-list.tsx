@@ -237,7 +237,7 @@ export function CourseList() {
     <Accordion type="multiple" className="w-full">
       {courseData.map((category) => (
         <AccordionItem value={category.title} key={category.title} className="border-b border-foreground/10">
-          <AccordionTrigger className="text-base font-medium hover:no-underline py-4">
+          <AccordionTrigger className="text-lg font-sans font-medium hover:no-underline py-4">
             {category.title}
           </AccordionTrigger>
           <AccordionContent className="pb-2">
@@ -245,15 +245,15 @@ export function CourseList() {
               <Accordion type="multiple" className="w-full pl-4">
                 {[...category.courses].reverse().map((course) => (
                   <AccordionItem value={course.id} key={course.id} className="border-b border-foreground/5 last:border-b-0">
-                    <AccordionTrigger className="py-3 text-sm hover:no-underline">
+                    <AccordionTrigger className="py-3 text-base font-sans hover:no-underline">
                       <div className="flex items-baseline gap-2 text-left">
-                        <span className="text-muted-foreground font-mono text-xs">{course.id}</span>
+                        <span className="text-muted-foreground font-mono text-sm">{course.id}</span>
                         <span className="text-foreground/90">{course.name}</span>
                       </div>
-                      <span className="text-muted-foreground text-xs shrink-0 ml-auto mr-4 hidden sm:block">{course.semester}</span>
+                      <span className="text-muted-foreground text-sm shrink-0 ml-auto mr-4 hidden sm:block">{course.semester}</span>
                     </AccordionTrigger>
                     <AccordionContent className="pb-3">
-                      <p className="text-sm leading-relaxed text-foreground/70 pl-0">{course.description}</p>
+                      <p className="text-base leading-relaxed text-foreground/70 pl-0">{course.description}</p>
                       {course.projectLink && (
                         <a
                           href={course.projectLink}

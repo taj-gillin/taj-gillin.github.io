@@ -12,9 +12,9 @@ import { ProjectSidebarNav } from '@/components/project-sidebar-nav';
 import { extractHeadingsFromMDX } from '@/lib/mdx-utils';
 
 type ProjectPageProps = {
-    params: Promise<{
-        slug: string;
-    }>;
+  params: Promise<{
+    slug: string;
+  }>;
 };
 
 type Frontmatter = {
@@ -58,7 +58,7 @@ export async function generateStaticParams() {
     const projectDirs = readdirSync(contentDir, { withFileTypes: true })
       .filter(dirent => dirent.isDirectory())
       .map(dirent => dirent.name);
-    
+
     return projectDirs.map((slug) => ({
       slug,
     }));
@@ -75,42 +75,28 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     notFound();
   }
 
-  // Extract table of contents from MDX content
-  const tableOfContents = extractHeadingsFromMDX(mdx.content);
+  // Extract table of contents from MDX content (only H1 and H2)
+  const tableOfContents = extractHeadingsFromMDX(mdx.content, 2);
   const projectTitle = mdx.meta.title ?? slug;
 
   return (
     <>
       {/* Project Sidebar - positioned absolutely to avoid layout conflicts */}
       <div className="fixed left-0 top-0 z-30 hidden lg:block">
-        <ProjectSidebarNav 
+        <ProjectSidebarNav
           projectTitle={projectTitle}
           tableOfContents={tableOfContents}
         />
       </div>
-      
+
       {/* Main Content - with left margin to account for sidebar */}
-      <div id="project-content" className="h-screen overflow-y-auto lg:ml-60">
-        {/* Background layer */}
-        <div className="fixed inset-0 z-0">
-          <BackgroundLuxe />
-        </div>
-        
+      <div id="project-content" className="h-screen overflow-y-auto lg:ml-60 bg-black text-white">
+
         {/* Scrollable content layer */}
         <div className="relative z-10 min-h-screen">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-4xl">
-            {/* Navigation */}
-            <nav className="mb-8">
-              <Link 
-                href="/#projects" 
-                className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                ← Back to Projects
-              </Link>
-            </nav>
-
             {/* Page header */}
-            <ProjectHeader 
+            <ProjectHeader
               title={projectTitle}
               description={mdx.meta.description}
               course={mdx.meta.course}
@@ -121,15 +107,15 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
             {/* MDX Content */}
             <article className="prose dark:prose-invert max-w-none">
-              <MDXRemote 
-                source={mdx.content} 
+              <MDXRemote
+                source={mdx.content}
                 options={{
                   mdxOptions: {
                     remarkPlugins: [],
                     rehypePlugins: [],
                   }
                 }}
-                components={mdxComponents} 
+                components={mdxComponents}
               />
             </article>
 

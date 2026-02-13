@@ -43,7 +43,7 @@ export function PublicationsList() {
         <Accordion type="multiple" className="w-full">
             {publicationsData.map((pub, index) => (
                 <AccordionItem value={`pub-${index}`} key={index}>
-                    <AccordionTrigger className="py-4 text-base hover:no-underline">
+                    <AccordionTrigger className="py-4 text-base font-sans hover:no-underline">
                         <span className="font-medium text-foreground text-left">{pub.title}</span>
                         <span className="text-muted-foreground text-sm shrink-0 ml-auto mr-4 hidden sm:block">
                             {pub.year} · <span className="capitalize">{pub.type}</span>

@@ -82,24 +82,24 @@ export function ProjectSidebarNav({
   };
 
   return (
-    <aside className="w-60 h-screen flex flex-col justify-between overflow-y-auto p-6 space-y-6 border-r border-black/10 bg-white text-black lg:block hidden shadow-xl">
+    <aside className="w-60 h-screen flex flex-col justify-between overflow-y-auto p-6 space-y-6 border-r border-white/10 bg-black/80 backdrop-blur-xl text-white lg:block hidden shadow-xl">
       <div>
         <Link
           href="/"
-          className="text-3xl font-bold font-serif text-black mb-4 block hover:text-gray-600 transition-colors"
+          className="text-3xl font-bold font-serif text-white mb-4 block hover:text-gray-300 transition-colors"
         >
           Taj Gillin
         </Link>
 
         {/* Project title */}
-        <h2 className="text-lg font-semibold text-black mb-4 border-b border-black/10 pb-2">
+        <h2 className="text-lg font-semibold text-white mb-4 border-b border-white/10 pb-2">
           {projectTitle}
         </h2>
 
         {/* Back link */}
         <Link
           href={backLink.href}
-          className="inline-flex items-center text-sm text-gray-500 hover:text-black transition-colors mb-6"
+          className="inline-flex items-center text-sm text-gray-400 hover:text-white transition-colors mb-6"
         >
           {backLink.label}
         </Link>
@@ -127,9 +127,9 @@ export function ProjectSidebarNav({
                   <button
                     onClick={() => handleNavLinkClick(`#${item.id}`)}
                     className={cn(
-                      "block w-full text-left transition-colors duration-150 ease-in-out hover:text-gray-600 cursor-pointer",
+                      "block w-full text-left transition-colors duration-150 ease-in-out hover:text-gray-300 cursor-pointer",
                       textSize,
-                      activeSection === item.id ? "text-black font-semibold" : "text-gray-400"
+                      activeSection === item.id ? "text-white font-semibold" : "text-gray-500"
                     )}
                     style={{
                       paddingLeft: `${indent}px`
