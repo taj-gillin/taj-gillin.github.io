@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import type { Layout } from 'plotly.js';
 
 // Dynamically import Plotly to avoid SSR issues
-const Plot = dynamic(() => import('react-plotly.js'), { 
+const Plot = dynamic(() => import('react-plotly.js'), {
   ssr: false,
   loading: () => (
     <div className="flex items-center justify-center h-[500px] bg-card/50 rounded-xl border border-border/50">
@@ -81,10 +81,10 @@ interface LatentLandscapeProps {
   height?: number;
 }
 
-const LatentLandscape: React.FC<LatentLandscapeProps> = ({ 
-  src, 
+const LatentLandscape: React.FC<LatentLandscapeProps> = ({
+  src,
   caption,
-  height = 500 
+  height = 500
 }) => {
   const [data, setData] = useState<VisualizationData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -123,36 +123,48 @@ const LatentLandscape: React.FC<LatentLandscapeProps> = ({
     // - Z goal: 0.05
     // - Z surface: 0.1 to 10
     // - Colorbar: shows original distance values via surfacecolor
-    
+
     const COORD_MAX = 10;             // Target range for x, y, z
     const FLOOR_BASE = 0;
     const FLOOR_LAYER_STEP = 0.002;   // Step between floor layers
     const GOAL_Z = 0.05;              // Goal marker height
     const SURFACE_MIN = 0.1;          // Surface starts here (above floor/goal)
     const SURFACE_MAX = COORD_MAX;    // Surface max height
-    
-    // Get coordinate bounds for x, y normalization
-    const { x_min, x_max, y_min, y_max } = vizData.metadata.coordinate_bounds;
+
+    // Get coordinate bounds for x, y normalization (compute if missing)
+    let bounds = vizData.metadata.coordinate_bounds;
+    if (!bounds && vizData.surface_data?.x && vizData.surface_data?.y) {
+      const xFlat = vizData.surface_data.x.flat();
+      const yFlat = vizData.surface_data.y.flat();
+      bounds = {
+        x_min: Math.min(...xFlat),
+        x_max: Math.max(...xFlat),
+        y_min: Math.min(...yFlat),
+        y_max: Math.max(...yFlat)
+      };
+    }
+
+    const { x_min, x_max, y_min, y_max } = bounds || { x_min: 0, x_max: 10, y_min: 0, y_max: 10 };
     const xRange = x_max - x_min || 1;
     const yRange = y_max - y_min || 1;
-    
+
     // Helper to normalize x coordinate
     const normalizeX = (x: number) => ((x - x_min) / xRange) * COORD_MAX;
     // Helper to normalize y coordinate  
     const normalizeY = (y: number) => ((y - y_min) / yRange) * COORD_MAX;
-    
+
     // Get original z range for normalization
     const flatZ = vizData.surface_data.z.flat();
     const minSurfaceZ = Math.min(...flatZ);
     const maxSurfaceZ = Math.max(...flatZ);
     const zRange = maxSurfaceZ - minSurfaceZ || 1;
-    
+
     // Helper to normalize z coordinate for surface
     const normalizeZ = (z: number) => {
       const t = (z - minSurfaceZ) / zRange; // 0 to 1
       return t * (SURFACE_MAX - SURFACE_MIN) + SURFACE_MIN;
     };
-    
+
     // Normalize surface coordinates (x and y are 2D arrays like z)
     const normalizedSurfaceX = vizData.surface_data.x.map((row: number[]) => row.map(normalizeX));
     const normalizedSurfaceY = vizData.surface_data.y.map((row: number[]) => row.map(normalizeY));
@@ -189,7 +201,7 @@ const LatentLandscape: React.FC<LatentLandscapeProps> = ({
       // Stagger floor elements to avoid z-fighting
       const layerZ = FLOOR_BASE + floorLayerIndex * FLOOR_LAYER_STEP;
       floorLayerIndex++;
-      
+
       // Normalize x, y and set z to floor level
       const normalizedX = element.x.map(normalizeX);
       const normalizedY = element.y.map(normalizeY);
@@ -222,67 +234,69 @@ const LatentLandscape: React.FC<LatentLandscapeProps> = ({
     });
 
     // Add goal marker from metadata (correct position)
-    let [goalX, goalY] = vizData.metadata.goal_position;
-    
-    // For grid-based environments (minigrid), goal coords are cell indices
-    // Add 0.5 to center the marker within the cell
-    const isGridBased = vizData.metadata.environment_name.toLowerCase().includes('minigrid');
-    if (isGridBased) {
-      goalX += 0.5;
-      goalY += 0.5;
-    }
-    
-    // Normalize goal position and set z height
-    const normalizedGoalX = normalizeX(goalX);
-    const normalizedGoalY = normalizeY(goalY);
-    const goalZ = GOAL_Z;
-    
-    // Fixed radius in normalized space (works for all environments)
-    const radius = 0.3;
-    
-    // Create a flat circle (dot) marker at floor level
-    const numPoints = 32;
-    const circleX: number[] = [normalizedGoalX]; // center
-    const circleY: number[] = [normalizedGoalY];
-    const circleZ: number[] = [goalZ];
-    const circleI: number[] = [];
-    const circleJ: number[] = [];
-    const circleK: number[] = [];
-    
-    // Add circle edge points (using normalized coordinates)
-    for (let i = 0; i < numPoints; i++) {
-      const angle = (i / numPoints) * 2 * Math.PI;
-      circleX.push(normalizedGoalX + radius * Math.cos(angle));
-      circleY.push(normalizedGoalY + radius * Math.sin(angle));
-      circleZ.push(goalZ);
-      
-      // Create triangles from center to edge
-      circleI.push(0); // center
-      circleJ.push(i + 1);
-      circleK.push(i === numPoints - 1 ? 1 : i + 2);
-    }
+    if (vizData.metadata.goal_position) {
+      let [goalX, goalY] = vizData.metadata.goal_position;
 
-    plotData.push({
-      type: 'mesh3d',
-      x: circleX,
-      y: circleY,
-      z: circleZ,
-      i: circleI,
-      j: circleJ,
-      k: circleK,
-      color: '#22c55e',
-      opacity: 1.0,
-      name: 'Goal',
-      showlegend: false,
-      hoverinfo: 'name',
-    });
+      // For grid-based environments (minigrid), goal coords are cell indices
+      // Add 0.5 to center the marker within the cell
+      const isGridBased = vizData.metadata.environment_name.toLowerCase().includes('minigrid');
+      if (isGridBased) {
+        goalX += 0.5;
+        goalY += 0.5;
+      }
+
+      // Normalize goal position and set z height
+      const normalizedGoalX = normalizeX(goalX);
+      const normalizedGoalY = normalizeY(goalY);
+      const goalZ = GOAL_Z;
+
+      // Fixed radius in normalized space (works for all environments)
+      const radius = 0.3;
+
+      // Create a flat circle (dot) marker at floor level
+      const numPoints = 32;
+      const circleX: number[] = [normalizedGoalX]; // center
+      const circleY: number[] = [normalizedGoalY];
+      const circleZ: number[] = [goalZ];
+      const circleI: number[] = [];
+      const circleJ: number[] = [];
+      const circleK: number[] = [];
+
+      // Add circle edge points (using normalized coordinates)
+      for (let i = 0; i < numPoints; i++) {
+        const angle = (i / numPoints) * 2 * Math.PI;
+        circleX.push(normalizedGoalX + radius * Math.cos(angle));
+        circleY.push(normalizedGoalY + radius * Math.sin(angle));
+        circleZ.push(goalZ);
+
+        // Create triangles from center to edge
+        circleI.push(0); // center
+        circleJ.push(i + 1);
+        circleK.push(i === numPoints - 1 ? 1 : i + 2);
+      }
+
+      plotData.push({
+        type: 'mesh3d',
+        x: circleX,
+        y: circleY,
+        z: circleZ,
+        i: circleI,
+        j: circleJ,
+        k: circleK,
+        color: '#22c55e',
+        opacity: 1.0,
+        name: 'Goal',
+        showlegend: false,
+        hoverinfo: 'name',
+      });
+    }
 
     return plotData;
   };
 
   if (loading) {
     return (
-      <div 
+      <div
         className="flex items-center justify-center bg-card/50 rounded-xl border border-border/50"
         style={{ height }}
       >
@@ -296,7 +310,7 @@ const LatentLandscape: React.FC<LatentLandscapeProps> = ({
 
   if (error) {
     return (
-      <div 
+      <div
         className="flex items-center justify-center bg-destructive/10 rounded-xl border border-destructive/30"
         style={{ height }}
       >
@@ -307,7 +321,7 @@ const LatentLandscape: React.FC<LatentLandscapeProps> = ({
 
   if (!data) {
     return (
-      <div 
+      <div
         className="flex items-center justify-center bg-muted/50 rounded-xl border border-border/50"
         style={{ height }}
       >
@@ -317,7 +331,7 @@ const LatentLandscape: React.FC<LatentLandscapeProps> = ({
   }
 
   const plotData = createPlotData(data);
-  
+
   const layout: Partial<Layout> = {
     title: {
       text: data.layout.title,
@@ -327,17 +341,17 @@ const LatentLandscape: React.FC<LatentLandscapeProps> = ({
       }
     },
     scene: {
-      xaxis: { 
+      xaxis: {
         title: { text: data.layout.scene.xaxis_title },
         gridcolor: 'hsl(var(--border))',
         zerolinecolor: 'hsl(var(--border))'
       },
-      yaxis: { 
+      yaxis: {
         title: { text: data.layout.scene.yaxis_title },
         gridcolor: 'hsl(var(--border))',
         zerolinecolor: 'hsl(var(--border))'
       },
-      zaxis: { 
+      zaxis: {
         title: { text: data.layout.scene.zaxis_title },
         gridcolor: 'hsl(var(--border))',
         zerolinecolor: 'hsl(var(--border))'
@@ -370,18 +384,18 @@ const LatentLandscape: React.FC<LatentLandscapeProps> = ({
 
   return (
     <figure className="my-8 not-prose">
-      <div 
+      <div
         className="bg-card/80 backdrop-blur-sm rounded-xl border border-border/50 overflow-hidden shadow-lg"
       >
         {/* Stats bar */}
         <div className="px-4 py-3 border-b border-border/30 bg-muted/30">
           <div className="flex flex-wrap items-center gap-x-6 gap-y-1 text-xs text-muted-foreground">
             <span className="font-medium text-foreground">{envName}</span>
-            <span>Goal: [{data.metadata.goal_position.join(', ')}]</span>
-            <span>Resolution: {data.metadata.grid_resolution}×{data.metadata.grid_resolution}</span>
+            {data.metadata.goal_position && <span>Goal: [{data.metadata.goal_position.join(', ')}]</span>}
+            <span>Resolution: {data.metadata.grid_resolution ? `${data.metadata.grid_resolution}×${data.metadata.grid_resolution}` : `${data.surface_data.z.length}×${data.surface_data.z[0].length}`}</span>
           </div>
         </div>
-        
+
         {/* Plot container */}
         <div style={{ height }}>
           <Plot
@@ -402,7 +416,7 @@ const LatentLandscape: React.FC<LatentLandscapeProps> = ({
                   height: 24,
                   path: 'M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z'
                 },
-                click: function(gd: { data: object[]; layout: object }) {
+                click: function (gd: { data: object[]; layout: object }) {
                   import('plotly.js').then((Plotly) => {
                     Plotly.downloadImage(gd, {
                       format: 'png',
@@ -417,7 +431,7 @@ const LatentLandscape: React.FC<LatentLandscapeProps> = ({
           />
         </div>
       </div>
-      
+
       {caption && (
         <figcaption className="mt-3 text-center text-sm text-muted-foreground italic">
           {caption}
