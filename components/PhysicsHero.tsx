@@ -326,7 +326,7 @@ export function PhysicsHero({ scrollContainerRef }: PhysicsHeroProps) {
     return (
         <div
             ref={containerRef}
-            className="fixed inset-0 w-full h-full pointer-events-auto"
+            className="fixed inset-0 w-full h-full pointer-events-none sm:pointer-events-auto"
             style={{ zIndex: 0 }}
         >
             {letters.map(({ char, id, w, h }) => (
