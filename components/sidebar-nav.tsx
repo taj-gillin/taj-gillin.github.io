@@ -11,9 +11,8 @@ const NAV_ITEMS = [
   { id: "about", href: "#about", label: "About Me" },
   { id: "academics", href: "#academics", label: "Academics" },
   { id: "research", href: "#research", label: "Research" },
-  { id: "projects", href: "#projects", label: "Projects" },
   { id: "experience", href: "#experience", label: "Work Experience" },
-  { id: "contact", href: "#contact", label: "Contact" },
+  { id: "projects", href: "#projects", label: "Projects" },
 ];
 
 export function SidebarNav() {
