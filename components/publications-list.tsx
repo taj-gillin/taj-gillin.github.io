@@ -1,8 +1,10 @@
 import { ExternalLink } from "lucide-react";
 import {
-    Card,
-    CardContent,
-} from "@/components/ui/card";
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export interface Publication {
     title: string;
@@ -38,67 +40,51 @@ export function PublicationsList() {
     }
 
     return (
-        <div className="space-y-4">
+        <Accordion type="multiple" className="w-full">
             {publicationsData.map((pub, index) => (
-                <Card key={index} className="border border-white/10 bg-transparent hover:bg-white/5 shadow-none rounded-lg transition-all duration-300 ease-in-out group py-0 gap-0">
-                    <CardContent className="p-4 px-5">
-                        <div className="flex flex-col gap-1">
-                            <h3 className="text-base font-semibold font-serif text-foreground/90 group-hover:text-primary transition-colors">
-                                {pub.title}
-                            </h3>
-
-                            <p className="text-sm text-muted-foreground">
-                                {pub.authors.join(", ")}
+                <AccordionItem value={`pub-${index}`} key={index}>
+                    <AccordionTrigger className="py-4 text-base hover:no-underline">
+                        <span className="font-medium text-foreground text-left">{pub.title}</span>
+                        <span className="text-muted-foreground text-sm shrink-0 ml-auto mr-4 hidden sm:block">
+                            {pub.year} · <span className="capitalize">{pub.type}</span>
+                        </span>
+                    </AccordionTrigger>
+                    <AccordionContent className="pb-6">
+                        <p className="text-sm text-muted-foreground mb-1">
+                            {pub.authors.join(", ")}
+                        </p>
+                        {pub.venue && (
+                            <p className="text-sm text-muted-foreground mb-1">
+                                {pub.venue} {pub.year}
                             </p>
-
-                            <div className="flex items-center gap-3 text-xs text-muted-foreground/60 mt-1">
-                                {pub.venue && (
-                                    <span>
-                                        {pub.venue} {pub.year}
-                                    </span>
-                                )}
-                                {!pub.venue && (
-                                    <span>
-                                        {pub.year}
-                                    </span>
-                                )}
-                                <span>•</span>
-                                <span className="capitalize">
-                                    {pub.type}
-                                </span>
-                                {pub.pdfUrl && (
-                                    <>
-                                        <span>•</span>
-                                        <a
-                                            href={pub.pdfUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
-                                        >
-                                            PDF
-                                            <ExternalLink className="w-3 h-3" />
-                                        </a>
-                                    </>
-                                )}
-                                {pub.externalUrl && (
-                                    <>
-                                        <span>•</span>
-                                        <a
-                                            href={pub.externalUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-1"
-                                        >
-                                            Link
-                                            <ExternalLink className="w-3 h-3" />
-                                        </a>
-                                    </>
-                                )}
-                            </div>
+                        )}
+                        <div className="flex items-center gap-4 mt-2">
+                            {pub.pdfUrl && (
+                                <a
+                                    href={pub.pdfUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sm text-foreground/70 hover:text-foreground transition-colors flex items-center gap-1"
+                                >
+                                    PDF
+                                    <ExternalLink className="w-3 h-3" />
+                                </a>
+                            )}
+                            {pub.externalUrl && (
+                                <a
+                                    href={pub.externalUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sm text-foreground/70 hover:text-foreground transition-colors flex items-center gap-1"
+                                >
+                                    Link
+                                    <ExternalLink className="w-3 h-3" />
+                                </a>
+                            )}
                         </div>
-                    </CardContent>
-                </Card>
+                    </AccordionContent>
+                </AccordionItem>
             ))}
-        </div>
+        </Accordion>
     );
 }

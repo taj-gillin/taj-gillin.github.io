@@ -16,7 +16,7 @@ interface Particle {
   id: string
 }
 
-export type ParticleMode = 'hero' | 'about' | 'academics' | 'research' | 'projects' | 'skills' | 'experience' | 'contact'
+export type ParticleMode = 'hero' | 'about' | 'academics' | 'research' | 'projects' | 'experience' | 'contact'
 
 interface ParticleSystemProps {
   mode?: ParticleMode
@@ -58,7 +58,6 @@ export function ParticleSystem({
     academics: 205,
     research: 210,
     projects: 220,
-    skills: 236,
     experience: 215,
     contact: 225,
   }), [])
@@ -70,7 +69,7 @@ export function ParticleSystem({
   const initializeParticles = useCallback((width: number, height: number) => {
     const particles: Particle[] = []
     const dynamicParticleCount = calculateParticleCount(width, height)
-    
+
     for (let i = 0; i < dynamicParticleCount; i++) {
       const hueOffset = (Math.random() * 16) - 8 // -8° to +8° per particle for variety
       const baseHue = (baseHueRef.current + hueOffset + 360) % 360

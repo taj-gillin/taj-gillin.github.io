@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 
-export type ParticleMode = 'hero' | 'about' | 'academics' | 'research' | 'projects' | 'skills' | 'experience' | 'contact'
+export type ParticleMode = 'hero' | 'about' | 'academics' | 'research' | 'projects' | 'experience' | 'contact'
 
 // Define sections in order with their corresponding particle modes
 const SECTIONS: { id: string; mode: ParticleMode }[] = [
@@ -11,7 +11,6 @@ const SECTIONS: { id: string; mode: ParticleMode }[] = [
   { id: 'academics', mode: 'academics' },
   { id: 'research', mode: 'research' },
   { id: 'projects', mode: 'projects' },
-  { id: 'skills', mode: 'skills' },
   { id: 'experience', mode: 'experience' },
   { id: 'contact', mode: 'contact' }
 ]

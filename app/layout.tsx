@@ -1,30 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Lora } from "next/font/google";
 import { GoogleTagManager } from "@next/third-parties/google";
 import "./globals.css";
 import "katex/dist/katex.min.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SidebarNav } from "@/components/sidebar-nav";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  display: 'swap',
-  fallback: ['system-ui', 'arial'],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: 'swap',
-  fallback: ['ui-monospace', 'monospace'],
-});
-
-const lora = Lora({
-  variable: "--font-lora",
-  subsets: ["latin"],
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: "Taj Gillin",
@@ -45,7 +24,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <GoogleTagManager gtmId="GTM-P2LCFGRG" />
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${lora.variable} antialiased`}
+        className="antialiased"
       >
         <ThemeProvider
           attribute="class"
@@ -53,11 +32,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex">
-            <SidebarNav />
-            <div className="flex-1 h-screen overflow-hidden">
-              {children}
-            </div>
+          <SidebarNav />
+          <div className="h-screen w-full overflow-hidden relative">
+            {children}
           </div>
         </ThemeProvider>
       </body>

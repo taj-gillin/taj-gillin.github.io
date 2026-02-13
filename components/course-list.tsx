@@ -8,8 +8,8 @@ import {
 interface Course {
   id: string;
   name: string;
-  semester?: string; // Optional as not all courses in resume have it explicitly
-  professor?: string; // Optional
+  semester?: string;
+  professor?: string;
   description: string;
   projectLink?: string;
 }
@@ -24,28 +24,27 @@ const courseData: CourseCategory[] = [
     title: "Computer Science",
     courses: [
       {
-        id: "CSCI 0190", // Example, actual ID might differ
+        id: "CSCI 0190",
         name: "Accelerated Introduction to Computer Science",
-        semester: "Fall 2022", 
+        semester: "Fall 2022",
         description: "Provided a comprehensive introduction to computer science covering data structures, algorithms, recursion, graph theory, and programming paradigms. Included practical implementation of sorting algorithms, binary search trees, and graph traversal techniques.",
       },
       {
-        id: "CSCI 1470", // Example, actual ID might differ
+        id: "CSCI 1470",
         name: "Deep Learning",
-        semester: "Spring 2023", 
+        semester: "Spring 2023",
         description: "Provided an overview of deep learning techniques and their applications in computer vision, natural language processing, and other domains. Covered convolutional neural networks, recurrent neural networks, autoencoders, GANs, RL, and more with hands-on implementation in Python.",
-        // projectLink: "/projects/deep-learning-project" // Example link
       },
       {
-        id: "CSCI 0330", // Example, actual ID might differ
+        id: "CSCI 0330",
         name: "Introduction to Computer Systems",
-        semester: "Fall 2023", 
+        semester: "Fall 2023",
         description: "Explored computer architecture and systems programming, covering assembly language, C programming, and multi-threaded programming. Focused on understanding computer organization, storage units, caches, and operating system functions.",
       },
       {
-        id: "CSCI 2952G", // Example, actual ID might differ
+        id: "CSCI 2952G",
         name: "Deep Learning in Genomics",
-        semester: "Fall 2023", 
+        semester: "Fall 2023",
         description: "Examined how deep learning models like CNNs, RNNs, GCNs, and GANs were applied to solve problems in genomics. Discussed the unique challenges and opportunities in applying deep learning to biological data.",
       },
       {
@@ -132,14 +131,11 @@ const courseData: CourseCategory[] = [
         description: "Covered stochastic processes and optimization, including Markov chains, queueing theory, martingales, and dynamic programming. Focused on probabilistic models and their applications.",
       },
     ],
-
-
   },
   {
     title: "Biophysics",
     courses: [
-      // Add biophysics courses here
-       {
+      {
         id: "CHEM 1140",
         name: "Physical Chemistry: Quantum Chemistry",
         semester: "Fall 2022",
@@ -204,7 +200,6 @@ const courseData: CourseCategory[] = [
   {
     title: "Other",
     courses: [
-      // Add other relevant courses here
       {
         id: "ECON 1130",
         name: "Intermediate Microeconomics (Mathematical)",
@@ -239,41 +234,46 @@ export function CourseList() {
   }
 
   return (
-    <Accordion type="multiple" className="w-full space-y-3">
+    <Accordion type="multiple" className="w-full">
       {courseData.map((category) => (
-        <AccordionItem value={category.title} key={category.title} className="border border-white/15 hover:border-primary/40 rounded-lg px-4 py-2 bg-white/8 hover:bg-primary/10 transition-all duration-300 backdrop-blur-sm shadow-sm hover:shadow-md">
-          <AccordionTrigger className="text-lg font-semibold hover:no-underline text-foreground hover:text-primary py-3 [&>svg]:text-primary [&>svg]:w-5 [&>svg]:h-5 [&>svg]:border [&>svg]:border-primary/30 [&>svg]:rounded-full [&>svg]:p-1 [&>svg]:bg-primary/10 hover:[&>svg]:bg-primary/20 hover:[&>svg]:border-primary/50">
+        <AccordionItem value={category.title} key={category.title} className="border-b border-foreground/10">
+          <AccordionTrigger className="text-base font-medium hover:no-underline py-4">
             {category.title}
           </AccordionTrigger>
-          <AccordionContent className="pt-3 pb-4 space-y-3">
+          <AccordionContent className="pb-2">
             {category.courses.length > 0 ? (
-              [...category.courses].reverse().map((course) => (
-                <div key={course.id} className="p-3 border border-white/10 rounded-md bg-transparent backdrop-blur-sm hover:backdrop-blur-md hover:bg-white/5 hover:border-white/20 transition-all duration-300">
-                  <h4 className="text-md font-semibold text-primary">{course.name}</h4>
-                  <p className="text-sm text-muted-foreground">
-                    {course.id}
-                    {course.semester && ` | ${course.semester}`}
-                    {course.professor && ` | Prof. ${course.professor}`}
-                  </p>
-                  <p className="mt-1 text-base leading-relaxed text-foreground/90">{course.description}</p>
-                  {course.projectLink && (
-                    <a 
-                      href={course.projectLink} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="text-sm text-primary hover:underline mt-2 inline-block"
-                    >
-                      View Project
-                    </a>
-                  )}
-                </div>
-              ))
+              <Accordion type="multiple" className="w-full pl-4">
+                {[...category.courses].reverse().map((course) => (
+                  <AccordionItem value={course.id} key={course.id} className="border-b border-foreground/5 last:border-b-0">
+                    <AccordionTrigger className="py-3 text-sm hover:no-underline">
+                      <div className="flex items-baseline gap-2 text-left">
+                        <span className="text-muted-foreground font-mono text-xs">{course.id}</span>
+                        <span className="text-foreground/90">{course.name}</span>
+                      </div>
+                      <span className="text-muted-foreground text-xs shrink-0 ml-auto mr-4 hidden sm:block">{course.semester}</span>
+                    </AccordionTrigger>
+                    <AccordionContent className="pb-3">
+                      <p className="text-sm leading-relaxed text-foreground/70 pl-0">{course.description}</p>
+                      {course.projectLink && (
+                        <a
+                          href={course.projectLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-foreground/60 hover:text-foreground transition-colors mt-2 inline-block"
+                        >
+                          View Project →
+                        </a>
+                      )}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
             ) : (
-              <p className="text-muted-foreground pl-4">Courses for this category will be listed soon.</p>
+              <p className="text-muted-foreground pl-4 text-sm">Courses for this category will be listed soon.</p>
             )}
           </AccordionContent>
         </AccordionItem>
       ))}
     </Accordion>
   );
-} 
+}

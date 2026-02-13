@@ -1,3 +1,4 @@
+import 'server-only'
 import { readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
 import matter from 'gray-matter';
@@ -46,5 +47,3 @@ export function getAllProjects(): ProjectMetadata[] {
     return [];
   }
 }
-
-
